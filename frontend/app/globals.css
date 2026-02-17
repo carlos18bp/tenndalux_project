@@ -1,28 +1,54 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #FAFAF9;
+  --foreground: #292524;
+  
+  --stone-50: #FAFAF9;
+  --stone-100: #F5F5F4;
+  --stone-200: #E7E5E4;
+  --stone-300: #D6D3D1;
+  --stone-400: #A8A29E;
+  --stone-500: #78716C;
+  --stone-600: #57534E;
+  --stone-700: #44403C;
+  --stone-800: #292524;
+  --stone-900: #1C1917;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  
+  --color-stone-50: var(--stone-50);
+  --color-stone-100: var(--stone-100);
+  --color-stone-200: var(--stone-200);
+  --color-stone-300: var(--stone-300);
+  --color-stone-400: var(--stone-400);
+  --color-stone-500: var(--stone-500);
+  --color-stone-600: var(--stone-600);
+  --color-stone-700: var(--stone-700);
+  --color-stone-800: var(--stone-800);
+  --color-stone-900: var(--stone-900);
+  
+  --font-sans: var(--font-inter);
+  
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-24: 24px;
+  --spacing-32: 32px;
+  --spacing-48: 48px;
+  --spacing-64: 64px;
+  --spacing-96: 96px;
+  --spacing-128: 128px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
 }
 
 /* Custom animations for Coming Soon page */
