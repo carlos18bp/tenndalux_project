@@ -49,7 +49,7 @@ export default function FabricSelection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-36 md:py-48 bg-[#FDFBF7]">
+    <section ref={sectionRef} className="pt-48 md:pt-64 pb-48 md:pb-64 bg-[#FDFBF7]">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
         <div className="grid lg:grid-cols-2 gap-24 lg:gap-32 items-center">
           {/* Left: Image */}

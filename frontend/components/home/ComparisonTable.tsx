@@ -87,7 +87,7 @@ export default function ComparisonTable() {
   ];
 
   return (
-    <section ref={sectionRef} className="py-36 md:py-48 bg-white">
+    <section ref={sectionRef} className="pt-48 md:pt-64 pb-36 md:pb-48 bg-white">
       <div className="max-w-[1200px] mx-auto px-6 sm:px-8 lg:px-12">
         <div ref={headerRef} className="text-center mb-20 md:mb-28 space-y-6">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight">
