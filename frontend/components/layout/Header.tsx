@@ -19,7 +19,6 @@ export default function Header() {
   }, [isMenuOpen]);
 
   const navItems = [
-    { label: 'Productos', href: '/productos' },
     { label: 'Servicios', href: '/servicios' },
     { label: 'Portafolio', href: '/portafolio' },
     { label: 'Blog', href: '/blog' },
