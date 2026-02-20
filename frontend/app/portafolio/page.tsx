@@ -194,14 +194,14 @@ export default function Portafolio() {
       <Header />
 
       {/* Hero Section */}
-      <section className="pt-40 pb-20 px-6">
+      <section className="pt-28 sm:pt-40 pb-16 sm:pb-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 tracking-tight leading-[1.05] text-stone-900">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 tracking-tight leading-[1.05] text-stone-900">
               Portafolio
             </h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto text-stone-600 leading-relaxed">
@@ -215,20 +215,20 @@ export default function Portafolio() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="flex items-center justify-center gap-12 md:gap-20 mb-16"
+            className="flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-12 md:gap-20 mb-16"
           >
             <div className="text-center">
-              <p className="text-5xl md:text-6xl font-semibold mb-2 text-stone-900">500+</p>
+              <p className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-2 text-stone-900">500+</p>
               <p className="text-sm font-medium text-stone-500">Proyectos Completados</p>
             </div>
-            <div className="w-px h-16 bg-stone-200" />
+            <div className="hidden sm:block w-px h-16 bg-stone-200" />
             <div className="text-center">
-              <p className="text-5xl md:text-6xl font-semibold mb-2 text-stone-900">15+</p>
+              <p className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-2 text-stone-900">15+</p>
               <p className="text-sm font-medium text-stone-500">Años de Experiencia</p>
             </div>
-            <div className="w-px h-16 bg-stone-200" />
+            <div className="hidden sm:block w-px h-16 bg-stone-200" />
             <div className="text-center">
-              <p className="text-5xl md:text-6xl font-semibold mb-2 text-stone-900">100%</p>
+              <p className="text-4xl sm:text-5xl md:text-6xl font-semibold mb-2 text-stone-900">100%</p>
               <p className="text-sm font-medium text-stone-500">Satisfacción</p>
             </div>
           </motion.div>
@@ -236,7 +236,7 @@ export default function Portafolio() {
       </section>
 
       {/* Video Showreel Section */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-14 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -252,7 +252,7 @@ export default function Portafolio() {
             </p>
           </motion.div>
 
-          <div className="flex overflow-x-auto gap-6 pb-8 scrollbar-hide snap-x snap-mandatory">
+          <div className="flex overflow-x-auto gap-4 sm:gap-6 pb-8 scrollbar-hide snap-x snap-mandatory">
             {videoReels.map((video, index) => (
               <motion.div
                 key={video.id}
@@ -264,7 +264,7 @@ export default function Portafolio() {
               >
                 <div
                   onClick={() => openVideoModal(index)}
-                  className="group relative w-[200px] h-[356px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
+                  className="group relative w-[160px] sm:w-[200px] h-[284px] sm:h-[356px] rounded-2xl overflow-hidden cursor-pointer shadow-lg hover:shadow-2xl transition-all duration-500"
                 >
                   <video
                     src={video.video}
@@ -279,8 +279,8 @@ export default function Portafolio() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent pointer-events-none" />
                   
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-16 h-16 rounded-full flex items-center justify-center backdrop-blur-md bg-white/30 group-hover:scale-110 transition-transform">
-                      <svg style={{ width: '32px', height: '32px', marginLeft: '4px', color: '#FAFAF9' }} viewBox="0 0 24 24" fill="#FAFAF9">
+                    <div className="w-20 h-20 rounded-full flex items-center justify-center backdrop-blur-md bg-white/30 group-hover:scale-110 transition-transform">
+                      <svg style={{ width: '40px', height: '40px', marginLeft: '4px', color: '#FAFAF9' }} viewBox="0 0 24 24" fill="#FAFAF9">
                         <path d="M8 5v14l11-7z"/>
                       </svg>
                     </div>
@@ -302,7 +302,7 @@ export default function Portafolio() {
       </section>
 
       {/* Filter Section */}
-      <section className="py-12 px-6">
+      <section className="py-8 sm:py-12 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -314,7 +314,7 @@ export default function Portafolio() {
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-3 rounded-full transition-all hover:scale-105 border-2 ${
+                className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:scale-105 border-2 text-sm sm:text-base ${
                   selectedCategory === category
                     ? 'bg-stone-900 text-stone-50 border-stone-900 font-semibold'
                     : 'bg-white text-stone-600 border-stone-200 font-medium hover:border-stone-400'
@@ -336,7 +336,7 @@ export default function Portafolio() {
               animate={{ opacity: 1, y: 0 }}
             >
               <Link href={`/portafolio/${featuredProject.slug}`}>
-                <div className="group relative aspect-[21/9] rounded-3xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div className="group relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl sm:rounded-3xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
                   <Image
                     src={featuredProject.image}
                     alt={featuredProject.title}
@@ -346,25 +346,25 @@ export default function Portafolio() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                   
-                  <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 lg:p-16">
-                    <div className="flex items-center gap-4 mb-6">
-                      <span className="px-5 py-2 rounded-full text-sm bg-stone-50 text-stone-900 font-semibold">
+                  <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-8 md:p-12 lg:p-16">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4 sm:mb-6">
+                      <span className="px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm bg-stone-50 text-stone-900 font-semibold">
                         ⭐ Proyecto Destacado
                       </span>
-                      <span className="px-5 py-2 rounded-full text-sm bg-white/20 text-stone-50 font-medium">
+                      <span className="px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm bg-white/20 text-stone-50 font-medium">
                         {featuredProject.category}
                       </span>
                     </div>
                     
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 max-w-4xl text-stone-50 leading-[1.1]">
+                    <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-3 sm:mb-4 max-w-4xl text-stone-50 leading-[1.1]">
                       {featuredProject.title}
                     </h2>
                     
-                    <p className="text-lg mb-6 max-w-3xl text-stone-200">
+                    <p className="text-sm sm:text-lg mb-4 sm:mb-6 max-w-3xl text-stone-200">
                       {featuredProject.type}
                     </p>
                     
-                    <div className="flex items-center gap-6 text-sm text-stone-300">
+                    <div className="hidden sm:flex items-center gap-6 text-sm text-stone-300">
                       <div className="flex items-center gap-2">
                         <MapPin className="w-5 h-5" />
                         <span>{featuredProject.location}</span>
@@ -387,9 +387,9 @@ export default function Portafolio() {
       )}
 
       {/* Projects Grid */}
-      <section className="py-12 px-6 pb-32">
+      <section className="py-8 sm:py-12 px-4 sm:px-6 pb-20 sm:pb-32">
         <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -466,39 +466,39 @@ export default function Portafolio() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-stone-900">
+      <section className="py-14 sm:py-20 px-4 sm:px-6 bg-stone-900">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight text-stone-50">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold mb-6 tracking-tight text-stone-50">
               ¿Tu Proyecto Será el Próximo?
             </h2>
             <p className="text-xl mb-10 text-stone-300 leading-relaxed">
               Agenda una consultoría gratuita y hagamos realidad tu visión
             </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
               <a
                 href="https://wa.me/573238122373?text=Hola,%20vi%20su%20portafolio%20y%20quiero%20agendar%20una%20consultoría"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-10 py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-50 text-stone-900"
+                className="px-8 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-50 text-stone-900"
               >
-                <span className="text-lg font-semibold">Agendar Consultoría</span>
+                <span className="text-base sm:text-lg font-semibold">Agendar Consultoría</span>
                 <ArrowRight className="w-6 h-6" />
               </a>
               <a
                 href="https://wa.me/573238122373?text=Hola,%20vi%20su%20portafolio%20y%20me%20interesa%20una%20consultoría"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-10 py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-50 text-stone-50"
+                className="px-8 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-50 text-stone-50"
               >
                 <svg className="w-5 h-5" viewBox="0 0 448 512" fill="currentColor">
                   <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157m-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6m101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6"/>
                 </svg>
-                <span className="text-lg font-medium">WhatsApp</span>
+                <span className="text-base sm:text-lg font-medium">WhatsApp</span>
               </a>
             </div>
           </motion.div>

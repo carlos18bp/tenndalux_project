@@ -17,31 +17,38 @@ gsap.registerPlugin(ScrollTrigger);
 const services = [
   {
     id: 1,
-    title: 'Cortinas Modernas',
-    description: 'Elegancia y suavidad con tejidos que transforman la luz natural de tus espacios.',
-    image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=800&auto=format&fit=crop',
-    link: '/servicios/cortinas'
+    title: 'Cortina Ondessence',
+    description: 'La evolución moderna de la cortina tradicional con sistema Ripplefold y ondas técnicas uniformes.',
+    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+    link: '/productos'
   },
   {
     id: 2,
-    title: 'Persianas Enrollables',
-    description: 'Funcionalidad minimalista con control preciso de privacidad y protección UV.',
-    image: 'https://images.unsplash.com/photo-1594040226829-7f251ab46d80?q=80&w=800&auto=format&fit=crop',
-    link: '/servicios/persianas'
+    title: 'Cortinas Enrollables',
+    description: 'Solución limpia y moderna para control de luz con múltiples opciones de tela y cabezal premium.',
+    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+    link: '/productos'
   },
   {
     id: 3,
-    title: 'Automatización',
-    description: 'Sistemas inteligentes para controlar tus cortinas desde tu smartphone o voz.',
-    image: 'https://images.unsplash.com/photo-1558002038-10917738179d?q=80&w=800&auto=format&fit=crop',
-    link: '/servicios/automatizacion'
+    title: 'Persianas Celulares',
+    description: 'Sistema con cámara de aire para aislamiento térmico y acústico superior. Reduce costos hasta 30%.',
+    image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+    link: '/productos'
   },
   {
     id: 4,
-    title: 'Toldos Exteriores',
-    description: 'Disfruta de tus terrazas y balcones con protección solar de alto rendimiento.',
-    image: 'https://images.unsplash.com/photo-1631641551473-f303d9d2cc80?q=80&w=800&auto=format&fit=crop',
-    link: '/servicios/toldos'
+    title: 'Toldos y Pérgolas',
+    description: 'Sistemas de protección solar para exteriores con mecanismos premium en acero y automatización.',
+    image: 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+    link: '/productos'
+  },
+  {
+    id: 5,
+    title: 'Automatización',
+    description: 'Tecnología de vanguardia con control por voz, app móvil y programación de rutinas inteligentes.',
+    image: 'https://images.unsplash.com/photo-1558002038-1055907df827?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+    link: '/servicios'
   }
 ];
 

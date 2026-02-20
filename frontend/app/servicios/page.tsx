@@ -37,7 +37,7 @@ export default function Servicios() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative pt-40 pb-20 px-6 overflow-hidden">
+      <section className="relative pt-28 sm:pt-40 pb-16 sm:pb-20 px-4 sm:px-6 overflow-hidden">
         <div className="absolute inset-0 z-0 opacity-5">
           <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#292524] rounded-full blur-3xl" />
           <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-[#292524] rounded-full blur-3xl" />
@@ -49,7 +49,7 @@ export default function Servicios() {
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 tracking-tight leading-[1.05] text-stone-900">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 tracking-tight leading-[1.05] text-stone-900">
               Servicios Premium
             </h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-12 text-stone-600 leading-relaxed">
@@ -62,17 +62,17 @@ export default function Servicios() {
                 href="https://wa.me/573238122373?text=Hola,%20quiero%20una%20asesoría%20gratuita"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-14 py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 hover:shadow-xl bg-stone-900 text-stone-50"
+                className="px-8 sm:px-14 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 hover:shadow-xl bg-stone-900 text-stone-50"
               >
-                <span className="text-lg font-semibold">Solicitar Asesoría Gratis</span>
+                <span className="text-base sm:text-lg font-semibold">Solicitar Asesoría Gratis</span>
                 <ArrowRight style={{ width: '24px', height: '24px' }} />
               </a>
               
               <a
                 href="#productos"
-                className="px-14 py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-900 text-stone-900"
+                className="px-8 sm:px-14 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-900 text-stone-900"
               >
-                <span className="text-lg font-medium">Ver Productos</span>
+                <span className="text-base sm:text-lg font-medium">Ver Productos</span>
               </a>
             </div>
           </motion.div>
@@ -80,7 +80,7 @@ export default function Servicios() {
       </section>
 
       {/* Main Services */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-14 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -96,7 +96,7 @@ export default function Servicios() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-14 sm:mb-20">
             {[
               {
                 icon: Headphones,
@@ -175,10 +175,10 @@ export default function Servicios() {
               href="https://wa.me/573238122373?text=Hola,%20quiero%20hablar%20con%20un%20asesor"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-14 py-6 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 hover:shadow-xl bg-stone-900 text-stone-50"
+              className="px-6 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 hover:shadow-xl bg-stone-900 text-stone-50"
             >
-              <span className="text-xl font-semibold">Hablar con un Asesor</span>
-              <svg style={{ width: '24px', height: '24px' }} viewBox="0 0 448 512" fill="currentColor">
+              <span className="text-sm sm:text-base font-semibold">Hablar con un Asesor</span>
+              <svg style={{ width: '20px', height: '20px' }} viewBox="0 0 448 512" fill="currentColor">
                 <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157m-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6m101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6"/>
               </svg>
             </a>
@@ -187,7 +187,7 @@ export default function Servicios() {
       </section>
 
       {/* Products & Solutions */}
-      <section id="productos" className="py-20 px-6">
+      <section id="productos" className="py-14 sm:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -195,7 +195,7 @@ export default function Servicios() {
             viewport={{ once: true }}
             className="text-center mb-12"
           >
-            <h2 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight text-stone-900">
+            <h2 className="text-3xl sm:text-4xl font-semibold mb-6 tracking-tight text-stone-900">
               Productos y Soluciones
             </h2>
             <p className="text-lg max-w-2xl mx-auto text-stone-600">
@@ -204,7 +204,7 @@ export default function Servicios() {
           </motion.div>
 
           {/* Product Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 sm:mb-16">
             {[
               { id: 'cortinas', label: 'Cortinas', icon: Home },
               { id: 'paredes', label: 'Recubrimientos', icon: Building2 },
@@ -214,7 +214,7 @@ export default function Servicios() {
               <button
                 key={tab.id}
                 onClick={() => setSelectedProductTab(tab.id)}
-                className={`px-7 py-3 rounded-full transition-all hover:scale-105 flex items-center gap-2 border-2 ${
+                className={`px-5 sm:px-7 py-2.5 sm:py-3 rounded-full transition-all hover:scale-105 flex items-center gap-2 border-2 text-sm sm:text-base ${
                   selectedProductTab === tab.id 
                     ? 'bg-stone-900 text-stone-50 border-stone-900 font-semibold' 
                     : 'bg-white text-stone-600 border-stone-200 font-medium'
@@ -246,7 +246,7 @@ export default function Servicios() {
                 {
                   id: 'sheer',
                   title: 'Sheer Elegance / Ondas',
-                  image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBpbnRlcmlvciUyMGRlc2lnbiUyMDIwMjZ8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
+                  image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VudHJ5JTIwaG91c2UlMjBpbnRlcmlvciUyMGRlc2lnbiUyMDIwMjZ8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
                   description: 'Elegancia y sofisticación con doble capa ajustable.',
                   idealPara: ['Salas formales', 'Comedores', 'Habitaciones principales', 'Áreas sociales'],
                   beneficios: ['Doble privacidad', 'Diseño elegante', 'Versatilidad única', 'Iluminación ajustable'],
@@ -277,10 +277,10 @@ export default function Servicios() {
                 >
                   <button
                     onClick={() => toggleProduct(product.id)}
-                    className="w-full p-10 flex items-center justify-between hover:bg-stone-50 transition-colors"
+                    className="w-full p-5 sm:p-10 flex items-center justify-between hover:bg-stone-50 transition-colors"
                   >
-                    <div className="flex items-center gap-6">
-                      <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                    <div className="flex items-center gap-4 sm:gap-6">
+                      <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-xl overflow-hidden flex-shrink-0">
                         <Image
                           src={product.image}
                           alt={product.title}
@@ -290,10 +290,10 @@ export default function Servicios() {
                         />
                       </div>
                       <div className="text-left">
-                        <h3 className="text-2xl font-semibold mb-2 text-stone-900">
+                        <h3 className="text-lg sm:text-2xl font-semibold mb-1 sm:mb-2 text-stone-900">
                           {product.title}
                         </h3>
-                        <p className="text-base text-stone-600">
+                        <p className="text-sm sm:text-base text-stone-600 hidden sm:block">
                           {product.description}
                         </p>
                       </div>
@@ -312,7 +312,7 @@ export default function Servicios() {
                       exit={{ height: 0, opacity: 0 }}
                       className="border-t border-stone-100"
                     >
-                      <div className="p-10 pt-8 grid md:grid-cols-3 gap-12">
+                      <div className="p-5 sm:p-10 pt-6 sm:pt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12">
                         <div>
                           <h4 className="text-sm font-semibold mb-4 text-stone-900">
                             IDEAL PARA
@@ -333,7 +333,7 @@ export default function Servicios() {
                           </h4>
                           <ul className="space-y-3">
                             {product.beneficios.map((item, i) => (
-                              <li key={i} className="flex items-start gap-2">
+                              <li key={i} className="flex items-start gap-3">
                                 <Check style={{ width: '16px', height: '16px', flexShrink: 0, marginTop: '2px', color: '#292524' }} />
                                 <span className="text-sm text-stone-600">{item}</span>
                               </li>
@@ -356,7 +356,7 @@ export default function Servicios() {
                         </div>
                       </div>
 
-                      <div className="px-10 pb-10 pt-4">
+                      <div className="px-5 sm:px-10 pb-6 sm:pb-10 pt-4">
                         <a
                           href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(product.title)}`}
                           target="_blank"
@@ -510,7 +510,7 @@ export default function Servicios() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-gradient-to-br from-stone-900 to-stone-700 rounded-2xl p-12 md:p-20 text-white"
+              className="bg-gradient-to-br from-stone-900 to-stone-700 rounded-2xl p-6 sm:p-12 md:p-20 text-white"
             >
               <div className="text-center mb-16">
                 <h3 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight">
@@ -521,7 +521,7 @@ export default function Servicios() {
                 </p>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-10 sm:mb-16">
                 {[
                   {
                     icon: Zap,
@@ -556,7 +556,7 @@ export default function Servicios() {
                 ].map((tech, index) => (
                   <div
                     key={index}
-                    className="bg-white/10 backdrop-blur-sm rounded-2xl p-10 hover:bg-white/20 transition-colors"
+                    className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-10 hover:bg-white/20 transition-colors"
                   >
                     <tech.icon style={{ width: '48px', height: '48px', marginBottom: '20px', color: '#FAFAF9' }} />
                     <h4 className="text-xl font-semibold mb-4">
@@ -574,9 +574,9 @@ export default function Servicios() {
                   href="https://wa.me/573238122373?text=Hola,%20quiero%20automatizar%20mi%20espacio"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-14 py-6 rounded-full inline-flex items-center gap-4 transition-all hover:scale-105 bg-stone-50 text-stone-900"
+                  className="px-8 sm:px-14 py-5 sm:py-6 rounded-full inline-flex items-center gap-3 sm:gap-4 transition-all hover:scale-105 bg-stone-50 text-stone-900"
                 >
-                  <span className="text-xl font-semibold">Automatizar Mi Espacio</span>
+                  <span className="text-base sm:text-xl font-semibold">Automatizar Mi Espacio</span>
                   <ArrowRight style={{ width: '28px', height: '28px' }} />
                 </a>
               </div>
@@ -586,7 +586,7 @@ export default function Servicios() {
       </section>
 
       {/* Work Process */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-14 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -594,7 +594,7 @@ export default function Servicios() {
             viewport={{ once: true }}
             className="text-center mb-16"
           >
-            <h2 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight text-stone-900">
+            <h2 className="text-3xl sm:text-4xl font-semibold mb-6 tracking-tight text-stone-900">
               Nuestro Proceso de Trabajo
             </h2>
             <p className="text-lg max-w-2xl mx-auto text-stone-600">
@@ -602,7 +602,7 @@ export default function Servicios() {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
             {[
               { step: '01', title: 'Consultamos', time: '1 día', description: 'Visita y evaluación inicial' },
               { step: '02', title: 'Diseñamos', time: '3 días', description: 'Propuesta y renders 3D' },
@@ -639,16 +639,16 @@ export default function Servicios() {
       </section>
 
       {/* Guarantees */}
-      <section className="py-20 px-6">
+      <section className="py-14 sm:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-3xl p-10 md:p-16 shadow-sm border border-stone-100">
+          <div className="bg-white rounded-3xl p-6 sm:p-10 md:p-16 shadow-sm border border-stone-100">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-center mb-12"
             >
-              <h2 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight text-stone-900">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold mb-6 tracking-tight text-stone-900">
                 Nuestra Garantía
               </h2>
               <p className="text-lg max-w-2xl mx-auto text-stone-600">
@@ -656,7 +656,7 @@ export default function Servicios() {
               </p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
               {[
                 {
                   icon: Shield,
@@ -699,7 +699,7 @@ export default function Servicios() {
       </section>
 
       {/* Final CTA */}
-      <section className="py-32 px-6 bg-gradient-to-br from-stone-900 to-stone-700 relative overflow-hidden">
+      <section className="py-20 sm:py-32 px-4 sm:px-6 bg-gradient-to-br from-stone-900 to-stone-700 relative overflow-hidden">
         <div className="absolute inset-0 opacity-5">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-white rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-white rounded-full blur-3xl" />
@@ -710,7 +710,7 @@ export default function Servicios() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-8 tracking-tight text-stone-50 leading-[1.1]"
+            className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-8 tracking-tight text-stone-50 leading-[1.1]"
           >
             ¿Listo para Empezar?
           </motion.h2>
@@ -736,17 +736,17 @@ export default function Servicios() {
               href="https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20mi%20proyecto"
               target="_blank"
               rel="noopener noreferrer"
-              className="group px-14 py-6 rounded-full flex items-center justify-center gap-4 transition-all hover:scale-110 hover:shadow-2xl bg-stone-50 text-stone-900"
+              className="group px-8 sm:px-14 py-5 sm:py-6 rounded-full flex items-center justify-center gap-3 sm:gap-4 transition-all hover:scale-110 hover:shadow-2xl bg-stone-50 text-stone-900"
             >
-              <span className="text-xl font-semibold">Cotizar Mi Proyecto</span>
+              <span className="text-base sm:text-xl font-semibold">Cotizar Mi Proyecto</span>
               <ArrowRight className="w-7 h-7 group-hover:translate-x-2 transition-transform" />
             </a>
             
             <Link
               href="/portafolio"
-              className="group px-14 py-6 rounded-full flex items-center justify-center gap-4 transition-all hover:scale-110 border-2 border-stone-50 text-stone-50"
+              className="group px-8 sm:px-14 py-5 sm:py-6 rounded-full flex items-center justify-center gap-3 sm:gap-4 transition-all hover:scale-110 border-2 border-stone-50 text-stone-50"
             >
-              <span className="text-xl font-medium">Ver Proyectos</span>
+              <span className="text-base sm:text-xl font-medium">Ver Proyectos</span>
             </Link>
           </motion.div>
         </div>

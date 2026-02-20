@@ -195,7 +195,7 @@ export default function BlogPost() {
       <Header />
 
       {/* Back Button */}
-      <div className="pt-28 pb-8 px-6">
+      <div className="pt-24 sm:pt-28 pb-6 sm:pb-8 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
           <Link
             href="/blog"
@@ -209,50 +209,50 @@ export default function BlogPost() {
 
       {/* Article Header */}
       <article>
-        <header className="px-6 pb-12">
+        <header className="px-4 sm:px-6 pb-8 sm:pb-12">
           <div className="max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="flex items-center gap-4 mb-8">
-                <span className="px-4 py-2 rounded-full text-sm bg-stone-100 text-stone-900 font-semibold">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm bg-stone-100 text-stone-900 font-semibold">
                   {post.category}
                 </span>
-                <div className="flex items-center gap-4 text-sm text-stone-500">
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-5 h-5" />
+                <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-stone-500">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Calendar className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span suppressHydrationWarning>{new Date(post.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-5 h-5" />
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
                     <span>{post.readTime} de lectura</span>
                   </div>
                 </div>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-8 tracking-tight leading-[1.05] text-stone-900">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 sm:mb-8 tracking-tight leading-[1.05] text-stone-900">
                 {post.title}
               </h1>
 
-              <p className="text-xl md:text-2xl mb-10 text-stone-600 leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 text-stone-600 leading-relaxed">
                 {post.excerpt}
               </p>
 
-              <div className="flex items-center justify-between pb-10 border-b border-stone-200">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-stone-200">
                 <div className="flex items-center gap-4">
                   <Image
                     src={post.author.avatar}
                     alt={post.author.name}
-                    width={56}
-                    height={56}
-                    className="rounded-full object-cover w-14 h-14"
+                    width={48}
+                    height={48}
+                    className="rounded-full object-cover w-11 h-11 sm:w-14 sm:h-14"
                   />
                   <div>
-                    <p className="text-base font-semibold text-stone-900 mb-1">
+                    <p className="text-sm sm:text-base font-semibold text-stone-900 mb-0.5 sm:mb-1">
                       {post.author.name}
                     </p>
-                    <p className="text-sm text-stone-500">
+                    <p className="text-xs sm:text-sm text-stone-500">
                       {post.author.role}
                     </p>
                   </div>
@@ -260,10 +260,10 @@ export default function BlogPost() {
 
                 <button
                   onClick={handleShare}
-                  className="px-6 py-3 rounded-full flex items-center gap-2 transition-all hover:scale-105 border-2 border-stone-200 text-stone-900"
+                  className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-full flex items-center gap-2 transition-all hover:scale-105 border-2 border-stone-200 text-stone-900"
                 >
-                  <Share2 className="w-5 h-5" />
-                  <span className="text-sm font-medium hidden sm:inline">Compartir</span>
+                  <Share2 className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="text-sm font-medium">Compartir</span>
                 </button>
               </div>
             </motion.div>
@@ -275,10 +275,10 @@ export default function BlogPost() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="px-6 mb-16"
+          className="px-4 sm:px-6 mb-10 sm:mb-16"
         >
           <div className="max-w-6xl mx-auto">
-            <div className="relative aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
               <Image
                 src={post.image}
                 alt={post.title}
@@ -291,7 +291,7 @@ export default function BlogPost() {
         </motion.div>
 
         {/* Article Content */}
-        <div className="px-6 pb-20">
+        <div className="px-4 sm:px-6 pb-14 sm:pb-20">
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -333,7 +333,7 @@ export default function BlogPost() {
                   {section.subsections && (
                     <div className="space-y-6">
                       {section.subsections.map((subsection, i) => (
-                        <div key={i} className="bg-white rounded-2xl p-8 shadow-sm border border-stone-100">
+                        <div key={i} className="bg-white rounded-2xl p-5 sm:p-8 shadow-sm border border-stone-100">
                           <h3 className="text-xl font-semibold mb-3 text-stone-900">
                             {subsection.title}
                           </h3>
@@ -387,8 +387,8 @@ export default function BlogPost() {
               ))}
 
               {/* Conclusion */}
-              <div className="bg-stone-900 rounded-2xl p-10 mb-12">
-                <p className="text-xl mb-6 text-stone-200 leading-relaxed">
+              <div className="bg-stone-900 rounded-2xl p-6 sm:p-10 mb-10 sm:mb-12">
+                <p className="text-lg sm:text-xl mb-4 sm:mb-6 text-stone-200 leading-relaxed">
                   {post.content.conclusion}
                 </p>
                 <p className="text-lg text-stone-400 leading-relaxed font-light">
@@ -397,11 +397,11 @@ export default function BlogPost() {
               </div>
 
               {/* Article CTA */}
-              <div className="bg-white rounded-2xl p-10 shadow-sm border border-stone-100 text-center">
-                <h3 className="text-3xl font-semibold mb-4 text-stone-900">
+              <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-sm border border-stone-100 text-center">
+                <h3 className="text-2xl sm:text-3xl font-semibold mb-3 sm:mb-4 text-stone-900">
                   ¿Te Inspiró Este Artículo?
                 </h3>
-                <p className="text-lg mb-8 text-stone-600 leading-relaxed">
+                <p className="text-base sm:text-lg mb-6 sm:mb-8 text-stone-600 leading-relaxed">
                   Hablemos de tu proyecto. Agenda una consultoría gratuita sin compromiso.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -409,21 +409,21 @@ export default function BlogPost() {
                     href="https://wa.me/573238122373?text=Hola,%20quiero%20agendar%20una%20consultoría"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-10 py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
+                    className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
                   >
-                    <span className="text-lg font-semibold">Agendar Consultoría</span>
+                    <span className="text-base sm:text-lg font-semibold">Agendar Consultoría</span>
                     <ArrowRight className="w-6 h-6" />
                   </a>
                   <a
                     href="https://wa.me/573238122373?text=Hola,%20leí%20el%20artículo%20y%20me%20interesa%20una%20consultoría"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-10 py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-900 text-stone-900"
+                    className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-900 text-stone-900"
                   >
                     <svg className="w-5 h-5" viewBox="0 0 448 512" fill="currentColor">
                       <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157m-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6m101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6"/>
                     </svg>
-                    <span className="text-lg font-medium">WhatsApp</span>
+                    <span className="text-base sm:text-lg font-medium">WhatsApp</span>
                   </a>
                 </div>
               </div>
@@ -433,13 +433,13 @@ export default function BlogPost() {
       </article>
 
       {/* Related Posts */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-14 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-semibold mb-12 text-center text-stone-900">
+          <h2 className="text-3xl sm:text-4xl font-semibold mb-8 sm:mb-12 text-center text-stone-900">
             Artículos Relacionados
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {relatedPosts.map((relatedPost, index) => (
               <motion.div
                 key={relatedPost.slug}

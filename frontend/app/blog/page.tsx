@@ -98,14 +98,14 @@ export default function Blog() {
       <Header />
 
       {/* Hero Section */}
-      <section className="pt-40 pb-20 px-6">
+      <section className="pt-28 sm:pt-40 pb-16 sm:pb-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center mb-16"
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 tracking-tight leading-[1.05] text-stone-900">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 tracking-tight leading-[1.05] text-stone-900">
               Blog
             </h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto text-stone-600 leading-relaxed">
@@ -134,12 +134,12 @@ export default function Blog() {
               </div>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-3">
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setSelectedCategory(category)}
-                  className={`px-6 py-3 rounded-full transition-all hover:scale-105 border-2 ${
+                  className={`px-4 sm:px-6 py-2.5 sm:py-3 rounded-full transition-all hover:scale-105 border-2 text-sm sm:text-base ${
                     selectedCategory === category 
                       ? 'bg-stone-900 text-stone-50 border-stone-900 font-semibold' 
                       : 'bg-white text-stone-600 border-stone-200 font-medium hover:border-stone-400'
@@ -160,7 +160,7 @@ export default function Blog() {
               className="mb-20"
             >
               <Link href={`/blog/${featuredPost.slug}`}>
-                <div className="group relative aspect-[21/9] rounded-3xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div className="group relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl sm:rounded-3xl overflow-hidden bg-white shadow-lg hover:shadow-2xl transition-all duration-500">
                   <Image
                     src={featuredPost.image}
                     alt={featuredPost.title}
@@ -170,25 +170,25 @@ export default function Blog() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
                   
-                  <div className="absolute inset-0 flex flex-col justify-end p-8 md:p-12 lg:p-16">
-                    <div className="flex items-center gap-4 mb-6">
-                      <span className="px-4 py-2 rounded-full text-sm bg-stone-50 text-stone-900 font-semibold">
+                  <div className="absolute inset-0 flex flex-col justify-end p-5 sm:p-8 md:p-12 lg:p-16">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 mb-4 sm:mb-6">
+                      <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm bg-stone-50 text-stone-900 font-semibold">
                         ⭐ Destacado
                       </span>
-                      <span className="px-4 py-2 rounded-full text-sm bg-white/20 text-stone-50 font-medium">
+                      <span className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm bg-white/20 text-stone-50 font-medium">
                         {featuredPost.category}
                       </span>
                     </div>
                     
-                    <h2 className="text-4xl md:text-5xl lg:text-6xl font-semibold mb-6 max-w-4xl text-stone-50 leading-[1.1]">
+                    <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 sm:mb-6 max-w-4xl text-stone-50 leading-[1.1]">
                       {featuredPost.title}
                     </h2>
                     
-                    <p className="text-lg md:text-xl mb-8 max-w-3xl text-stone-200 leading-relaxed">
+                    <p className="text-sm sm:text-lg md:text-xl mb-4 sm:mb-8 max-w-3xl text-stone-200 leading-relaxed hidden sm:block">
                       {featuredPost.excerpt}
                     </p>
                     
-                    <div className="flex items-center gap-6 text-sm text-stone-300">
+                    <div className="hidden sm:flex items-center gap-6 text-sm text-stone-300">
                       <div className="flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
                         <span>{new Date(featuredPost.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
@@ -209,7 +209,7 @@ export default function Blog() {
           )}
 
           {/* Blog Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredPosts.map((post, index) => (
               <motion.div
                 key={post.id}
@@ -290,14 +290,14 @@ export default function Blog() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-6 bg-stone-900">
+      <section className="py-14 sm:py-20 px-4 sm:px-6 bg-stone-900">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl md:text-5xl font-semibold mb-6 tracking-tight text-stone-50">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-semibold mb-6 tracking-tight text-stone-50">
               ¿Tienes un Proyecto en Mente?
             </h2>
             <p className="text-xl mb-10 text-stone-300 leading-relaxed">
@@ -308,19 +308,19 @@ export default function Blog() {
                 href="https://wa.me/573238122373?text=Hola,%20quiero%20agendar%20una%20consultoría"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-10 py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-50 text-stone-900"
+                className="px-8 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-50 text-stone-900"
               >
-                <span className="text-lg font-semibold">Agendar Consultoría</span>
+                <span className="text-base sm:text-lg font-semibold">Agendar Consultoría</span>
                 <ArrowRight className="w-6 h-6" />
               </a>
               <a
                 href="https://wa.me/573238122373?text=Hola,%20tengo%20una%20pregunta%20sobre%20sus%20servicios"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-10 py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-50 text-stone-50"
+                className="px-8 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-50 text-stone-50"
               >
                 <MessageCircle className="w-5 h-5" />
-                <span className="text-lg font-medium">WhatsApp</span>
+                <span className="text-base sm:text-lg font-medium">WhatsApp</span>
               </a>
             </div>
           </motion.div>

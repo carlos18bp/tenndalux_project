@@ -189,7 +189,7 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-stone-900 text-white font-semibold py-4 rounded-full hover:bg-stone-800 transition-all duration-300 shadow-lg hover:shadow-xl mt-2 disabled:opacity-70 disabled:cursor-not-allowed text-base"
+                className="w-full bg-stone-900 text-white font-semibold py-5 rounded-full hover:bg-stone-800 transition-all duration-300 shadow-lg hover:shadow-xl mt-4 disabled:opacity-70 disabled:cursor-not-allowed text-lg"
               >
                 {loading ? 'Enviando...' : 'Enviar Solicitud'}
               </button>

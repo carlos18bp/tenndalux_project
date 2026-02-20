@@ -112,7 +112,7 @@ export default function Gallery() {
             </p>
           </div>
 
-          <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 auto-rows-[350px] grid-flow-dense">
+          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 auto-rows-[250px] sm:auto-rows-[350px] grid-flow-dense">
             {galleryItems.map((item, index) => (
               <div 
                 key={index} 

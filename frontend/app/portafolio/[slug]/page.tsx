@@ -185,7 +185,7 @@ export default function PortafolioProject() {
       <Header />
 
       {/* Back Button */}
-      <div className="pt-28 pb-8 px-6">
+      <div className="pt-24 sm:pt-28 pb-6 sm:pb-8 px-4 sm:px-6">
         <div className="max-w-4xl mx-auto">
           <Link
             href="/portafolio"
@@ -199,48 +199,48 @@ export default function PortafolioProject() {
 
       {/* Project Header */}
       <article>
-        <header className="px-6 pb-12">
+        <header className="px-4 sm:px-6 pb-8 sm:pb-12">
           <div className="max-w-4xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
             >
-              <div className="flex items-center gap-4 mb-8">
-                <span className="px-5 py-2 rounded-full text-sm bg-stone-100 text-stone-900 font-semibold">
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-6 sm:mb-8">
+                <span className="px-4 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm bg-stone-100 text-stone-900 font-semibold">
                   {project.category}
                 </span>
-                <div className="flex items-center gap-4 text-sm text-stone-500">
-                  <div className="flex items-center gap-2">
-                    <MapPin style={{ width: '20px', height: '20px' }} />
+                <div className="flex items-center gap-3 sm:gap-4 text-xs sm:text-sm text-stone-500">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <MapPin style={{ width: '16px', height: '16px' }} />
                     <span>{project.location}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Calendar style={{ width: '20px', height: '20px' }} />
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <Calendar style={{ width: '16px', height: '16px' }} />
                     <span>{project.year}</span>
                   </div>
                 </div>
               </div>
 
-              <h1 className="text-5xl md:text-6xl lg:text-7xl font-semibold mb-8 tracking-tight leading-[1.05] text-stone-900">
+              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold mb-6 sm:mb-8 tracking-tight leading-[1.05] text-stone-900">
                 {project.title}
               </h1>
 
-              <p className="text-xl md:text-2xl mb-10 text-stone-600 leading-relaxed">
+              <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 text-stone-600 leading-relaxed">
                 {project.subtitle}
               </p>
 
-              <div className="flex items-center justify-between pb-10 border-b border-stone-200">
-                <div className="flex items-center gap-8">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-8 sm:pb-10 border-b border-stone-200">
+                <div className="flex items-center gap-6 sm:gap-8">
                   <div>
                     <p className="text-xs mb-1 text-stone-500 font-medium">DURACIÓN</p>
-                    <p className="text-base font-semibold text-stone-900">
+                    <p className="text-sm sm:text-base font-semibold text-stone-900">
                       {project.duration}
                     </p>
                   </div>
-                  <div className="w-px h-12 bg-stone-200" />
+                  <div className="w-px h-10 sm:h-12 bg-stone-200" />
                   <div>
                     <p className="text-xs mb-1 text-stone-500 font-medium">CLIENTE</p>
-                    <p className="text-base font-semibold text-stone-900">
+                    <p className="text-sm sm:text-base font-semibold text-stone-900">
                       {project.client}
                     </p>
                   </div>
@@ -248,10 +248,10 @@ export default function PortafolioProject() {
 
                 <button
                   onClick={handleShare}
-                  className="px-6 py-3 rounded-full flex items-center gap-2 transition-all hover:scale-105 border-2 border-stone-200 text-stone-900"
+                  className="px-5 sm:px-6 py-2.5 sm:py-3 rounded-full flex items-center gap-2 transition-all hover:scale-105 border-2 border-stone-200 text-stone-900"
                 >
-                  <Share2 style={{ width: '20px', height: '20px' }} />
-                  <span className="text-sm font-medium hidden sm:inline">Compartir</span>
+                  <Share2 style={{ width: '18px', height: '18px' }} />
+                  <span className="text-sm font-medium">Compartir</span>
                 </button>
               </div>
             </motion.div>
@@ -263,10 +263,10 @@ export default function PortafolioProject() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="px-6 mb-16"
+          className="px-4 sm:px-6 mb-10 sm:mb-16"
         >
           <div className="max-w-6xl mx-auto">
-            <div className="relative aspect-[21/9] rounded-3xl overflow-hidden shadow-2xl">
+            <div className="relative aspect-[16/9] sm:aspect-[21/9] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
               <Image
                 src={project.heroImage}
                 alt={project.title}
@@ -279,7 +279,7 @@ export default function PortafolioProject() {
         </motion.div>
 
         {/* Project Content */}
-        <div className="px-6 pb-20">
+        <div className="px-4 sm:px-6 pb-14 sm:pb-20">
           <div className="max-w-3xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -305,11 +305,11 @@ export default function PortafolioProject() {
                   {project.solution}
                 </p>
 
-                <div className="bg-white rounded-2xl p-8 shadow-sm border border-stone-100">
-                  <h3 className="text-xl font-semibold mb-6 text-stone-900">
+                <div className="bg-white rounded-2xl p-5 sm:p-8 shadow-sm border border-stone-100">
+                  <h3 className="text-lg sm:text-xl font-semibold mb-5 sm:mb-6 text-stone-900">
                     Características Implementadas
                   </h3>
-                  <ul className="grid md:grid-cols-2 gap-4">
+                  <ul className="grid sm:grid-cols-2 gap-3 sm:gap-4">
                     {project.features.map((feature, index) => (
                       <li key={index} className="flex items-start gap-3">
                         <Check style={{ width: '20px', height: '20px', flexShrink: 0, marginTop: '2px', color: '#292524' }} />
@@ -363,10 +363,10 @@ export default function PortafolioProject() {
                 <h2 className="text-3xl md:text-4xl font-semibold mb-8 tracking-tight text-stone-900">
                   Resultados
                 </h2>
-                <div className="grid md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                   {project.results.map((result, index) => (
-                    <div key={index} className="bg-stone-900 rounded-2xl p-8 text-center">
-                      <p className="text-5xl font-bold mb-3 text-stone-50">
+                    <div key={index} className="bg-stone-900 rounded-2xl p-6 sm:p-8 text-center">
+                      <p className="text-4xl sm:text-5xl font-bold mb-2 sm:mb-3 text-stone-50">
                         {result.metric}
                       </p>
                       <p className="text-base text-stone-300 leading-relaxed">
@@ -400,7 +400,7 @@ export default function PortafolioProject() {
                 <h2 className="text-3xl md:text-4xl font-semibold mb-8 tracking-tight text-stone-900">
                   Galería del Proyecto
                 </h2>
-                <div className="grid md:grid-cols-2 gap-6">
+                <div className="grid sm:grid-cols-2 gap-4 sm:gap-6">
                   {project.gallery.map((item, index) => (
                     <motion.div
                       key={index}
@@ -430,13 +430,13 @@ export default function PortafolioProject() {
               {/* Testimonial */}
               {project.testimonial && (
                 <div className="mb-16">
-                  <div className="bg-white rounded-2xl p-10 shadow-sm border border-stone-100">
-                    <div className="mb-6">
+                  <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-sm border border-stone-100">
+                    <div className="mb-4 sm:mb-6">
                       <svg width="48" height="36" viewBox="0 0 32 24" fill="none">
                         <path d="M0 24H8L14 0H6L0 24ZM18 24H26L32 0H24L18 24Z" fill="#E7E5E4" />
                       </svg>
                     </div>
-                    <p className="text-2xl mb-8 text-stone-900 leading-relaxed font-medium">
+                    <p className="text-lg sm:text-2xl mb-6 sm:mb-8 text-stone-900 leading-relaxed font-medium">
                       {project.testimonial.text}
                     </p>
                     <div className="flex items-center gap-4">
@@ -461,11 +461,11 @@ export default function PortafolioProject() {
               )}
 
               {/* CTA */}
-              <div className="bg-white rounded-2xl p-10 shadow-sm border border-stone-100 text-center">
-                <h3 className="text-3xl font-semibold mb-4 text-stone-900">
+              <div className="bg-white rounded-2xl p-6 sm:p-10 shadow-sm border border-stone-100 text-center">
+                <h3 className="text-2xl sm:text-3xl font-semibold mb-3 sm:mb-4 text-stone-900">
                   ¿Te Inspiró Este Proyecto?
                 </h3>
-                <p className="text-lg mb-8 text-stone-600 leading-relaxed">
+                <p className="text-base sm:text-lg mb-6 sm:mb-8 text-stone-600 leading-relaxed">
                   Hagamos realidad tu proyecto. Agenda una consultoría gratuita sin compromiso.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -473,21 +473,21 @@ export default function PortafolioProject() {
                     href={`https://wa.me/573238122373?text=Hola,%20vi%20el%20proyecto%20${encodeURIComponent(project.title)}%20y%20me%20interesa%20algo%20similar`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-10 py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
+                    className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
                   >
-                    <span className="text-lg font-semibold">Agendar Consultoría</span>
+                    <span className="text-base sm:text-lg font-semibold">Agendar Consultoría</span>
                     <ArrowRight style={{ width: '24px', height: '24px' }} />
                   </a>
                   <a
                     href={`https://wa.me/573238122373?text=Hola,%20vi%20el%20proyecto%20${encodeURIComponent(project.title)}%20y%20tengo%20preguntas`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="px-10 py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-900 text-stone-900"
+                    className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-900 text-stone-900"
                   >
                     <svg style={{ width: '20px', height: '20px' }} viewBox="0 0 448 512" fill="currentColor">
                       <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157m-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6m101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6"/>
                     </svg>
-                    <span className="text-lg font-medium">WhatsApp</span>
+                    <span className="text-base sm:text-lg font-medium">WhatsApp</span>
                   </a>
                 </div>
               </div>
@@ -497,13 +497,13 @@ export default function PortafolioProject() {
       </article>
 
       {/* Related Projects */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-14 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl font-semibold mb-12 text-center text-stone-900">
+          <h2 className="text-3xl sm:text-4xl font-semibold mb-8 sm:mb-12 text-center text-stone-900">
             Proyectos Relacionados
           </h2>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
             {relatedProjects.map((relatedProject, index) => (
               <motion.div
                 key={relatedProject.slug}
