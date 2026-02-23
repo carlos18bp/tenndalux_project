@@ -389,7 +389,52 @@ export default function Portafolio() {
       {/* Projects Grid */}
       <section className="py-8 sm:py-12 px-4 sm:px-6 pb-20 sm:pb-32">
         <div className="max-w-7xl mx-auto">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {/* Mobile: compact horizontal cards */}
+          <div className="sm:hidden space-y-3">
+            {filteredProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <Link href={`/portafolio/${project.slug}`}>
+                  <article className="group bg-white rounded-2xl overflow-hidden shadow-sm active:scale-[0.98] transition-transform border border-stone-100">
+                    <div className="flex items-center gap-3 p-3">
+                      <div className="relative w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+                        <Image
+                          src={project.image}
+                          alt={project.title}
+                          fill
+                          className="object-cover"
+                          sizes="96px"
+                        />
+                        <div className="absolute top-1.5 left-1.5">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] backdrop-blur-md bg-white/90 text-stone-900 font-semibold">
+                            {project.category}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0 py-0.5">
+                        <h3 className="text-sm font-semibold text-stone-900 mb-1 leading-tight line-clamp-2">
+                          {project.title}
+                        </h3>
+                        <p className="text-xs text-stone-500 mb-1.5">{project.type}</p>
+                        <div className="flex items-center gap-3 text-[10px] text-stone-400">
+                          <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{project.location}</span>
+                          <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{project.year}</span>
+                        </div>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-stone-400 flex-shrink-0" />
+                    </div>
+                  </article>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Desktop: original grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredProjects.map((project, index) => (
               <motion.div
                 key={project.id}
@@ -405,7 +450,7 @@ export default function Portafolio() {
                         alt={project.title}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-700"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        sizes="(max-width: 1200px) 50vw, 33vw"
                       />
                       <div className="absolute top-4 left-4">
                         <span className="px-3 py-1.5 rounded-full text-xs backdrop-blur-md bg-white/90 text-stone-900 font-semibold">

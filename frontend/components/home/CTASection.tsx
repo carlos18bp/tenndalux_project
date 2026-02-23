@@ -33,7 +33,7 @@ export default function CTASection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative py-36 md:py-48 overflow-hidden bg-stone-900">
+    <section ref={sectionRef} className="relative py-20 md:py-36 overflow-hidden bg-stone-900">
       <div className="absolute inset-0 opacity-20">
         <div className="absolute inset-0 bg-[url('/home/cta-background.webp')] bg-cover bg-center" />
       </div>

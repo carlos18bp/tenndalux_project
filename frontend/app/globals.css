@@ -32,17 +32,6 @@
   --color-stone-900: var(--stone-900);
   
   --font-sans: var(--font-inter);
-  
-  --spacing-4: 4px;
-  --spacing-8: 8px;
-  --spacing-12: 12px;
-  --spacing-16: 16px;
-  --spacing-24: 24px;
-  --spacing-32: 32px;
-  --spacing-48: 48px;
-  --spacing-64: 64px;
-  --spacing-96: 96px;
-  --spacing-128: 128px;
 }
 
 body {
@@ -93,4 +82,13 @@ body {
 
 .animate-fade-in-down {
   animation: fade-in-down 0.6s ease-out forwards;
+}
+
+/* Swiper pagination bullets — brown/café branding */
+.swiper-pagination-bullet {
+  background: #A8A29E !important;
+  opacity: 1 !important;
+}
+.swiper-pagination-bullet-active {
+  background: #78716C !important;
 }

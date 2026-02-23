@@ -16,13 +16,13 @@ export default function Contact() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Set initial hidden state
-      gsap.set(leftRef.current, { opacity: 0, x: -60 });
-      gsap.set(rightRef.current, { opacity: 0, x: 60 });
+      gsap.set(leftRef.current, { opacity: 0, y: 60 });
+      gsap.set(rightRef.current, { opacity: 0, y: 60 });
 
       // Animate on scroll
       gsap.to(leftRef.current, {
         opacity: 1,
-        x: 0,
+        y: 0,
         duration: 1,
         ease: 'power3.out',
         scrollTrigger: {
@@ -33,7 +33,7 @@ export default function Contact() {
 
       gsap.to(rightRef.current, {
         opacity: 1,
-        x: 0,
+        y: 0,
         duration: 1,
         delay: 0.2,
         ease: 'power3.out',
@@ -58,7 +58,7 @@ export default function Contact() {
   };
 
   return (
-    <section ref={sectionRef} id="contacto" className="py-36 md:py-44 bg-stone-900 text-white relative overflow-hidden">
+    <section ref={sectionRef} id="contacto" className="py-20 md:py-36 bg-stone-900 text-white relative overflow-hidden">
       <div className="absolute inset-0 opacity-[0.03]">
         <svg className="h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
           <pattern id="grid-pattern" width="10" height="10" patternUnits="userSpaceOnUse">
@@ -69,7 +69,7 @@ export default function Contact() {
       </div>
 
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16 relative z-10">
-        <div className="grid lg:grid-cols-[1fr_580px] gap-20 lg:gap-28 items-start">
+        <div className="grid lg:grid-cols-[1fr_580px] gap-12 lg:gap-28 items-start">
           <div ref={leftRef} className="space-y-14 pt-4">
             <div className="space-y-8">
               <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05]">

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useState, useEffect, useRef } from 'react';
-import { ChatBubbleLeftRightIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
+import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,13 +19,15 @@ export default function Header() {
   }, [isMenuOpen]);
 
   const navItems = [
+    { label: 'Inicio', href: '/' },
     { label: 'Servicios', href: '/servicios' },
     { label: 'Portafolio', href: '/portafolio' },
     { label: 'Blog', href: '/blog' },
   ];
 
   return (
-    <header className="fixed top-0 w-full bg-stone-50/60 backdrop-blur-xl z-50 border-b border-stone-200/40">
+    <>
+    <header className="fixed top-0 w-full bg-white z-50 border-b border-stone-200/60">
       <nav className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-12">
         <div className="flex items-center justify-between h-[72px] sm:h-20">
           <Link href="/" className="text-[22px] font-semibold text-stone-900 tracking-tight">
@@ -55,15 +57,18 @@ export default function Header() {
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden relative w-10 h-10 flex items-center justify-center rounded-xl text-stone-700 hover:bg-stone-100 transition-colors duration-200"
+              className="md:hidden w-10 h-10 flex items-center justify-center rounded-xl text-stone-700 hover:bg-stone-100 transition-colors duration-200"
               aria-label="Toggle menu"
             >
-              <span className={`absolute transition-all duration-300 ${isMenuOpen ? 'opacity-100 rotate-0' : 'opacity-0 rotate-90'}`}>
-                <XMarkIcon className="w-6 h-6" />
-              </span>
-              <span className={`absolute transition-all duration-300 ${isMenuOpen ? 'opacity-0 -rotate-90' : 'opacity-100 rotate-0'}`}>
-                <Bars3Icon className="w-6 h-6" />
-              </span>
+              {isMenuOpen ? (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-6 h-6">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                </svg>
+              )}
             </button>
           </div>
         </div>
@@ -104,13 +109,15 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Backdrop overlay */}
+    </header>
+
+    {/* Backdrop overlay — outside header so z-index works */}
+    {isMenuOpen && (
       <div
-        className={`fixed inset-0 bg-black/20 backdrop-blur-sm md:hidden transition-opacity duration-500 -z-10 ${
-          isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className="fixed inset-0 bg-black/20 z-40 md:hidden"
         onClick={() => setIsMenuOpen(false)}
       />
-    </header>
+    )}
+    </>
   );
 }

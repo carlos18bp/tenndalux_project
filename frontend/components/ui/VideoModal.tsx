@@ -43,7 +43,7 @@ export default function VideoModal({ isOpen, onClose, videoSrc, title }: VideoMo
 
   return (
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={onClose}
     >
       {/* Backdrop */}
@@ -51,13 +51,13 @@ export default function VideoModal({ isOpen, onClose, videoSrc, title }: VideoMo
       
       {/* Modal Content */}
       <div 
-        className="relative w-full max-w-5xl max-h-[90vh] z-10"
+        className="relative z-10 w-full max-w-[420px] mx-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute -top-12 right-0 md:-right-12 md:top-0 p-2 text-white/80 hover:text-white transition-colors"
+          className="absolute -top-14 right-0 p-2 text-white/80 hover:text-white transition-colors z-20"
           aria-label="Cerrar video"
         >
           <XMarkIcon className="w-8 h-8" />
@@ -65,19 +65,19 @@ export default function VideoModal({ isOpen, onClose, videoSrc, title }: VideoMo
 
         {/* Title */}
         {title && (
-          <h3 className="absolute -top-12 left-0 text-white text-lg font-medium truncate max-w-[80%]">
+          <h3 className="absolute -top-14 left-0 text-white text-lg font-medium truncate max-w-[70%]">
             {title}
           </h3>
         )}
 
         {/* Video */}
-        <div className="relative rounded-2xl overflow-hidden bg-black shadow-2xl">
+        <div className="relative rounded-3xl overflow-hidden bg-black shadow-2xl max-h-[80vh]">
           <video
             ref={videoRef}
             controls
             autoPlay
             playsInline
-            className="w-full h-auto max-h-[80vh]"
+            className="w-full h-auto max-h-[80vh] object-contain"
           >
             <source src={videoSrc} type="video/webm" />
             <source src={videoSrc.replace('.webm', '.mp4')} type="video/mp4" />

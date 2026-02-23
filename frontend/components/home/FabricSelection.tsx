@@ -17,13 +17,13 @@ export default function FabricSelection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Set initial hidden state
-      gsap.set(imageRef.current, { opacity: 0, x: -80 });
-      gsap.set(contentRef.current, { opacity: 0, x: 80 });
+      gsap.set(imageRef.current, { opacity: 0, y: 60 });
+      gsap.set(contentRef.current, { opacity: 0, y: 60 });
 
       // Animate on scroll
       gsap.to(imageRef.current, {
         opacity: 1,
-        x: 0,
+        y: 0,
         duration: 1.2,
         ease: 'power3.out',
         scrollTrigger: {
@@ -34,7 +34,7 @@ export default function FabricSelection() {
 
       gsap.to(contentRef.current, {
         opacity: 1,
-        x: 0,
+        y: 0,
         duration: 1.2,
         delay: 0.2,
         ease: 'power3.out',
@@ -49,9 +49,9 @@ export default function FabricSelection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="pt-48 md:pt-64 pb-48 md:pb-64 bg-[#FDFBF7]">
+    <section ref={sectionRef} className="py-20 md:py-36 bg-[#FDFBF7]">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
-        <div className="grid lg:grid-cols-2 gap-24 lg:gap-32 items-center">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-32 items-center">
           {/* Left: Image */}
           <div ref={imageRef} className="relative order-2 lg:order-1">
             <div className="relative aspect-square w-full max-w-[580px] mx-auto">

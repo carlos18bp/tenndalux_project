@@ -209,7 +209,57 @@ export default function Blog() {
           )}
 
           {/* Blog Grid */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+          {/* Mobile: compact horizontal cards */}
+          <div className="sm:hidden space-y-3">
+            {filteredPosts.map((post, index) => (
+              <motion.div
+                key={post.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.05 }}
+              >
+                <Link href={`/blog/${post.slug}`}>
+                  <article className="group bg-white rounded-2xl overflow-hidden shadow-sm active:scale-[0.98] transition-transform border border-stone-100">
+                    <div className="flex gap-3 p-3">
+                      <div className="relative w-24 h-24 rounded-xl overflow-hidden flex-shrink-0">
+                        <Image
+                          src={post.image}
+                          alt={post.title}
+                          fill
+                          className="object-cover"
+                          sizes="96px"
+                        />
+                        <div className="absolute top-1.5 left-1.5">
+                          <span className="px-2 py-0.5 rounded-full text-[10px] backdrop-blur-md bg-white/90 text-stone-900 font-semibold">
+                            {post.category}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex-1 min-w-0 py-0.5 flex flex-col">
+                        <h3 className="text-sm font-semibold text-stone-900 mb-1 leading-tight line-clamp-2">
+                          {post.title}
+                        </h3>
+                        <p className="text-xs text-stone-500 line-clamp-2 mb-1.5 flex-1">{post.excerpt}</p>
+                        <div className="flex items-center gap-3 text-[10px] text-stone-400">
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            {new Date(post.date).toLocaleDateString('es-ES', { month: 'short', day: 'numeric' })}
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {post.readTime}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Desktop: original grid */}
+          <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {filteredPosts.map((post, index) => (
               <motion.div
                 key={post.id}
@@ -225,7 +275,7 @@ export default function Blog() {
                         alt={post.title}
                         fill
                         className="object-cover group-hover:scale-110 transition-transform duration-700"
-                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        sizes="(max-width: 1200px) 50vw, 33vw"
                       />
                       <div className="absolute top-4 left-4">
                         <span className="px-3 py-1.5 rounded-full text-xs backdrop-blur-md bg-white/90 text-stone-900 font-semibold">

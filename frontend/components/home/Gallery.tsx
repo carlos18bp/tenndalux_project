@@ -3,6 +3,10 @@
 import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import Image from 'next/image';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import VideoModal from '@/components/ui/VideoModal';
@@ -66,11 +70,11 @@ export default function Gallery() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial hidden state
       gsap.set(headerRef.current, { opacity: 0, y: 50 });
-      gsap.set(gridRef.current?.children || [], { opacity: 0, scale: 0.9 });
+      if (gridRef.current) {
+        gsap.set(gridRef.current, { opacity: 0, y: 40 });
+      }
 
-      // Animate on scroll
       gsap.to(headerRef.current, {
         opacity: 1,
         y: 0,
@@ -82,84 +86,118 @@ export default function Gallery() {
         }
       });
 
-      gsap.to(gridRef.current?.children || [], {
-        opacity: 1,
-        scale: 1,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: gridRef.current,
-          start: 'top 80%',
-        }
-      });
+      if (gridRef.current) {
+        gsap.to(gridRef.current, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: gridRef.current,
+            start: 'top 80%',
+          }
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
+  const GalleryCard = ({ item }: { item: GalleryItem }) => (
+    <div
+      className={`relative w-full h-full overflow-hidden rounded-2xl sm:rounded-3xl group ${item.type === 'video' ? 'cursor-pointer' : ''}`}
+      onClick={() => item.type === 'video' && item.videoSrc && setSelectedVideo(item.videoSrc)}
+    >
+      {item.type === 'image' ? (
+        <>
+          <Image
+            src={item.src}
+            alt={item.alt}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            sizes="(max-width: 768px) 85vw, (max-width: 1200px) 50vw, 33vw"
+          />
+          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+        </>
+      ) : (
+        <div className="relative w-full h-full">
+          <video
+            muted
+            loop
+            playsInline
+            autoPlay
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src={item.src} type="video/webm" />
+          </video>
+          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
+            <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-white/95 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+              <PlayIcon className="w-7 h-7 md:w-10 md:h-10 text-stone-900 ml-0.5" />
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <>
-      <section ref={sectionRef} className="py-36 md:py-44 bg-stone-50">
-        <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-12">
-          <div ref={headerRef} className="text-center mb-20 md:mb-28 space-y-6">
-            <span className="text-base font-semibold text-stone-400 tracking-[0.2em] uppercase">Inspiración</span>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight">
+      <section ref={sectionRef} className="py-20 md:py-36 bg-stone-50">
+        <div className="max-w-[1500px] mx-auto px-4 sm:px-8 lg:px-12">
+          <div ref={headerRef} className="text-center mb-10 md:mb-28 space-y-4 md:space-y-6">
+            <span className="text-sm sm:text-base font-semibold text-stone-400 tracking-[0.2em] uppercase">Inspiración</span>
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight">
               Espacios que inspiran
             </h2>
-            <p className="text-xl md:text-2xl text-stone-600 max-w-3xl mx-auto font-light">
+            <p className="text-lg md:text-2xl text-stone-600 max-w-3xl mx-auto font-light">
               Descubre cómo nuestras soluciones transforman diferentes ambientes y estilos de vida.
             </p>
           </div>
 
-          <div ref={gridRef} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 auto-rows-[250px] sm:auto-rows-[350px] grid-flow-dense">
-            {galleryItems.map((item, index) => (
-              <div 
-                key={index} 
-                className={`relative overflow-hidden rounded-3xl group ${item.className} ${item.type === 'video' ? 'cursor-pointer' : ''}`}
-                onClick={() => item.type === 'video' && item.videoSrc && setSelectedVideo(item.videoSrc)}
+          <div ref={gridRef}>
+            {/* Mobile: Swiper carousel */}
+            <div className="sm:hidden">
+              <Swiper
+                modules={[Autoplay, Pagination]}
+                spaceBetween={12}
+                slidesPerView={1.15}
+                centeredSlides={true}
+                loop={false}
+                rewind={true}
+                autoplay={{
+                  delay: 3500,
+                  disableOnInteraction: false,
+                }}
+                pagination={{
+                  clickable: true,
+                  dynamicBullets: true,
+                }}
+                className="gallery-swiper !pb-10"
               >
-                {item.type === 'image' ? (
-                  <>
-                    <Image
-                      src={item.src}
-                      alt={item.alt}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
-                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-                  </>
-                ) : (
-                  <div className="relative w-full h-full">
-                    <video
-                      muted
-                      loop
-                      playsInline
-                      className="absolute inset-0 w-full h-full object-cover"
-                      onMouseEnter={(e) => e.currentTarget.play()}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.pause();
-                        e.currentTarget.currentTime = 0;
-                      }}
-                    >
-                      <source src={item.src} type="video/webm" />
-                    </video>
-                    {/* Play Button Overlay */}
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
-                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/95 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
-                        <PlayIcon className="w-8 h-8 md:w-10 md:h-10 text-stone-900 ml-0.5" />
+                {galleryItems.map((item, index) => (
+                  <SwiperSlide key={index}>
+                    <div className="relative aspect-[3/4]">
+                      <div className="absolute inset-0 rounded-2xl overflow-hidden">
+                        <GalleryCard item={item} />
                       </div>
                     </div>
-                  </div>
-                )}
-              </div>
-            ))}
+                  </SwiperSlide>
+                ))}
+              </Swiper>
+            </div>
+
+            {/* Desktop: Grid */}
+            <div className="hidden sm:grid grid-cols-2 md:grid-cols-3 gap-4 sm:gap-8 auto-rows-[250px] sm:auto-rows-[350px] grid-flow-dense">
+              {galleryItems.map((item, index) => (
+                <div key={index} className={`relative ${item.className}`}>
+                  <GalleryCard item={item} />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Video Modal */}
       <VideoModal
         isOpen={!!selectedVideo}
         onClose={() => setSelectedVideo(null)}

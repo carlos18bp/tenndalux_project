@@ -92,9 +92,9 @@ export default function Services() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="servicios" className="py-36 md:py-44 bg-white">
+    <section ref={sectionRef} id="servicios" className="py-20 md:py-36 bg-white">
       <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-12">
-        <div ref={headerRef} className="flex flex-col md:flex-row justify-between items-end mb-24 md:mb-28 gap-8">
+        <div ref={headerRef} className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-28 gap-6 md:gap-8">
           <div className="max-w-3xl">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 mb-8 tracking-tight">
               Soluciones Integrales

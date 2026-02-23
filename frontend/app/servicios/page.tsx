@@ -21,15 +21,58 @@ import {
   Award,
   Headphones,
 } from 'lucide-react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+
+type Product = {
+  id: string;
+  title: string;
+  image: string;
+  description: string;
+  idealPara: string[];
+  beneficios: string[];
+  opciones: string[];
+};
+
+type ExteriorSolution = {
+  title: string;
+  description: string;
+  image: string;
+  features: string[];
+};
 
 export default function Servicios() {
   const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
   const [selectedProductTab, setSelectedProductTab] = useState('cortinas');
+  const [mobileDetailProduct, setMobileDetailProduct] = useState<Product | null>(null);
+  const [mobileDetailExterior, setMobileDetailExterior] = useState<ExteriorSolution | null>(null);
 
   const toggleProduct = (productId: string) => {
     setExpandedProduct(expandedProduct === productId ? null : productId);
+  };
+
+  const openMobileDetail = (product: Product) => {
+    setMobileDetailProduct(product);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeMobileDetail = () => {
+    setMobileDetailProduct(null);
+    document.body.style.overflow = '';
+  };
+
+  const openMobileExterior = (solution: ExteriorSolution) => {
+    setMobileDetailExterior(solution);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeMobileExterior = () => {
+    setMobileDetailExterior(null);
+    document.body.style.overflow = '';
   };
 
   return (
@@ -96,8 +139,8 @@ export default function Servicios() {
             </p>
           </motion.div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-14 sm:mb-20">
-            {[
+          {(() => {
+            const services = [
               {
                 icon: Headphones,
                 title: 'Asesoría Gratuita',
@@ -128,31 +171,17 @@ export default function Servicios() {
                 description: 'Respaldo total en productos y servicio. Soporte continuo para tu tranquilidad.',
                 includes: ['2 años de garantía', 'Mantenimiento preventivo', 'Soporte técnico 24/7', 'Repuestos originales'],
               },
-            ].map((service, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group bg-[#FAFAF9] rounded-2xl p-8 hover:bg-white hover:shadow-xl transition-all duration-500 border border-stone-100"
-              >
-                <div className="w-20 h-20 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform bg-stone-100">
-                  <service.icon style={{ width: '40px', height: '40px', color: '#292524' }} />
+            ];
+
+            const ServiceCard = ({ service, index }: { service: typeof services[0]; index: number }) => (
+              <div className="group bg-[#FAFAF9] rounded-2xl p-6 sm:p-8 hover:bg-white hover:shadow-xl transition-all duration-500 border border-stone-100 h-full">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center mb-5 sm:mb-6 group-hover:scale-110 transition-transform bg-stone-100">
+                  <service.icon style={{ width: '32px', height: '32px', color: '#292524' }} />
                 </div>
-                
-                <h3 className="text-2xl font-semibold mb-4 text-stone-900">
-                  {service.title}
-                </h3>
-                
-                <p className="text-base mb-6 text-stone-600 leading-relaxed">
-                  {service.description}
-                </p>
-                
-                <div className="space-y-3">
-                  <p className="text-sm font-semibold mb-3 text-stone-900">
-                    Incluye:
-                  </p>
+                <h3 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-stone-900">{service.title}</h3>
+                <p className="text-sm sm:text-base mb-4 sm:mb-6 text-stone-600 leading-relaxed">{service.description}</p>
+                <div className="space-y-2 sm:space-y-3">
+                  <p className="text-sm font-semibold mb-2 sm:mb-3 text-stone-900">Incluye:</p>
                   {service.includes.map((item, i) => (
                     <div key={i} className="flex items-start gap-2">
                       <Check style={{ width: '16px', height: '16px', flexShrink: 0, marginTop: '2px', color: '#292524' }} />
@@ -160,9 +189,45 @@ export default function Servicios() {
                     </div>
                   ))}
                 </div>
-              </motion.div>
-            ))}
-          </div>
+              </div>
+            );
+
+            return (
+              <div className="mb-14 sm:mb-20">
+                {/* Mobile: Swiper */}
+                <div className="sm:hidden">
+                  <Swiper
+                    modules={[Pagination]}
+                    spaceBetween={12}
+                    slidesPerView={1.1}
+                    centeredSlides={true}
+                    pagination={{ clickable: true, dynamicBullets: true }}
+                    className="!pb-10"
+                  >
+                    {services.map((service, index) => (
+                      <SwiperSlide key={index}>
+                        <ServiceCard service={service} index={index} />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                </div>
+                {/* Desktop: Grid */}
+                <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                  {services.map((service, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 30 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                    >
+                      <ServiceCard service={service} index={index} />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* CTA */}
           <motion.div
@@ -227,166 +292,167 @@ export default function Servicios() {
           </div>
 
           {/* Cortinas */}
-          {selectedProductTab === 'cortinas' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
-            >
-              {[
-                {
-                  id: 'enrollables',
-                  title: 'Cortinas Enrollables',
-                  image: 'https://images.unsplash.com/photo-1758974775331-c5400bbef625?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwbGl2aW5nJTIwcm9vbSUyMGN1cnRhaW5zfGVufDF8fHx8MTc3MTI5NzczMHww&ixlib=rb-4.1.0&q=80&w=1080',
-                  description: 'Diseño minimalista y funcional. Ideales para espacios modernos.',
-                  idealPara: ['Oficinas', 'Salas de estar', 'Habitaciones', 'Cocinas'],
-                  beneficios: ['Control total de luz', 'Fácil mantenimiento', 'Durabilidad superior', 'Motorización disponible'],
-                  opciones: ['Screen solar (filtro UV)', 'Blackout total', 'Translúcidas', 'Decorativas'],
-                },
-                {
-                  id: 'sheer',
-                  title: 'Sheer Elegance / Ondas',
-                  image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VudHJ5JTIwaG91c2UlMjBpbnRlcmlvciUyMGRlc2lnbiUyMDIwMjZ8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-                  description: 'Elegancia y sofisticación con doble capa ajustable.',
-                  idealPara: ['Salas formales', 'Comedores', 'Habitaciones principales', 'Áreas sociales'],
-                  beneficios: ['Doble privacidad', 'Diseño elegante', 'Versatilidad única', 'Iluminación ajustable'],
-                  opciones: ['Telas premium', 'Colores personalizados', 'Automatización', 'Sistemas duales'],
-                },
-                {
-                  id: 'paneles',
-                  title: 'Paneles Japoneses',
-                  image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBwZW50aG91c2UlMjBpbnRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-                  description: 'Diseño modular contemporáneo para grandes ventanales.',
-                  idealPara: ['Ventanas amplias', 'Divisores de ambiente', 'Puertas corredizas', 'Espacios abiertos'],
-                  beneficios: ['Diseño arquitectónico', 'Sistema modular', 'Fácil operación', 'Gran impacto visual'],
-                  opciones: ['2 a 5 paneles', 'Telas combinadas', 'Motorización', 'Rieles premium'],
-                },
-                {
-                  id: 'duo',
-                  title: 'Cortinas Dúo',
-                  image: 'https://images.unsplash.com/photo-1750271336580-f11df678e840?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBiZWRyb29tJTIwcm9sbGVyJTIwYmxpbmRzfGVufDF8fHx8MTc3MTI5NzczMHww&ixlib=rb-4.1.0&q=80&w=1080',
-                  description: 'Combinación perfecta de privacidad y entrada de luz natural.',
-                  idealPara: ['Habitaciones', 'Oficinas en casa', 'Estudios', 'Salas multiuso'],
-                  beneficios: ['Doble funcionalidad', 'Control preciso', 'Estética única', 'Ahorro energético'],
-                  opciones: ['Telas texturizadas', 'Colores duales', 'Motorización sincronizada', 'Control independiente'],
-                },
-              ].map((product) => (
-                <div
-                  key={product.id}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100"
-                >
-                  <button
-                    onClick={() => toggleProduct(product.id)}
-                    className="w-full p-5 sm:p-10 flex items-center justify-between hover:bg-stone-50 transition-colors"
-                  >
-                    <div className="flex items-center gap-4 sm:gap-6">
-                      <div className="relative w-14 h-14 sm:w-20 sm:h-20 rounded-xl overflow-hidden flex-shrink-0">
-                        <Image
-                          src={product.image}
-                          alt={product.title}
-                          fill
-                          className="object-cover"
-                          sizes="80px"
-                        />
-                      </div>
-                      <div className="text-left">
-                        <h3 className="text-lg sm:text-2xl font-semibold mb-1 sm:mb-2 text-stone-900">
-                          {product.title}
-                        </h3>
-                        <p className="text-sm sm:text-base text-stone-600 hidden sm:block">
-                          {product.description}
-                        </p>
-                      </div>
-                    </div>
-                    {expandedProduct === product.id ? (
-                      <ChevronUp style={{ width: '24px', height: '24px', flexShrink: 0, color: '#292524' }} />
-                    ) : (
-                      <ChevronDown style={{ width: '24px', height: '24px', flexShrink: 0, color: '#292524' }} />
-                    )}
-                  </button>
+          {selectedProductTab === 'cortinas' && (() => {
+            const cortinas: Product[] = [
+              {
+                id: 'enrollables',
+                title: 'Cortinas Enrollables',
+                image: 'https://images.unsplash.com/photo-1758974775331-c5400bbef625?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwbGl2aW5nJTIwcm9vbSUyMGN1cnRhaW5zfGVufDF8fHx8MTc3MTI5NzczMHww&ixlib=rb-4.1.0&q=80&w=1080',
+                description: 'Diseño minimalista y funcional. Ideales para espacios modernos.',
+                idealPara: ['Oficinas', 'Salas de estar', 'Habitaciones', 'Cocinas'],
+                beneficios: ['Control total de luz', 'Fácil mantenimiento', 'Durabilidad superior', 'Motorización disponible'],
+                opciones: ['Screen solar (filtro UV)', 'Blackout total', 'Translúcidas', 'Decorativas'],
+              },
+              {
+                id: 'sheer',
+                title: 'Sheer Elegance',
+                image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VudHJ5JTIwaG91c2UlMjBpbnRlcmlvciUyMGRlc2lnbiUyMDIwMjZ8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
+                description: 'Elegancia y sofisticación con doble capa ajustable.',
+                idealPara: ['Salas formales', 'Comedores', 'Habitaciones principales', 'Áreas sociales'],
+                beneficios: ['Doble privacidad', 'Diseño elegante', 'Versatilidad única', 'Iluminación ajustable'],
+                opciones: ['Telas premium', 'Colores personalizados', 'Automatización', 'Sistemas duales'],
+              },
+              {
+                id: 'paneles',
+                title: 'Paneles Japoneses',
+                image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBwZW50aG91c2UlMjBpbnRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+                description: 'Diseño modular contemporáneo para grandes ventanales.',
+                idealPara: ['Ventanas amplias', 'Divisores de ambiente', 'Puertas corredizas', 'Espacios abiertos'],
+                beneficios: ['Diseño arquitectónico', 'Sistema modular', 'Fácil operación', 'Gran impacto visual'],
+                opciones: ['2 a 5 paneles', 'Telas combinadas', 'Motorización', 'Rieles premium'],
+              },
+              {
+                id: 'duo',
+                title: 'Cortinas Dúo',
+                image: 'https://images.unsplash.com/photo-1750271336580-f11df678e840?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBiZWRyb29tJTIwcm9sbGVyJTIwYmxpbmRzfGVufDF8fHx8MTc3MTI5NzczMHww&ixlib=rb-4.1.0&q=80&w=1080',
+                description: 'Combinación perfecta de privacidad y entrada de luz natural.',
+                idealPara: ['Habitaciones', 'Oficinas en casa', 'Estudios', 'Salas multiuso'],
+                beneficios: ['Doble funcionalidad', 'Control preciso', 'Estética única', 'Ahorro energético'],
+                opciones: ['Telas texturizadas', 'Colores duales', 'Motorización sincronizada', 'Control independiente'],
+              },
+            ];
 
-                  {expandedProduct === product.id && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="border-t border-stone-100"
+            return (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                {/* Mobile: 2-col image grid */}
+                <div className="grid grid-cols-2 gap-3 sm:hidden">
+                  {cortinas.map((product) => (
+                    <button
+                      key={product.id}
+                      onClick={() => openMobileDetail(product)}
+                      className="group text-left bg-white rounded-2xl overflow-hidden border border-stone-100 shadow-sm active:scale-[0.98] transition-transform"
                     >
-                      <div className="p-5 sm:p-10 pt-6 sm:pt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-8 sm:gap-12">
-                        <div>
-                          <h4 className="text-sm font-semibold mb-4 text-stone-900">
-                            IDEAL PARA
-                          </h4>
-                          <ul className="space-y-3">
-                            {product.idealPara.map((item, i) => (
-                              <li key={i} className="flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 rounded-full bg-stone-900" />
-                                <span className="text-sm text-stone-600">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-semibold mb-4 text-stone-900">
-                            BENEFICIOS CLAVE
-                          </h4>
-                          <ul className="space-y-3">
-                            {product.beneficios.map((item, i) => (
-                              <li key={i} className="flex items-start gap-3">
-                                <Check style={{ width: '16px', height: '16px', flexShrink: 0, marginTop: '2px', color: '#292524' }} />
-                                <span className="text-sm text-stone-600">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-semibold mb-4 text-stone-900">
-                            OPCIONES
-                          </h4>
-                          <ul className="space-y-3">
-                            {product.opciones.map((item, i) => (
-                              <li key={i} className="flex items-center gap-2">
-                                <Sparkles style={{ width: '16px', height: '16px', flexShrink: 0, color: '#292524' }} />
-                                <span className="text-sm text-stone-600">{item}</span>
-                              </li>
-                            ))}
-                          </ul>
+                      <div className="relative aspect-[4/3]">
+                        <Image src={product.image} alt={product.title} fill className="object-cover" sizes="50vw" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                        <div className="absolute bottom-0 left-0 right-0 p-3">
+                          <h3 className="text-sm font-semibold text-white leading-tight">{product.title}</h3>
                         </div>
                       </div>
-
-                      <div className="px-5 sm:px-10 pb-6 sm:pb-10 pt-4">
-                        <a
-                          href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(product.title)}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full px-12 py-5 rounded-xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] bg-stone-900 text-stone-50"
-                        >
-                          <span className="font-semibold">Cotizar {product.title}</span>
-                          <ArrowRight style={{ width: '20px', height: '20px' }} />
-                        </a>
+                      <div className="p-3">
+                        <p className="text-xs text-stone-500 line-clamp-2">{product.description}</p>
+                        <span className="text-xs font-semibold text-stone-900 mt-2 inline-flex items-center gap-1">
+                          Ver detalles <ArrowRight className="w-3 h-3" />
+                        </span>
                       </div>
-                    </motion.div>
-                  )}
+                    </button>
+                  ))}
                 </div>
-              ))}
-            </motion.div>
-          )}
+
+                {/* Desktop: Accordion */}
+                <div className="hidden sm:block space-y-6">
+                  {cortinas.map((product) => (
+                    <div key={product.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100">
+                      <button
+                        onClick={() => toggleProduct(product.id)}
+                        className="w-full p-10 flex items-center justify-between hover:bg-stone-50 transition-colors"
+                      >
+                        <div className="flex items-center gap-6">
+                          <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                            <Image src={product.image} alt={product.title} fill className="object-cover" sizes="80px" />
+                          </div>
+                          <div className="text-left">
+                            <h3 className="text-2xl font-semibold mb-2 text-stone-900">{product.title}</h3>
+                            <p className="text-base text-stone-600">{product.description}</p>
+                          </div>
+                        </div>
+                        {expandedProduct === product.id ? (
+                          <ChevronUp className="w-6 h-6 flex-shrink-0 text-stone-900" />
+                        ) : (
+                          <ChevronDown className="w-6 h-6 flex-shrink-0 text-stone-900" />
+                        )}
+                      </button>
+
+                      {expandedProduct === product.id && (
+                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="border-t border-stone-100">
+                          <div className="p-10 pt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-12">
+                            <div>
+                              <h4 className="text-sm font-semibold mb-4 text-stone-900">IDEAL PARA</h4>
+                              <ul className="space-y-3">
+                                {product.idealPara.map((item, i) => (
+                                  <li key={i} className="flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-stone-900" />
+                                    <span className="text-sm text-stone-600">{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div>
+                              <h4 className="text-sm font-semibold mb-4 text-stone-900">BENEFICIOS CLAVE</h4>
+                              <ul className="space-y-3">
+                                {product.beneficios.map((item, i) => (
+                                  <li key={i} className="flex items-start gap-3">
+                                    <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-stone-900" />
+                                    <span className="text-sm text-stone-600">{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                            <div>
+                              <h4 className="text-sm font-semibold mb-4 text-stone-900">OPCIONES</h4>
+                              <ul className="space-y-3">
+                                {product.opciones.map((item, i) => (
+                                  <li key={i} className="flex items-center gap-2">
+                                    <Sparkles className="w-4 h-4 flex-shrink-0 text-stone-900" />
+                                    <span className="text-sm text-stone-600">{item}</span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                          <div className="px-10 pb-10 pt-4">
+                            <a
+                              href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(product.title)}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full px-12 py-5 rounded-xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] bg-stone-900 text-stone-50"
+                            >
+                              <span className="font-semibold">Cotizar {product.title}</span>
+                              <ArrowRight className="w-5 h-5" />
+                            </a>
+                          </div>
+                        </motion.div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })()}
 
           {/* Recubrimientos para Paredes */}
           {selectedProductTab === 'paredes' && (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white rounded-2xl p-10 shadow-sm border border-stone-100"
+              className="bg-white rounded-2xl p-5 sm:p-10 shadow-sm border border-stone-100"
             >
-              <div className="grid md:grid-cols-2 gap-12 items-center mb-12">
+              <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center mb-8 md:mb-12">
                 <div>
-                  <h3 className="text-3xl font-semibold mb-6 text-stone-900">
+                  <h3 className="text-2xl sm:text-3xl font-semibold mb-4 sm:mb-6 text-stone-900">
                     Recubrimientos para Paredes
                   </h3>
-                  <p className="text-lg mb-8 text-stone-600 leading-relaxed">
+                  <p className="text-sm sm:text-lg mb-5 sm:mb-8 text-stone-600 leading-relaxed">
                     Transforma tus espacios con texturas y diseños que reflejan personalidad y estilo único.
                   </p>
                   
@@ -431,79 +497,90 @@ export default function Servicios() {
           )}
 
           {/* Soluciones para Exterior */}
-          {selectedProductTab === 'exterior' && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-8"
-            >
-              {[
-                {
-                  title: 'Toldos',
-                  description: 'Protección solar premium para terrazas, balcones y áreas comerciales.',
-                  image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwdGVycmFjZSUyMG91dGRvb3J8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-                  features: ['Telas resistentes a rayos UV', 'Motorización y sensores', 'Diseños personalizados', 'Estructuras en aluminio'],
-                },
-                {
-                  title: 'Pérgolas',
-                  description: 'Estructura y diseño para crear espacios exteriores únicos y funcionales.',
-                  image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VudHJ5JTIwaG91c2UlMjBleHRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-                  features: ['Ingeniería estructural', 'Diseño arquitectónico', 'Materiales premium', 'Automatización disponible'],
-                },
-                {
-                  title: 'Películas Solares',
-                  description: 'Control térmico y protección UV para ventanas sin sacrificar visibilidad.',
-                  image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBzdW5saWdodCUyMHdpbmRvd3N8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-                  features: ['Reducción de calor hasta 80%', 'Protección UV 99%', 'Ahorro energético comprobado', 'Instalación sin obra'],
-                },
-              ].map((solution, index) => (
-                <div
-                  key={index}
-                  className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100"
-                >
-                  <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div className="p-10">
-                      <h3 className="text-3xl font-semibold mb-4 text-stone-900">
-                        {solution.title}
-                      </h3>
-                      <p className="text-lg mb-8 text-stone-600 leading-relaxed">
-                        {solution.description}
-                      </p>
-                      
-                      <ul className="space-y-3 mb-8">
-                        {solution.features.map((feature, i) => (
-                          <li key={i} className="flex items-start gap-3">
-                            <Check style={{ width: '20px', height: '20px', flexShrink: 0, marginTop: '2px', color: '#292524' }} />
-                            <span className="text-base text-stone-700">{feature}</span>
-                          </li>
-                        ))}
-                      </ul>
+          {selectedProductTab === 'exterior' && (() => {
+            const exteriorSolutions: ExteriorSolution[] = [
+              {
+                title: 'Toldos',
+                description: 'Protección solar premium para terrazas, balcones y áreas comerciales.',
+                image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwdGVycmFjZSUyMG91dGRvb3J8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
+                features: ['Telas resistentes a rayos UV', 'Motorización y sensores', 'Diseños personalizados', 'Estructuras en aluminio'],
+              },
+              {
+                title: 'Pérgolas',
+                description: 'Estructura y diseño para crear espacios exteriores únicos y funcionales.',
+                image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VudHJ5JTIwaG91c2UlMjBleHRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+                features: ['Ingeniería estructural', 'Diseño arquitectónico', 'Materiales premium', 'Automatización disponible'],
+              },
+              {
+                title: 'Películas Solares',
+                description: 'Control térmico y protección UV para ventanas sin sacrificar visibilidad.',
+                image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBzdW5saWdodCUyMHdpbmRvd3N8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
+                features: ['Reducción de calor hasta 80%', 'Protección UV 99%', 'Ahorro energético comprobado', 'Instalación sin obra'],
+              },
+            ];
 
-                      <a
-                        href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(solution.title)}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-12 py-5 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
-                      >
-                        <span className="font-semibold">Cotizar {solution.title}</span>
-                        <ArrowRight style={{ width: '20px', height: '20px' }} />
-                      </a>
-                    </div>
-
-                    <div className="relative aspect-[4/3] md:aspect-auto md:h-full min-h-[300px]">
-                      <Image
-                        src={solution.image}
-                        alt={solution.title}
-                        fill
-                        className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 50vw"
-                      />
-                    </div>
-                  </div>
+            return (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+                {/* Mobile: compact image cards */}
+                <div className="grid grid-cols-1 gap-4 sm:hidden">
+                  {exteriorSolutions.map((solution, index) => (
+                    <button
+                      key={index}
+                      onClick={() => openMobileExterior(solution)}
+                      className="group text-left bg-white rounded-2xl overflow-hidden border border-stone-100 shadow-sm active:scale-[0.98] transition-transform"
+                    >
+                      <div className="flex items-center gap-4 p-4">
+                        <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                          <Image src={solution.image} alt={solution.title} fill className="object-cover" sizes="80px" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-base font-semibold text-stone-900 mb-1">{solution.title}</h3>
+                          <p className="text-xs text-stone-500 line-clamp-2">{solution.description}</p>
+                          <span className="text-xs font-semibold text-stone-900 mt-1 inline-flex items-center gap-1">
+                            Ver detalles <ArrowRight className="w-3 h-3" />
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+                  ))}
                 </div>
-              ))}
-            </motion.div>
-          )}
+
+                {/* Desktop: full cards */}
+                <div className="hidden sm:block space-y-8">
+                  {exteriorSolutions.map((solution, index) => (
+                    <div key={index} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100">
+                      <div className="grid md:grid-cols-2 gap-8 items-center">
+                        <div className="p-10">
+                          <h3 className="text-3xl font-semibold mb-4 text-stone-900">{solution.title}</h3>
+                          <p className="text-lg mb-8 text-stone-600 leading-relaxed">{solution.description}</p>
+                          <ul className="space-y-3 mb-8">
+                            {solution.features.map((feature, i) => (
+                              <li key={i} className="flex items-start gap-3">
+                                <Check className="w-5 h-5 flex-shrink-0 mt-0.5 text-stone-900" />
+                                <span className="text-base text-stone-700">{feature}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <a
+                            href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(solution.title)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="px-12 py-5 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
+                          >
+                            <span className="font-semibold">Cotizar {solution.title}</span>
+                            <ArrowRight className="w-5 h-5" />
+                          </a>
+                        </div>
+                        <div className="relative aspect-[4/3] md:aspect-auto md:h-full min-h-[300px]">
+                          <Image src={solution.image} alt={solution.title} fill className="object-cover" sizes="(max-width: 768px) 100vw, 50vw" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })()}
 
           {/* Tecnología */}
           {selectedProductTab === 'tecnologia' && (
@@ -521,7 +598,7 @@ export default function Servicios() {
                 </p>
               </div>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-10 sm:mb-16">
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-10 sm:mb-16">
                 {[
                   {
                     icon: Zap,
@@ -556,13 +633,13 @@ export default function Servicios() {
                 ].map((tech, index) => (
                   <div
                     key={index}
-                    className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 sm:p-10 hover:bg-white/20 transition-colors"
+                    className="bg-white/10 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-10 hover:bg-white/20 transition-colors"
                   >
-                    <tech.icon style={{ width: '48px', height: '48px', marginBottom: '20px', color: '#FAFAF9' }} />
-                    <h4 className="text-xl font-semibold mb-4">
+                    <tech.icon className="w-8 h-8 sm:w-12 sm:h-12 mb-3 sm:mb-5 text-stone-50" />
+                    <h4 className="text-base sm:text-xl font-semibold mb-2 sm:mb-4">
                       {tech.title}
                     </h4>
-                    <p className="text-base text-stone-300 leading-relaxed">
+                    <p className="text-xs sm:text-base text-stone-300 leading-relaxed">
                       {tech.description}
                     </p>
                   </div>
@@ -656,8 +733,8 @@ export default function Servicios() {
               </p>
             </motion.div>
 
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8">
-              {[
+            {(() => {
+              const guarantees = [
                 {
                   icon: Shield,
                   title: '2 Años de Garantía',
@@ -673,27 +750,33 @@ export default function Servicios() {
                   title: 'Soporte 24/7',
                   description: 'Asistencia técnica cuando la necesites',
                 },
-              ].map((item, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 }}
-                  className="text-center"
-                >
-                  <div className="w-20 h-20 rounded-2xl flex items-center justify-center mx-auto mb-6 bg-stone-100">
-                    <item.icon style={{ width: '40px', height: '40px', color: '#292524' }} />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3 text-stone-900">
-                    {item.title}
-                  </h3>
-                  <p className="text-base text-stone-600 leading-relaxed">
-                    {item.description}
-                  </p>
-                </motion.div>
-              ))}
-            </div>
+              ];
+
+              return (
+                <div className="grid grid-cols-3 gap-4 sm:gap-8">
+                  {guarantees.map((item, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.1 }}
+                      className="text-center"
+                    >
+                      <div className="w-14 h-14 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-3 sm:mb-6 bg-stone-100">
+                        <item.icon className="w-7 h-7 sm:w-10 sm:h-10 text-stone-900" />
+                      </div>
+                      <h3 className="text-sm sm:text-xl font-semibold mb-1 sm:mb-3 text-stone-900">
+                        {item.title}
+                      </h3>
+                      <p className="text-xs sm:text-base text-stone-600 leading-relaxed">
+                        {item.description}
+                      </p>
+                    </motion.div>
+                  ))}
+                </div>
+              );
+            })()}
           </div>
         </div>
       </section>
@@ -753,6 +836,134 @@ export default function Servicios() {
       </section>
 
       <Footer />
+
+      {/* Mobile Bottom Sheet: Product Detail */}
+      {mobileDetailProduct && (
+        <div className="fixed inset-0 z-50 sm:hidden" onClick={closeMobileDetail}>
+          <div className="absolute inset-0 bg-black/50" />
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[85vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Handle bar */}
+            <div className="sticky top-0 bg-white rounded-t-3xl z-10 pt-3 pb-2 px-6">
+              <div className="w-10 h-1 bg-stone-300 rounded-full mx-auto" />
+            </div>
+
+            {/* Hero image */}
+            <div className="relative aspect-[16/9] mx-4 rounded-2xl overflow-hidden">
+              <Image src={mobileDetailProduct.image} alt={mobileDetailProduct.title} fill className="object-cover" sizes="100vw" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <h3 className="text-xl font-bold text-white">{mobileDetailProduct.title}</h3>
+              </div>
+            </div>
+
+            <div className="px-5 py-5 space-y-5">
+              <p className="text-sm text-stone-600 leading-relaxed">{mobileDetailProduct.description}</p>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-stone-50 rounded-xl p-4">
+                  <h4 className="text-xs font-bold text-stone-900 mb-3 uppercase tracking-wide">Ideal para</h4>
+                  <ul className="space-y-1.5">
+                    {mobileDetailProduct.idealPara.map((item, i) => (
+                      <li key={i} className="flex items-center gap-1.5">
+                        <div className="w-1 h-1 rounded-full bg-stone-900" />
+                        <span className="text-xs text-stone-600">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="bg-stone-50 rounded-xl p-4">
+                  <h4 className="text-xs font-bold text-stone-900 mb-3 uppercase tracking-wide">Beneficios</h4>
+                  <ul className="space-y-1.5">
+                    {mobileDetailProduct.beneficios.map((item, i) => (
+                      <li key={i} className="flex items-start gap-1.5">
+                        <Check className="w-3 h-3 flex-shrink-0 mt-0.5 text-stone-900" />
+                        <span className="text-xs text-stone-600">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+
+              <div className="bg-stone-50 rounded-xl p-4">
+                <h4 className="text-xs font-bold text-stone-900 mb-3 uppercase tracking-wide">Opciones disponibles</h4>
+                <div className="flex flex-wrap gap-2">
+                  {mobileDetailProduct.opciones.map((item, i) => (
+                    <span key={i} className="text-xs bg-white border border-stone-200 text-stone-700 px-3 py-1.5 rounded-full">{item}</span>
+                  ))}
+                </div>
+              </div>
+
+              <a
+                href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(mobileDetailProduct.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-4 rounded-xl flex items-center justify-center gap-3 bg-stone-900 text-stone-50 font-semibold text-sm"
+              >
+                Cotizar {mobileDetailProduct.title}
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Mobile Bottom Sheet: Exterior Detail */}
+      {mobileDetailExterior && (
+        <div className="fixed inset-0 z-50 sm:hidden" onClick={closeMobileExterior}>
+          <div className="absolute inset-0 bg-black/50" />
+          <motion.div
+            initial={{ y: '100%' }}
+            animate={{ y: 0 }}
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[85vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="sticky top-0 bg-white rounded-t-3xl z-10 pt-3 pb-2 px-6">
+              <div className="w-10 h-1 bg-stone-300 rounded-full mx-auto" />
+            </div>
+
+            <div className="relative aspect-[16/9] mx-4 rounded-2xl overflow-hidden">
+              <Image src={mobileDetailExterior.image} alt={mobileDetailExterior.title} fill className="object-cover" sizes="100vw" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-4">
+                <h3 className="text-xl font-bold text-white">{mobileDetailExterior.title}</h3>
+              </div>
+            </div>
+
+            <div className="px-5 py-5 space-y-5">
+              <p className="text-sm text-stone-600 leading-relaxed">{mobileDetailExterior.description}</p>
+
+              <div className="bg-stone-50 rounded-xl p-4">
+                <h4 className="text-xs font-bold text-stone-900 mb-3 uppercase tracking-wide">Características</h4>
+                <ul className="space-y-2">
+                  {mobileDetailExterior.features.map((feature, i) => (
+                    <li key={i} className="flex items-start gap-2">
+                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-stone-900" />
+                      <span className="text-sm text-stone-600">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <a
+                href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(mobileDetailExterior.title)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-4 rounded-xl flex items-center justify-center gap-3 bg-stone-900 text-stone-50 font-semibold text-sm"
+              >
+                Cotizar {mobileDetailExterior.title}
+                <ArrowRight className="w-4 h-4" />
+              </a>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }

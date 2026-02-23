@@ -16,13 +16,13 @@ export default function AboutSection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Set initial hidden state
-      gsap.set(contentRef.current, { opacity: 0, x: -80 });
-      gsap.set(imageRef.current, { opacity: 0, x: 80 });
+      gsap.set(contentRef.current, { opacity: 0, y: 60 });
+      gsap.set(imageRef.current, { opacity: 0, y: 60 });
 
       // Animate on scroll
       gsap.to(contentRef.current, {
         opacity: 1,
-        x: 0,
+        y: 0,
         duration: 1.2,
         ease: 'power3.out',
         scrollTrigger: {
@@ -33,7 +33,7 @@ export default function AboutSection() {
 
       gsap.to(imageRef.current, {
         opacity: 1,
-        x: 0,
+        y: 0,
         duration: 1.2,
         delay: 0.2,
         ease: 'power3.out',
@@ -48,9 +48,9 @@ export default function AboutSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-36 md:py-48 bg-stone-50 border-t border-stone-200">
+    <section ref={sectionRef} className="py-20 md:py-36 bg-stone-50 border-t border-stone-200">
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 lg:gap-28 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-28 items-center">
           <div ref={contentRef} className="space-y-12">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.1]">
               Excelencia en cada detalle,<br />

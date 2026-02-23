@@ -16,19 +16,19 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
-      tl.from(textRef.current, {
-        opacity: 0,
-        y: 80,
+      tl.to(textRef.current, {
+        opacity: 1,
+        y: 0,
         duration: 1.2,
       })
-      .from(imageRef.current, {
-        opacity: 0,
-        x: 100,
+      .to(imageRef.current, {
+        opacity: 1,
+        x: 0,
         duration: 1.2,
       }, '-=0.8')
-      .from(cardRef.current, {
-        opacity: 0,
-        y: 40,
+      .to(cardRef.current, {
+        opacity: 1,
+        y: 0,
         duration: 0.8,
       }, '-=0.4');
     }, sectionRef);
@@ -37,11 +37,11 @@ export default function Hero() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen bg-stone-50 flex items-center pt-40 pb-32 overflow-hidden">
+    <section ref={sectionRef} className="relative min-h-screen bg-stone-50 flex items-center pt-28 sm:pt-40 pb-20 sm:pb-32 overflow-hidden">
       <div className="max-w-[1500px] mx-auto px-6 sm:px-8 lg:px-16 w-full">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-28 items-center">
           {/* Left: Text Content */}
-          <div ref={textRef} className="space-y-14">
+          <div ref={textRef} className="space-y-14" style={{ opacity: 0, transform: 'translateY(80px)' }}>
             <div className="space-y-10">
               <h1 className="text-[40px] sm:text-[56px] md:text-[72px] lg:text-[88px] font-bold text-stone-900 leading-[1.02] tracking-tight">
                 Tu hogar,<br />tu estilo
@@ -91,7 +91,7 @@ export default function Hero() {
           </div>
 
           {/* Right: Video */}
-          <div ref={imageRef} className="relative flex justify-end lg:pr-8">
+          <div ref={imageRef} className="relative flex justify-end lg:pr-8" style={{ opacity: 0, transform: 'translateX(100px)' }}>
             <div className="relative aspect-[3.5/5] w-full max-w-[520px] rounded-[3rem] overflow-hidden shadow-2xl">
               <video
                 autoPlay
@@ -109,6 +109,7 @@ export default function Hero() {
             <div
               ref={cardRef}
               className="absolute bottom-12 -left-8 lg:-left-20 bg-white rounded-3xl p-8 shadow-[0_12px_40px_rgb(0,0,0,0.1)] border border-stone-100 max-w-[300px] hidden md:block"
+              style={{ opacity: 0, transform: 'translateY(40px)' }}
             >
               <div className="space-y-3">
                 <div className="text-sm font-semibold text-stone-500 uppercase tracking-wider">

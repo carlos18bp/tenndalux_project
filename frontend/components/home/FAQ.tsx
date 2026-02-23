@@ -67,9 +67,9 @@ export default function FAQ() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-36 md:py-44 bg-white border-t border-stone-200">
+    <section ref={sectionRef} className="py-20 md:py-36 bg-white border-t border-stone-200">
       <div className="max-w-[900px] mx-auto px-6 sm:px-8">
-        <div ref={headerRef} className="text-center mb-20 md:mb-24">
+        <div ref={headerRef} className="text-center mb-10 md:mb-24">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight">
             Preguntas Frecuentes
           </h2>
