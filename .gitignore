@@ -1,27 +1,64 @@
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-venv/
-env/
-ENV/
-*.egg-info/
-dist/
-build/
-
-# Django
-*.log
-db.sqlite3
-db.sqlite3-journal
-/media/
-/static/
+# Environment files (secrets)
+*.env
+!*.env.example
+backend/.env
 .env
 
-# IDEs
-.vscode/
+# Database
+db.sqlite3
+*.sqlite3
+
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.py[cod]
+*.so
+.Python
+
+# Media
+backend/media/*
+!backend/media/temp/
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Operational logs
+*.log
+backend/logs/
+!backend/logs/.gitkeep
+
+# Backups (should not be in repo)
+backend/backups/
+backups/
+
+# Test & Coverage artifacts
+backend/.coverage
+backend/.pytest_cache/
+htmlcov/
+test-results/
+test-reports/
+/frontend/coverage/
+/frontend/coverage-e2e/
+
+# Django
+staticfiles/
+backend/staticfiles/
+backend/templates/
+
+# Node.js / Next.js
+/frontend/node_modules/
+/frontend/.next/
+/frontend/out/
+/frontend/build/
+*.tsbuildinfo
+next-env.d.ts
+
+# IDE
 .idea/
+.vscode/
 *.swp
 *.swo
 *~
@@ -30,21 +67,5 @@ db.sqlite3-journal
 .DS_Store
 Thumbs.db
 
-# Node.js
-node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.pnpm-debug.log*
-
-# Next.js
-.next/
-out/
-.vercel
-*.tsbuildinfo
-next-env.d.ts
-
-# Testing
-.coverage
-htmlcov/
-.pytest_cache/
+# Windsurf
+.windsurf/plans/

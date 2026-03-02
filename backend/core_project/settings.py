@@ -10,20 +10,27 @@ Configuration follows company architecture standards with:
 """
 
 import os
-from pathlib import Path
 from datetime import timedelta
-from decouple import config
+from pathlib import Path
+
+from decouple import Csv, config
+from huey import RedisHuey
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = config('DJANGO_SECRET_KEY', default='django-insecure-change-this-in-production')
+# ---------------------------------------------------------------------------
+# Environment detection
+# ---------------------------------------------------------------------------
+DJANGO_ENV = config('DJANGO_ENV', default='development')
+IS_PRODUCTION = DJANGO_ENV == 'production'
 
-# SECURITY WARNING: don't run with debug turned on in production!
+# ---------------------------------------------------------------------------
+# Core Django settings
+# ---------------------------------------------------------------------------
+SECRET_KEY = config('DJANGO_SECRET_KEY', default='change-me')
 DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
-
-ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=lambda v: [s.strip() for s in v.split(',')])
+ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
 
 # Application definition
 INSTALLED_APPS = [
@@ -50,6 +57,9 @@ INSTALLED_APPS = [
     
     # Project apps
     'core_app',
+    # Operations
+    'dbbackup',
+    'huey.contrib.djhuey',
 ]
 
 MIDDLEWARE = [
@@ -85,26 +95,12 @@ WSGI_APPLICATION = 'core_project.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-DB_ENGINE = config('DB_ENGINE', default='django.db.backends.sqlite3')
-
-if DB_ENGINE == 'django.db.backends.sqlite3':
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
+DATABASES = {
+    'default': {
+        'ENGINE': config('DJANGO_DB_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': config('DJANGO_DB_NAME', default=str(BASE_DIR / 'db.sqlite3')),
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': DB_ENGINE,
-            'NAME': config('DB_NAME', default='tenndalux_db'),
-            'USER': config('DB_USER', default='root'),
-            'PASSWORD': config('DB_PASSWORD', default=''),
-            'HOST': config('DB_HOST', default='localhost'),
-            'PORT': config('DB_PORT', default='3306'),
-        }
-    }
+}
 
 # Custom User Model (MUST be set before first migration)
 AUTH_USER_MODEL = 'core_app.User'
@@ -155,7 +151,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = config(
     'CORS_ALLOWED_ORIGINS',
     default='http://localhost:3000,http://127.0.0.1:3000',
-    cast=lambda v: [s.strip() for s in v.split(',')]
+    cast=Csv(),
 )
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = [
@@ -201,3 +197,108 @@ THUMBNAIL_ALIASES = {
         'admin':  {'size': (100, 100), 'crop': True},
     },
 }
+
+# ---------------------------------------------------------------------------
+# Silk profiling (conditional — enabled via ENABLE_SILK env var)
+# ---------------------------------------------------------------------------
+ENABLE_SILK = config('ENABLE_SILK', default=False, cast=bool)
+
+if ENABLE_SILK:
+    INSTALLED_APPS += ['silk']
+    MIDDLEWARE.insert(0, 'silk.middleware.SilkyMiddleware')
+
+    SILKY_PYTHON_PROFILER = False
+    SILKY_PYTHON_PROFILER_BINARY = False
+    SILKY_META = False
+    SILKY_ANALYZE_QUERIES = True
+
+    SILKY_AUTHENTICATION = True
+    SILKY_AUTHORISATION = True
+
+    def silk_permissions(user):
+        return user.is_staff
+
+    SILKY_PERMISSIONS = silk_permissions
+
+    SILKY_MAX_RECORDED_REQUESTS = 10_000
+    SILKY_MAX_RECORDED_REQUESTS_CHECK_PERCENT = 10
+    SILKY_INTERCEPT_PERCENT = 50
+
+    SILKY_IGNORE_PATHS = ['/admin/', '/static/', '/media/', '/silk/']
+
+    SILKY_MAX_REQUEST_BODY_SIZE = 0
+    SILKY_MAX_RESPONSE_BODY_SIZE = 0
+
+    SLOW_QUERY_THRESHOLD_MS = 500
+    N_PLUS_ONE_THRESHOLD = 10
+
+# ---------------------------------------------------------------------------
+# Logging
+# ---------------------------------------------------------------------------
+LOG_LEVEL = config('DJANGO_LOG_LEVEL', default='INFO')
+
+(BASE_DIR / 'logs').mkdir(exist_ok=True)
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'backup_file': {
+            'level': 'INFO',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / 'logs' / 'backups.log',
+            'maxBytes': 5 * 1024 * 1024,
+            'backupCount': 3,
+            'formatter': 'verbose',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': LOG_LEVEL,
+        },
+        'backups': {
+            'handlers': ['backup_file', 'console'],
+            'level': 'INFO',
+        },
+    },
+}
+
+# ---------------------------------------------------------------------------
+# Huey — task queue
+# ---------------------------------------------------------------------------
+HUEY = RedisHuey(
+    name='tenndalux_project',
+    url=config('REDIS_URL', default='redis://localhost:6379/4'),
+    immediate=not IS_PRODUCTION,
+)
+
+# ---------------------------------------------------------------------------
+# Backups (django-dbbackup)
+# ---------------------------------------------------------------------------
+DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
+DBBACKUP_STORAGE_OPTIONS = {
+    'location': config('BACKUP_STORAGE_PATH', default='/var/backups/tenndalux_project'),
+}
+DBBACKUP_COMPRESS = True
+DBBACKUP_CLEANUP_KEEP = 4
+DBBACKUP_CLEANUP_KEEP_MEDIA = 4
+
+
+# ---------------------------------------------------------------------------
+# Environment-specific settings (auto-imported)
+# ---------------------------------------------------------------------------
+if IS_PRODUCTION:
+    from .settings_prod import *  # noqa: F401, F403
+else:
+    from .settings_dev import *  # noqa: F401, F403

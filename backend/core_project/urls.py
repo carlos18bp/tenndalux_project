@@ -4,14 +4,21 @@ URL configuration for core_project.
 Maps URL patterns to views and includes module-specific URL configurations.
 """
 from django.contrib import admin
+from django.http import JsonResponse
 from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
 from django.views.static import serve
 
+
+def health_check(request):
+    return JsonResponse({'status': 'ok'})
+
+
 urlpatterns = [
     # Django Admin
     path('admin/', admin.site.urls),
+    path('api/health/', health_check, name='health-check'),
     
     # API endpoints
     path('api/auth/', include('core_app.urls.auth_urls')),
@@ -38,3 +45,6 @@ if settings.DEBUG:
 
 # Custom 404 handler
 handler404 = 'core_app.views.frontend_views.not_found'
+
+if getattr(settings, 'ENABLE_SILK', False):
+    urlpatterns.insert(0, path('silk/', include('silk.urls', namespace='silk')))

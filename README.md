@@ -383,56 +383,109 @@ This project includes the **fundamentals** of the architecture. For real project
 
 ---
 
-## 📖 Documentation
+---
 
-- **Setup Guide:** [`SETUP.md`](./SETUP.md) - Complete setup instructions
-- **Frontend Guide:** [`frontend/README.md`](./frontend/README.md) - Frontend docs (includes Vue → Next.js quick reference)
-- **Fake Data Commands:** `/backend/docs/FAKE_DATA_COMMANDS.md`
-- **Django Attachments:** `/backend/django_attachments/README.md`
-- **Architecture Guide:** See root document (original guide)
-- **Django Docs:** https://docs.djangoproject.com/
-- **DRF Docs:** https://www.django-rest-framework.org/
-- **Next.js Docs:** https://nextjs.org/docs
-- **Zustand Docs:** https://docs.pmnd.rs/zustand/
+## Environment Configuration
+
+All secrets are loaded from `.env` via `python-decouple`. See `backend/.env.example` for the full list.
+
+```bash
+cp backend/.env.example backend/.env
+# Edit .env with your values
+```
+
+### Settings Structure
+
+| File | Purpose |
+|------|---------|
+| `backend/core_project/settings.py` | Base/shared settings |
+| `backend/core_project/settings_dev.py` | Development: DEBUG=True, SQLite, console email |
+| `backend/core_project/settings_prod.py` | Production: DEBUG=False, MySQL, SMTP, security headers |
+
+The active environment is controlled by `DJANGO_ENV` (`development` or `production`).
 
 ---
 
-## 🐛 Troubleshooting
+## Task Queue
 
-### Backend won't start
-- Verify virtual environment is activated
-- Ensure all migrations are applied
-- Check `.env` file and environment variables
+This project uses [Huey](https://huey.readthedocs.io/) with Redis for background tasks.
 
-### Frontend won't connect to backend
-- Verify backend is running on port 8000
-- Check `CORS_ALLOWED_ORIGINS` in backend `settings.py` includes `http://localhost:3000`
-- Restart backend server
+- **Development**: Tasks run synchronously (no Redis required).
+- **Production**: Tasks run asynchronously via the Huey worker process.
 
-### JWT token errors
-- Clear browser cookies and localStorage
-- Logout and login again
-- Verify expiration dates in `settings.py` are correct
+### Scheduled Tasks
 
----
+| Task | Schedule | Description |
+|------|----------|-------------|
+| `scheduled_backup` | Mondays 2:00 AM | Database and media backup with compression |
+| `silk_garbage_collection` | Daily 4:00 AM | Clean Silk profiling data older than 7 days |
+| `weekly_slow_queries_report` | Wednesdays 7:00 AM | Slow query and N+1 detection report |
+| `silk_reports_cleanup` | 1st of month 6:30 AM | Clean old Silk report logs |
 
-## 👥 Contributing
-
-This project follows corporate standards defined in the architecture guide. When contributing:
-
-1. Maintain modular structure
-2. Use English DocStrings for documentation
-3. Follow serializer patterns (List, Detail, CreateUpdate)
-4. Create management commands for fake data
-5. Maintain consistency between backend and frontend
+All tasks are defined in `backend/core_project/tasks.py`.
 
 ---
 
-## 📄 License
+## Backups
+
+Automated backups run weekly via the `scheduled_backup` Huey task. Backups are stored in the path configured by the `BACKUP_STORAGE_PATH` environment variable (default: `/var/backups/tenndalux_project/`) with 90-day retention.
+
+Manual backup commands:
+
+```bash
+cd backend
+source venv/bin/activate
+python manage.py dbbackup --compress
+python manage.py mediabackup --compress
+```
+
+---
+
+## Performance Monitoring
+
+Query profiling with [django-silk](https://github.com/jazzband/django-silk) is available behind the `ENABLE_SILK` environment variable flag.
+
+Set `ENABLE_SILK=true` in your `.env` file to enable. Access at `/silk/` (staff users only).
+
+Garbage collection runs daily at 4:00 AM. Weekly slow-query reports are generated Wednesdays at 7:00 AM.
+
+---
+
+## Documentation & Standards
+
+Project standards and architecture guides are located in the `docs/` folder:
+
+- `docs/DJANGO_REACT_ARCHITECTURE_STANDARD.md` — Architecture and project structure reference
+- `docs/GLOBAL_RULES_GUIDELINES.md` — Development rules and engineering guidelines
+- `docs/TESTING_QUALITY_STANDARDS.md` — Test quality criteria, patterns, and anti-patterns
+- `docs/TEST_QUALITY_GATE_REFERENCE.md` — Quality gate tool reference and configuration
+- `docs/BACKEND_AND_FRONTEND_COVERAGE_REPORT_STANDARD.md` — Coverage report standards
+- `docs/E2E_FLOW_COVERAGE_REPORT_STANDARD.md` — E2E flow coverage tagging and report details
+- `docs/deployment-guide.md` — Production deployment guide
+
+Additional project-specific docs:
+- [`SETUP.md`](./SETUP.md) — Complete setup instructions
+- [`frontend/README.md`](./frontend/README.md) — Frontend docs (includes Vue → Next.js quick reference)
+- `backend/docs/FAKE_DATA_COMMANDS.md` — Fake data command reference
+- `backend/django_attachments/README.md` — Gallery system documentation
+
+---
+
+## Production
+
+- **Domain**: `tenndalux.projectapp.co`
+- **Services**: `tenndalux_gunicorn.service`, `tenndalux-huey.service`
+- **Settings**: `DJANGO_ENV=production` activates `core_project/settings_prod.py`
+- **Deploy**: See `docs/deployment-guide.md` or run `/deploy-and-check` workflow
+
+---
+
+## Troubleshooting
+
+- **Backend won't start**: Verify virtual environment is activated, ensure all migrations are applied, check `.env` file.
+- **Frontend won't connect to backend**: Verify backend is running on port 8000, check `CORS_ALLOWED_ORIGINS` includes `http://localhost:3000`.
+- **JWT token errors**: Clear browser cookies and localStorage, logout and login again.
+
+---
 
 Internal Project - TenndaluX © 2026
-
----
-
-**Version:** 1.0  
-**Last Updated:** February 2026
