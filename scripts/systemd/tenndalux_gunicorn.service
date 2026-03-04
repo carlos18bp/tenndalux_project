@@ -1,0 +1,23 @@
+[Unit]
+Description=Tenndalux Gunicorn Daemon
+Requires=tenndalux_gunicorn.socket
+After=network.target
+
+[Service]
+Type=notify
+User=ryzepeck
+Group=www-data
+WorkingDirectory=/home/ryzepeck/webapps/tenndalux_project/backend
+ExecStart=/home/ryzepeck/webapps/tenndalux_project/backend/venv/bin/gunicorn \
+    --workers 2 \
+    --max-requests 800 \
+    --max-requests-jitter 80 \
+    --timeout 120 \
+    --bind unix:/run/tenndalux_gunicorn.sock \
+    core_project.wsgi:application
+Environment="DJANGO_SETTINGS_MODULE=core_project.settings"
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

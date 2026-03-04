@@ -42,21 +42,6 @@ cd /home/ryzepeck/webapps/tenndalux_project/backend && source venv/bin/activate 
 sudo systemctl restart tenndalux_gunicorn && sudo systemctl restart tenndalux-huey
 ```
 
-## Post-Deploy Verification
-
-// turbo
-7. Run post-deploy check:
-```bash
-bash ~/scripts/post-deploy-check.sh tenndalux_project
-```
-
-8. If something fails, check the logs:
-```bash
-sudo journalctl -u tenndalux_gunicorn --no-pager -n 30
-sudo journalctl -u tenndalux-huey --no-pager -n 30
-sudo tail -20 /var/log/nginx/error.log
-```
-
 ## Architecture Reference
 
 - **Domain**: `tenndalux.projectapp.co`
