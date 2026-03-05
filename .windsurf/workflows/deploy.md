@@ -27,9 +27,9 @@ cd /home/ryzepeck/webapps/tenndalux_project && git pull origin master
 cd /home/ryzepeck/webapps/tenndalux_project/backend && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate
 ```
 
-4. Build the frontend (Next.js static export):
+4. Build the frontend and deploy to Django (Next.js static export → backend):
 ```bash
-cd /home/ryzepeck/webapps/tenndalux_project/frontend && npm ci && npm run build
+cd /home/ryzepeck/webapps/tenndalux_project/frontend && npm ci && bash build_to_django.sh
 ```
 
 5. Collect static files:
