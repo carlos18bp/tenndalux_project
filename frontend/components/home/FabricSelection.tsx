@@ -16,31 +16,34 @@ export default function FabricSelection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial hidden state
-      gsap.set(imageRef.current, { opacity: 0, y: 60 });
-      gsap.set(contentRef.current, { opacity: 0, y: 60 });
-
-      // Animate on scroll
-      gsap.to(imageRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
+      // Apple-style blur reveal
+      gsap.fromTo(imageRef.current,
+        { opacity: 0, scale: 0.92, filter: 'blur(12px)' },
+        {
+          opacity: 1, scale: 1, filter: 'blur(0px)',
+          duration: 1.3, ease: 'power4.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' }
         }
-      });
+      );
 
-      gsap.to(contentRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        delay: 0.2,
-        ease: 'power3.out',
+      gsap.fromTo(contentRef.current,
+        { opacity: 0, y: 70, filter: 'blur(15px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.3, delay: 0.15, ease: 'power4.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' }
+        }
+      );
+
+      // Subtle parallax on image
+      gsap.to(imageRef.current, {
+        y: -35,
+        ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 75%',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 2,
         }
       });
     }, sectionRef);

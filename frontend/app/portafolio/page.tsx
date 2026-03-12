@@ -205,8 +205,7 @@ export default function Portafolio() {
               Portafolio
             </h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto text-stone-600 leading-relaxed">
-              Proyectos que transforman espacios y mejoran vidas.
-              Descubre nuestro trabajo.
+              Proyectos residenciales, multifamiliares, comerciales, hoteleros e institucionales. Diseño, tecnología y funcionalidad en cada espacio.
             </p>
           </motion.div>
 

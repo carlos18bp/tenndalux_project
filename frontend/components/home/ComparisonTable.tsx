@@ -13,32 +13,24 @@ export default function ComparisonTable() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(headerRef.current, { opacity: 0, y: 50 });
-      gsap.set(tableRef.current, { opacity: 0, y: 60, scale: 0.98 });
-
-      gsap.to(headerRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: 'top 85%',
+      // Apple-style blur reveal
+      gsap.fromTo(headerRef.current,
+        { opacity: 0, y: 60, filter: 'blur(15px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.2, ease: 'power4.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
         }
-      });
+      );
 
-      gsap.to(tableRef.current, {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 1,
-        delay: 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: tableRef.current,
-          start: 'top 80%',
+      gsap.fromTo(tableRef.current,
+        { opacity: 0, y: 60, scale: 0.96, filter: 'blur(10px)' },
+        {
+          opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+          duration: 1.2, delay: 0.15, ease: 'power4.out',
+          scrollTrigger: { trigger: tableRef.current, start: 'top 82%' }
         }
-      });
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -46,40 +38,40 @@ export default function ComparisonTable() {
 
   const features = [
     {
-      name: 'Tecnología Sin Cables',
+      name: 'Instalación sin cables visibles',
       tenndalux: true,
       standard: false,
-      label: 'Motorización invisible integrada con Alexa, Google y Apple'
+      label: 'Motorización invisible integrada con Alexa, Google Home, IFTTT y SmartThings'
     },
     {
-      name: 'Asesoría Experta en Diseño',
+      name: 'Asesoría personalizada',
       tenndalux: true,
       standard: false,
-      label: 'Te guiamos para que tu hogar se vea terminado y bien pensado'
+      label: 'Análisis técnico del espacio, recomendación estética y funcional'
     },
     {
-      name: 'Instalación por Técnicos Propios',
+      name: 'Instalación profesional limpia',
       tenndalux: true,
       standard: false,
-      label: 'Nada de terceros. Personal certificado y uniformado'
+      label: 'Equipo técnico certificado. Nivelación, planchado a vapor y programación'
     },
     {
-      name: 'Garantía Extendida 5 Años',
+      name: 'Garantía hasta 5 años',
       tenndalux: true,
       standard: false,
-      label: 'Respaldo total. Soporte post-venta cuando lo necesites'
+      label: 'Acompañamiento continuo, ajustes técnicos y soporte en automatización'
     },
     {
-      name: 'Acabados Premium',
+      name: 'Tejidos europeos certificados',
       tenndalux: true,
       standard: true,
-      label: 'Telas europeas certificadas. Protección UV y retardo de fuego'
+      label: 'Certificación Light Fastness Clase 6. Opciones retardantes al fuego y blackout'
     },
     {
-      name: 'Visita Técnica Sin Costo',
+      name: 'Motores ultra silenciosos',
       tenndalux: true,
       standard: false,
-      label: 'Medición profesional y asesoría en tu hogar'
+      label: 'Bajo consumo de energía. Baterías autónomas recargables y alta durabilidad'
     }
   ];
 
@@ -103,7 +95,7 @@ export default function ComparisonTable() {
             ¿Por qué elegir Tenndalux?
           </h2>
           <p className="text-lg md:text-2xl text-stone-500 max-w-3xl mx-auto font-light">
-            La diferencia entre cubrir una ventana y diseñar un ambiente.
+            La diferencia entre cubrir una ventana y diseñar un ambiente inteligente.
           </p>
         </div>
 
@@ -152,7 +144,7 @@ export default function ComparisonTable() {
             </div>
 
             <div className="p-14 bg-stone-50/50 text-center border-t border-stone-100">
-              <p className="text-stone-600 mb-8 font-medium text-2xl">Tu hogar merece una solución que refleje quién eres.</p>
+              <p className="text-stone-600 mb-8 font-medium text-2xl">Tu espacio merece diseño, tecnología y precisión.</p>
               <a
                 href="https://wa.me/573238122373?text=Hola,%20quiero%20una%20cotización%20para%20mi%20proyecto"
                 target="_blank"
@@ -209,7 +201,7 @@ export default function ComparisonTable() {
             ))}
 
             <div className="pt-6 text-center">
-              <p className="text-stone-600 mb-5 font-medium text-base">Tu hogar merece una solución que refleje quién eres.</p>
+              <p className="text-stone-600 mb-5 font-medium text-base">Tu espacio merece diseño, tecnología y precisión.</p>
               <a
                 href="https://wa.me/573238122373?text=Hola,%20quiero%20una%20cotización%20para%20mi%20proyecto"
                 target="_blank"

@@ -18,36 +18,50 @@ const services = [
   {
     id: 1,
     title: 'Cortina Ondessence',
-    description: 'La evolución moderna de la cortina tradicional con sistema Ripplefold y ondas técnicas uniformes.',
+    description: 'Sistema Ripplefold con ondas suaves y continuas. Tejidos europeos certificados y acabado premium.',
     image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/productos'
+    link: '/servicios'
   },
   {
     id: 2,
-    title: 'Cortinas Enrollables',
-    description: 'Solución limpia y moderna para control de luz con múltiples opciones de tela y cabezal premium.',
+    title: 'Luminux',
+    description: 'Cortina de velo contemporánea. Luz difusa, privacidad y contacto visual con el exterior.',
     image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/productos'
+    link: '/servicios'
   },
   {
     id: 3,
-    title: 'Persianas Celulares',
-    description: 'Sistema con cámara de aire para aislamiento térmico y acústico superior. Reduce costos hasta 30%.',
+    title: 'Dunes',
+    description: 'Cortina de velo con onda tipo montaña segmentada. Caída estructurada y acabado visual refinado.',
     image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/productos'
+    link: '/servicios'
   },
   {
     id: 4,
-    title: 'Toldos y Pérgolas',
-    description: 'Sistemas de protección solar para exteriores con mecanismos premium en acero y automatización.',
-    image: 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/productos'
+    title: 'Tecnología y Automatización',
+    description: 'Motores avanzados, control por voz, app gratuita e integración con asistentes inteligentes.',
+    image: 'https://images.unsplash.com/photo-1558002038-1055907df827?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+    link: '/servicios'
   },
   {
     id: 5,
-    title: 'Automatización',
-    description: 'Tecnología de vanguardia con control por voz, app móvil y programación de rutinas inteligentes.',
-    image: 'https://images.unsplash.com/photo-1558002038-1055907df827?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+    title: 'Recubrimientos para Paredes',
+    description: 'Vinilo, textil y ecológico. Materiales libres de compuestos nocivos e instalación profesional.',
+    image: 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+    link: '/servicios'
+  },
+  {
+    id: 6,
+    title: 'Soluciones para Exterior',
+    description: 'Toldos, pérgolas, cortinas exteriores y películas solares. Protección y diseño al aire libre.',
+    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+    link: '/servicios'
+  },
+  {
+    id: 7,
+    title: 'Servicio Integral',
+    description: 'Asesoría, diseño, fabricación, instalación profesional, garantía y soporte postventa.',
+    image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
     link: '/servicios'
   }
 ];
@@ -59,33 +73,24 @@ export default function Services() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial hidden state
-      gsap.set(headerRef.current, { opacity: 0, y: 50 });
-      gsap.set(sliderRef.current, { opacity: 0, y: 60 });
-
-      // Animate on scroll
-      gsap.to(headerRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: 'top 85%',
+      // Apple-style blur reveal
+      gsap.fromTo(headerRef.current,
+        { opacity: 0, y: 60, filter: 'blur(15px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.2, ease: 'power4.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
         }
-      });
+      );
 
-      gsap.to(sliderRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        delay: 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sliderRef.current,
-          start: 'top 85%',
+      gsap.fromTo(sliderRef.current,
+        { opacity: 0, y: 50, filter: 'blur(10px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1, delay: 0.15, ease: 'power4.out',
+          scrollTrigger: { trigger: sliderRef.current, start: 'top 85%' }
         }
-      });
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -97,10 +102,10 @@ export default function Services() {
         <div ref={headerRef} className="flex flex-col md:flex-row justify-between items-end mb-10 md:mb-28 gap-6 md:gap-8">
           <div className="max-w-3xl">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 mb-8 tracking-tight">
-              Soluciones Integrales
+              Nuestras Soluciones
             </h2>
             <p className="text-xl md:text-2xl text-stone-600 leading-relaxed font-light">
-              Descubre nuestra gama de productos diseñados para elevar el confort y la estética de tu hogar u oficina.
+              Cortinas, automatización, recubrimientos y soluciones exteriores diseñadas con tecnología y precisión.
             </p>
           </div>
           

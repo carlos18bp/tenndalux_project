@@ -15,33 +15,24 @@ export default function Contact() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial hidden state
-      gsap.set(leftRef.current, { opacity: 0, y: 60 });
-      gsap.set(rightRef.current, { opacity: 0, y: 60 });
-
-      // Animate on scroll
-      gsap.to(leftRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
+      // Apple-style blur reveal
+      gsap.fromTo(leftRef.current,
+        { opacity: 0, y: 70, filter: 'blur(15px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.3, ease: 'power4.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' }
         }
-      });
+      );
 
-      gsap.to(rightRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        delay: 0.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
+      gsap.fromTo(rightRef.current,
+        { opacity: 0, y: 60, scale: 0.95, filter: 'blur(12px)' },
+        {
+          opacity: 1, y: 0, scale: 1, filter: 'blur(0px)',
+          duration: 1.3, delay: 0.15, ease: 'power4.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' }
         }
-      });
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -86,8 +77,10 @@ export default function Contact() {
                   <PhoneIcon className="w-10 h-10 text-stone-200 stroke-[1.5]" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white text-2xl">Llámanos</h3>
-                  <p className="text-stone-400 mt-2 text-xl font-light">+57 (300) 123-4567</p>
+                  <h3 className="font-semibold text-white text-2xl">Ventas</h3>
+                  <p className="text-stone-400 mt-2 text-xl font-light">322 790 4563</p>
+                  <h3 className="font-semibold text-white text-2xl mt-4">Servicio al cliente</h3>
+                  <p className="text-stone-400 mt-2 text-xl font-light">300 965 0060</p>
                 </div>
               </div>
 
@@ -97,7 +90,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-white text-2xl">Escríbenos</h3>
-                  <p className="text-stone-400 mt-2 text-xl font-light">contacto@tenndalux.com</p>
+                  <p className="text-stone-400 mt-2 text-xl font-light">info@tenndalux.com</p>
                 </div>
               </div>
 
@@ -106,8 +99,9 @@ export default function Contact() {
                   <MapPinIcon className="w-10 h-10 text-stone-200 stroke-[1.5]" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white text-2xl">Showroom</h3>
-                  <p className="text-stone-400 mt-2 text-xl font-light">Calle 123 # 45-67, Bogotá</p>
+                  <h3 className="font-semibold text-white text-2xl">Horario</h3>
+                  <p className="text-stone-400 mt-2 text-xl font-light">Lun - Vie: 8:30 a.m. – 5:00 p.m.</p>
+                  <p className="text-stone-400 mt-1 text-xl font-light">Sábados: 8:30 a.m. – 12:00 m.</p>
                 </div>
               </div>
             </div>
@@ -172,10 +166,12 @@ export default function Contact() {
                     id="interest"
                     className="w-full px-4 py-3.5 pr-12 rounded-xl border border-stone-200 bg-stone-50/80 text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-900 focus:border-transparent outline-none transition-all appearance-none text-base cursor-pointer"
                   >
-                    <option value="cortinas">Cortinas Modernas</option>
-                    <option value="persianas">Persianas Enrollables</option>
-                    <option value="automatizacion">Automatización</option>
-                    <option value="toldos">Toldos Exteriores</option>
+                    <option value="ondessence">Cortina Ondessence</option>
+                    <option value="luminux">Luminux</option>
+                    <option value="dunes">Dunes</option>
+                    <option value="automatizacion">Tecnología y Automatización</option>
+                    <option value="paredes">Recubrimientos para Paredes</option>
+                    <option value="exterior">Soluciones para Exterior</option>
                     <option value="otro">Otro</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-stone-500">

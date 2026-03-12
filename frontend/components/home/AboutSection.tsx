@@ -15,31 +15,34 @@ export default function AboutSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial hidden state
-      gsap.set(contentRef.current, { opacity: 0, y: 60 });
-      gsap.set(imageRef.current, { opacity: 0, y: 60 });
-
-      // Animate on scroll
-      gsap.to(contentRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
+      // Apple-style blur reveal
+      gsap.fromTo(contentRef.current,
+        { opacity: 0, y: 70, filter: 'blur(15px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.3, ease: 'power4.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' }
         }
-      });
+      );
 
+      gsap.fromTo(imageRef.current,
+        { opacity: 0, scale: 0.92, filter: 'blur(12px)' },
+        {
+          opacity: 1, scale: 1, filter: 'blur(0px)',
+          duration: 1.3, delay: 0.15, ease: 'power4.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' }
+        }
+      );
+
+      // Subtle parallax on image
       gsap.to(imageRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        delay: 0.2,
-        ease: 'power3.out',
+        y: -40,
+        ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 75%',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 2,
         }
       });
     }, sectionRef);
@@ -53,38 +56,32 @@ export default function AboutSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-28 items-center">
           <div ref={contentRef} className="space-y-12">
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.1]">
-              Excelencia en cada detalle,<br />
-              <span className="text-stone-500">pasión por el diseño.</span>
+              Diseño que se ve.<br />
+              <span className="text-stone-500">Tecnología que no se nota.</span>
             </h2>
-            <div className="space-y-8 text-xl md:text-2xl text-stone-600 font-light leading-relaxed">
-              <p>
-                En Tenndalux, no solo vendemos cortinas; creamos atmósferas. Con más de 15 años de trayectoria, 
-                hemos perfeccionado el arte de combinar funcionalidad técnica con estética de vanguardia.
-              </p>
-              <p>
-                Trabajamos con los mejores fabricantes de tejidos de Europa y sistemas de motorización de última generación 
-                para garantizar que cada instalación sea una inversión duradera en confort y estilo.
-              </p>
+            <p className="text-xl md:text-2xl text-stone-600 font-light leading-relaxed">
+              En Tenndalux unimos estética, innovación y funcionalidad para crear ambientes inteligentes con estilo y respaldo real.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                'Diseño personalizado para cada espacio',
+                'Tecnología sin cables visibles',
+                'Sistemas ultra silenciosos',
+                'Garantía y soporte postventa confiable',
+              ].map((pillar, i) => (
+                <div key={i} className="flex items-start gap-4">
+                  <div className="flex-shrink-0 w-2 h-2 mt-3 rounded-full bg-stone-900" />
+                  <span className="text-lg md:text-xl text-stone-700 font-medium">{pillar}</span>
+                </div>
+              ))}
             </div>
             
-            <div className="pt-8 flex flex-col sm:flex-row gap-12">
-              <div className="flex flex-col gap-2">
-                <span className="text-5xl md:text-6xl font-bold text-stone-900">+1500</span>
-                <span className="text-base text-stone-500 font-semibold uppercase tracking-wider">Proyectos Ejecutados</span>
-              </div>
-              <div className="w-px bg-stone-200 hidden sm:block"></div>
-              <div className="flex flex-col gap-2">
-                <span className="text-5xl md:text-6xl font-bold text-stone-900">100%</span>
-                <span className="text-base text-stone-500 font-semibold uppercase tracking-wider">Satisfacción Garantizada</span>
-              </div>
-            </div>
-
             <div className="pt-8">
               <a 
-                href="#catalogo" 
+                href="#contacto" 
                 className="group inline-flex items-center gap-3 text-xl text-stone-900 font-semibold hover:text-stone-600 transition-colors"
               >
-                Conoce nuestra historia completa
+                Conoce más sobre nuestra empresa
                 <ArrowRightIcon className="w-6 h-6 group-hover:translate-x-2 transition-transform" />
               </a>
             </div>

@@ -17,23 +17,23 @@ gsap.registerPlugin(ScrollTrigger);
 const benefits = [
   {
     icon: SparklesIcon,
-    title: 'Estatus Silencioso',
-    description: 'Tu hogar refleja quién eres. Diseño que impresiona sin gritar.'
+    title: 'Sin cables visibles',
+    description: 'Sistemas que se integran de forma limpia y elegante a tu arquitectura.'
   },
   {
     icon: CpuChipIcon,
-    title: 'Tecnología Sin Cables',
-    description: 'Motorización invisible. Control desde tu celular, Alexa o Google.'
+    title: 'Sin ruido',
+    description: 'Motores ultra silenciosos de última generación. Operación imperceptible.'
   },
   {
     icon: ShieldCheckIcon,
-    title: 'Respaldo y Garantía',
-    description: '5 años de garantía total. Soporte técnico cuando lo necesites.'
+    title: 'Sin improvisaciones',
+    description: 'Garantía limitada de 5 años. Soporte técnico y postventa confiable.'
   },
   {
     icon: UserGroupIcon,
-    title: 'Asesoría Experta',
-    description: 'No improvisamos. Te guiamos en cada decisión de diseño.'
+    title: 'Integración inteligente',
+    description: 'Compatible con Alexa, Google Home, IFTTT y SmartThings. App gratuita.'
   },
 ];
 
@@ -47,29 +47,34 @@ export default function WhyTenndalux() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(videoRef.current, { opacity: 0, y: 60 });
-      gsap.set(contentRef.current, { opacity: 0, y: 60 });
-
-      gsap.to(videoRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 75%',
+      // Apple-style blur reveal
+      gsap.fromTo(videoRef.current,
+        { opacity: 0, scale: 0.9, filter: 'blur(15px)' },
+        {
+          opacity: 1, scale: 1, filter: 'blur(0px)',
+          duration: 1.3, ease: 'power4.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' }
         }
-      });
+      );
 
-      gsap.to(contentRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        delay: 0.2,
-        ease: 'power3.out',
+      gsap.fromTo(contentRef.current,
+        { opacity: 0, y: 70, filter: 'blur(12px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.3, delay: 0.15, ease: 'power4.out',
+          scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' }
+        }
+      );
+
+      // Subtle parallax on video
+      gsap.to(videoRef.current, {
+        y: -30,
+        ease: 'none',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 75%',
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: 2,
         }
       });
     }, sectionRef);
@@ -114,15 +119,14 @@ export default function WhyTenndalux() {
             <div ref={contentRef} className="space-y-16">
               <div className="space-y-8">
                 <span className="text-base font-semibold text-stone-400 tracking-[0.25em] uppercase">
-                  No Vendemos Cortinas
+                  Lujo Silencioso
                 </span>
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.1]">
-                  Diseñamos el hogar que<br />
-                  <span className="text-stone-400">siempre imaginaste</span>
+                  La diferencia está<br />
+                  <span className="text-stone-400">en lo que no se ve</span>
                 </h2>
                 <p className="text-xl md:text-2xl text-stone-300 font-light leading-relaxed max-w-xl">
-                  Para personas que estrenan apartamento, remodelan o construyen. 
-                  Que investigan, comparan y no quieren soluciones corrientes.
+                  En Tenndalux diseñamos sistemas que se integran de forma limpia y elegante a tu arquitectura. Sin cables visibles. Sin ruido. Sin improvisaciones.
                 </p>
               </div>
 

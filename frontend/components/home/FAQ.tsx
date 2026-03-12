@@ -34,33 +34,24 @@ export default function FAQ() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Set initial hidden state
-      gsap.set(headerRef.current, { opacity: 0, y: 50 });
-      gsap.set(faqsRef.current?.children || [], { opacity: 0, y: 40 });
-
-      // Animate on scroll
-      gsap.to(headerRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: 'top 85%',
+      // Apple-style blur reveal
+      gsap.fromTo(headerRef.current,
+        { opacity: 0, y: 60, filter: 'blur(15px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.2, ease: 'power4.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
         }
-      });
+      );
 
-      gsap.to(faqsRef.current?.children || [], {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        stagger: 0.1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: faqsRef.current,
-          start: 'top 80%',
+      gsap.fromTo(faqsRef.current?.children || [],
+        { opacity: 0, y: 40, filter: 'blur(8px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 0.8, stagger: 0.1, ease: 'power4.out',
+          scrollTrigger: { trigger: faqsRef.current, start: 'top 80%' }
         }
-      });
+      );
     }, sectionRef);
 
     return () => ctx.revert();

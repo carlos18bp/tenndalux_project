@@ -13,7 +13,6 @@ import {
   Zap,
   Home,
   Building2,
-  Ruler,
   Settings,
   ChevronDown,
   ChevronUp,
@@ -93,11 +92,10 @@ export default function Servicios() {
             className="text-center mb-16"
           >
             <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold mb-6 tracking-tight leading-[1.05] text-stone-900">
-              Servicios Premium
+              Productos y Soluciones
             </h1>
             <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-12 text-stone-600 leading-relaxed">
-              De la asesoría a la instalación. Todo lo que necesitas para transformar 
-              tu espacio con garantía y excelencia.
+              Tecnología, diseño y funcionalidad en cada solución. De la asesoría a la instalación, con garantía y excelencia.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -143,33 +141,27 @@ export default function Servicios() {
             const services = [
               {
                 icon: Headphones,
-                title: 'Asesoría Gratuita',
-                description: 'Evaluación completa de tu espacio, necesidades y presupuesto. Sin compromiso.',
-                includes: ['Visita a domicilio o virtual', 'Medición precisa de espacios', 'Recomendaciones personalizadas', 'Presupuesto detallado'],
-              },
-              {
-                icon: Ruler,
-                title: 'Diseño Personalizado',
-                description: 'Creamos la solución perfecta según tu estilo, funcionalidad y arquitectura.',
-                includes: ['Renders 3D de propuesta', 'Selección de materiales premium', 'Paleta de colores y texturas', 'Ajustes ilimitados'],
+                title: 'Asesoría Personalizada',
+                description: 'Análisis técnico del espacio con recomendación estética y funcional. Visita o videollamada sin compromiso.',
+                includes: ['Análisis técnico del espacio', 'Recomendación estética y funcional', 'Selección de tejidos y sistemas', 'Visita o videollamada sin compromiso'],
               },
               {
                 icon: Settings,
                 title: 'Instalación Profesional',
-                description: 'Montaje experto con garantía total. Equipos certificados y procesos probados.',
-                includes: ['Instaladores certificados', 'Herramientas especializadas', 'Limpieza post-instalación', 'Garantía de 2 años'],
-              },
-              {
-                icon: Zap,
-                title: 'Automatización',
-                description: 'Tecnología de vanguardia integrada con tu hogar inteligente.',
-                includes: ['Motores silenciosos premium', 'Control por voz (Alexa/Google)', 'App móvil dedicada', 'Programación de rutinas'],
+                description: 'Equipo técnico certificado. Nivelación, fijación especializada e instalación estética sin cables visibles.',
+                includes: ['Equipo técnico certificado', 'Nivelación y fijación especializada', 'Instalación estética sin cables visibles', 'Programación completa del sistema'],
               },
               {
                 icon: Shield,
                 title: 'Garantía y Mantenimiento',
-                description: 'Respaldo total en productos y servicio. Soporte continuo para tu tranquilidad.',
-                includes: ['2 años de garantía', 'Mantenimiento preventivo', 'Soporte técnico 24/7', 'Repuestos originales'],
+                description: 'Hasta 5 años de garantía según producto. Cobertura total en productos y mano de obra.',
+                includes: ['Hasta 5 años según producto', 'Cobertura en productos y mano de obra', 'Mantenimiento preventivo', 'Atención especializada en garantía'],
+              },
+              {
+                icon: Award,
+                title: 'Postventa y Soporte',
+                description: 'Acompañamiento continuo con ajustes técnicos y soporte en automatización.',
+                includes: ['Acompañamiento continuo', 'Ajustes técnicos', 'Soporte en automatización', 'Atención especializada'],
               },
             ];
 
@@ -212,7 +204,7 @@ export default function Servicios() {
                   </Swiper>
                 </div>
                 {/* Desktop: Grid */}
-                <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+                <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                   {services.map((service, index) => (
                     <motion.div
                       key={index}
@@ -295,40 +287,85 @@ export default function Servicios() {
           {selectedProductTab === 'cortinas' && (() => {
             const cortinas: Product[] = [
               {
-                id: 'enrollables',
-                title: 'Cortinas Enrollables',
-                image: 'https://images.unsplash.com/photo-1758974775331-c5400bbef625?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwbGl2aW5nJTIwcm9vbSUyMGN1cnRhaW5zfGVufDF8fHx8MTc3MTI5NzczMHww&ixlib=rb-4.1.0&q=80&w=1080',
-                description: 'Diseño minimalista y funcional. Ideales para espacios modernos.',
-                idealPara: ['Oficinas', 'Salas de estar', 'Habitaciones', 'Cocinas'],
-                beneficios: ['Control total de luz', 'Fácil mantenimiento', 'Durabilidad superior', 'Motorización disponible'],
-                opciones: ['Screen solar (filtro UV)', 'Blackout total', 'Translúcidas', 'Decorativas'],
+                id: 'ondessence',
+                title: 'Cortina Ondessence',
+                image: '/products/ondessence/ondessence-principal.webp',
+                description: 'La evolución moderna de la cortina tradicional. Sistema Ripplefold con ondas suaves, perfectamente definidas y continuas.',
+                idealPara: ['Salas amplias', 'Dormitorios principales', 'Hoteles', 'Ventanales piso a techo'],
+                beneficios: ['Ondas técnicas uniformes', 'Movimiento fluido y silencioso', 'Tejidos europeos certificados (Light Fastness Clase 6)', 'Instalación premium con planchado a vapor'],
+                opciones: ['Proporción 2.3 (onda sutil 9 cm)', 'Proporción 2.8 (onda profunda)', 'Automatización RF, Wi-Fi y app gratuita', 'Compatible con asistentes de voz'],
               },
               {
-                id: 'sheer',
-                title: 'Sheer Elegance',
-                image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VudHJ5JTIwaG91c2UlMjBpbnRlcmlvciUyMGRlc2lnbiUyMDIwMjZ8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-                description: 'Elegancia y sofisticación con doble capa ajustable.',
-                idealPara: ['Salas formales', 'Comedores', 'Habitaciones principales', 'Áreas sociales'],
-                beneficios: ['Doble privacidad', 'Diseño elegante', 'Versatilidad única', 'Iluminación ajustable'],
-                opciones: ['Telas premium', 'Colores personalizados', 'Automatización', 'Sistemas duales'],
+                id: 'luminux',
+                title: 'Luminux',
+                image: '/products/luminux/luminux-m.webp',
+                description: 'Cortina de velo contemporánea que combina suavidad visual, control de luz y diseño escultural.',
+                idealPara: ['Espacios sociales', 'Ambientes modernos', 'Ventanales piso a techo', 'Salas de estar'],
+                beneficios: ['Entrada de luz controlada', 'Estética continua y decorativa', 'Instalación profesional', 'Motorización opcional'],
+                opciones: ['Luminux M (onda tipo montaña)', 'Luminux S (onda tipo S intercalada)', 'Accionamiento manual o motorizado', 'Recolección lateral, central o a extremos'],
+              },
+              {
+                id: 'dunes',
+                title: 'Dunes',
+                image: '/products/dunes/dunes-principal.webp',
+                description: 'Cortina de velo con onda tipo montaña segmentada. Cada ola es un tramo independiente de tela con caída estructurada y acabado visual refinado.',
+                idealPara: ['Espacios de diseño protagonista', 'Salas elegantes', 'Ambientes sofisticados', 'Proyectos arquitectónicos'],
+                beneficios: ['Estética sofisticada', 'Movimiento definido', 'Control suave de luz', 'Mayor control estructural en caída'],
+                opciones: ['Sistema segmentado de ondas independientes', 'Automatización opcional', 'Instalación técnica especializada', 'Compatible con automatización'],
+              },
+              {
+                id: 'celulares',
+                title: 'Persianas Celulares',
+                image: '/products/celulares/celular-principal.webp',
+                description: 'Sistema estructural con diseño celular que crea una cámara de aire interna para mejorar el confort térmico y acústico.',
+                idealPara: ['Habitaciones', 'Oficinas', 'Espacios con ruido exterior', 'Ambientes con alta exposición solar'],
+                beneficios: ['Aislamiento térmico', 'Reducción de ruido exterior', 'Alta eficiencia energética', 'Sistema Día y Noche disponible'],
+                opciones: ['Top Down Bottom Up', 'Manual o TwinPull (seguro para niños)', 'Motorizado RF + Bluetooth', 'Transparentes, translúcidas y blackout'],
+              },
+              {
+                id: 'enrollables',
+                title: 'Cortinas Enrollables',
+                image: '/products/enrollables/enrollable-screen.webp',
+                description: 'Solución minimalista y funcional para el control de luz y privacidad.',
+                idealPara: ['Oficinas', 'Salas de estar', 'Habitaciones', 'Cocinas'],
+                beneficios: ['Control total de luz', 'Fácil mantenimiento', 'Durabilidad superior', 'Guías laterales disponibles para blackout'],
+                opciones: ['Screen solar (filtro UV)', 'Blackout total', 'Translúcidas', 'Cabezal Modern 3 y perfiles Coverlight Boston'],
               },
               {
                 id: 'paneles',
-                title: 'Paneles Japoneses',
-                image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBwZW50aG91c2UlMjBpbnRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-                description: 'Diseño modular contemporáneo para grandes ventanales.',
-                idealPara: ['Ventanas amplias', 'Divisores de ambiente', 'Puertas corredizas', 'Espacios abiertos'],
-                beneficios: ['Diseño arquitectónico', 'Sistema modular', 'Fácil operación', 'Gran impacto visual'],
-                opciones: ['2 a 5 paneles', 'Telas combinadas', 'Motorización', 'Rieles premium'],
+                title: 'Paneles Deslizantes',
+                image: '/products/paneles/panel-principal.webp',
+                description: 'Sistema modular ideal para grandes ventanales. Modularidad hasta 11.5 m con rieles de 2 a 10 vías.',
+                idealPara: ['Grandes ventanales', 'Divisores de ambiente', 'Puertas corredizas', 'Espacios abiertos'],
+                beneficios: ['Diseño arquitectónico', 'Sistema modular', 'Rieles de 2 a 10 vías', 'Gran impacto visual'],
+                opciones: ['Telos de 50–60 cm', 'Motorización opcional', 'Recogida lateral, central o combinada', 'Instalación consecutiva hasta 11.5 m'],
               },
               {
                 id: 'duo',
-                title: 'Cortinas Dúo',
-                image: 'https://images.unsplash.com/photo-1750271336580-f11df678e840?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBiZWRyb29tJTIwcm9sbGVyJTIwYmxpbmRzfGVufDF8fHx8MTc3MTI5NzczMHww&ixlib=rb-4.1.0&q=80&w=1080',
-                description: 'Combinación perfecta de privacidad y entrada de luz natural.',
+                title: 'Roller Dúo',
+                image: '/products/roller-duo/roller-duo-principal.webp',
+                description: 'Sistema de doble capa con franjas alternadas opacas y transparentes. Permite regular luz sin subir la cortina.',
                 idealPara: ['Habitaciones', 'Oficinas en casa', 'Estudios', 'Salas multiuso'],
-                beneficios: ['Doble funcionalidad', 'Control preciso', 'Estética única', 'Ahorro energético'],
-                opciones: ['Telas texturizadas', 'Colores duales', 'Motorización sincronizada', 'Control independiente'],
+                beneficios: ['Doble funcionalidad', 'Control preciso de luz', 'Perfil inferior técnico', 'Cabezal de lujo'],
+                opciones: ['Franjas opacas y transparentes', 'Automatización compatible', 'Telas texturizadas', 'Colores variados'],
+              },
+              {
+                id: 'horizontales',
+                title: 'Persianas Horizontales',
+                image: '/products/horizontales/horizontal-principal.webp',
+                description: 'Disponibles en madera Basswood, aluminio y poliéster. Opciones manuales y motorizadas con acabados premium.',
+                idealPara: ['Estudios', 'Oficinas', 'Cocinas', 'Baños'],
+                beneficios: ['Acabado artesanal en madera', 'Control eficiente de luz', 'Resistentes a agua y rayaduras', 'Retardantes al fuego'],
+                opciones: ['Madera Basswood', 'Aluminio Micro y Mini', 'Poliéster con nanopartículas', 'Classic 50'],
+              },
+              {
+                id: 'verticales',
+                title: 'Persianas Verticales',
+                image: '/products/dunes/dunes-giro.webp',
+                description: 'Sistema moderno adaptable incluso a ventanas inclinadas. Lamas de 9 cm y 13 cm con motorización disponible.',
+                idealPara: ['Ventanas trapezoidales', 'Oficinas', 'Espacios comerciales', 'Ventanales amplios'],
+                beneficios: ['Adaptación a ventanas inclinadas', 'Sistema de liberación para limpieza', 'Riel delgado con carros equidistantes', 'Motorización disponible'],
+                opciones: ['Lamas de 9 cm', 'Lamas de 13 cm', 'Colección screen y blackout', 'Colección decorativa'],
               },
             ];
 
@@ -453,17 +490,17 @@ export default function Servicios() {
                     Recubrimientos para Paredes
                   </h3>
                   <p className="text-sm sm:text-lg mb-5 sm:mb-8 text-stone-600 leading-relaxed">
-                    Transforma tus espacios con texturas y diseños que reflejan personalidad y estilo único.
+                    Paredes que hablan de ti. Vinilo, textil y ecológico con instalación profesional y materiales libres de compuestos nocivos.
                   </p>
                   
                   <div className="space-y-4 mb-8">
                     {[
-                      'Texturas premium y exclusivas',
-                      'Instalación profesional certificada',
+                      'Vinilo, textil y ecológico',
+                      'Opciones resistentes a humedad',
+                      'Instalación profesional',
+                      'Materiales libres de compuestos nocivos',
                       'Diseños personalizados',
-                      'Materiales de alta durabilidad',
-                      'Resistencia al desgaste',
-                      'Fácil mantenimiento',
+                      'Alta durabilidad y fácil mantenimiento',
                     ].map((item, i) => (
                       <div key={i} className="flex items-start gap-3">
                         <Check style={{ width: '20px', height: '20px', flexShrink: 0, marginTop: '2px', color: '#292524' }} />
@@ -485,7 +522,7 @@ export default function Servicios() {
 
                 <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
                   <Image
-                    src="https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYWJyaWMlMjB0ZXh0dXJlJTIwY3VydGFpbnN8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080"
+                    src="/products/recubrimientos/papel-tapiz.webp"
                     alt="Recubrimientos"
                     fill
                     className="object-cover"
@@ -501,21 +538,27 @@ export default function Servicios() {
             const exteriorSolutions: ExteriorSolution[] = [
               {
                 title: 'Toldos',
-                description: 'Protección solar premium para terrazas, balcones y áreas comerciales.',
-                image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwdGVycmFjZSUyMG91dGRvb3J8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-                features: ['Telas resistentes a rayos UV', 'Motorización y sensores', 'Diseños personalizados', 'Estructuras en aluminio'],
+                description: 'Brazos extensibles y verticales. Sistemas Cofrex, Crab y PTP con mecanismos en acero colado y guías de acero.',
+                image: '/products/exterior/toldo-principal.webp',
+                features: ['Toldos verticales con soportes en acero inoxidable', 'Sistema Cofrex con cofre protector (hasta 6 m x 3 m)', 'Sistema Crab con barra estructural (hasta 12 m x 4 m)', 'Sistema PTP liviano (hasta 6 m x 3.5 m)'],
               },
               {
                 title: 'Pérgolas',
-                description: 'Estructura y diseño para crear espacios exteriores únicos y funcionales.',
-                image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VudHJ5JTIwaG91c2UlMjBleHRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
+                description: 'Retráctiles y bioclimáticas. Estructura y diseño para crear espacios exteriores únicos y funcionales.',
+                image: '/products/exterior/toldos-exterior.webp',
                 features: ['Ingeniería estructural', 'Diseño arquitectónico', 'Materiales premium', 'Automatización disponible'],
               },
               {
+                title: 'Cortinas Exteriores',
+                description: 'Protección solar y privacidad para espacios al aire libre con diseño y funcionalidad.',
+                image: '/products/exterior/toldos-exterior-2.webp',
+                features: ['Protección solar efectiva', 'Privacidad exterior', 'Diseño personalizado', 'Materiales resistentes a intemperie'],
+              },
+              {
                 title: 'Películas Solares',
-                description: 'Control térmico y protección UV para ventanas sin sacrificar visibilidad.',
-                image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBzdW5saWdodCUyMHdpbmRvd3N8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-                features: ['Reducción de calor hasta 80%', 'Protección UV 99%', 'Ahorro energético comprobado', 'Instalación sin obra'],
+                description: 'Bloqueo UV y protección de vidrio. Control térmico sin sacrificar visibilidad.',
+                image: '/products/general/uso-general.webp',
+                features: ['Bloqueo UV y protección de vidrio', 'Reducción de calor', 'Ahorro energético comprobado', 'Instalación sin obra'],
               },
             ];
 
@@ -594,41 +637,53 @@ export default function Servicios() {
                   Automatización Inteligente
                 </h3>
                 <p className="text-xl max-w-3xl mx-auto text-stone-300 leading-relaxed">
-                  Convierte tu hogar o negocio en un espacio inteligente con tecnología de vanguardia
+                  Motores avanzados compatibles con la mayoría de sistemas de automatización y asistentes de voz mediante protocolo IP
                 </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-12 sm:mb-16">
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                  <Image src="/products/tecnologia/tecnologia-principal.webp" alt="Automatización y control inteligente" fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                </div>
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                  <Image src="/products/tecnologia/tecnologia-completa.webp" alt="Control de lujo adaptable a pared" fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                </div>
+                <div className="relative aspect-[4/3] rounded-2xl overflow-hidden">
+                  <Image src="/products/tecnologia/tecnologia-controles.webp" alt="Controles de automatización Alexa y Google" fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                </div>
               </div>
 
               <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-10 sm:mb-16">
                 {[
                   {
                     icon: Zap,
-                    title: 'Motores Inalámbricos',
-                    description: 'Tecnología silenciosa y eficiente sin necesidad de cables.',
+                    title: 'Operación Ultra Silenciosa',
+                    description: 'Motores de última generación con bajo consumo de energía.',
                   },
                   {
                     icon: Settings,
-                    title: 'Control por Voz',
-                    description: 'Compatible con Alexa, Google Home y Siri. Control total con tu voz.',
-                  },
-                  {
-                    icon: Settings,
-                    title: 'Programación Inteligente',
-                    description: 'Crea rutinas y horarios personalizados según tus hábitos.',
-                  },
-                  {
-                    icon: Sun,
-                    title: 'Sensores de Luz',
-                    description: 'Ajuste automático según intensidad de luz ambiental.',
-                  },
-                  {
-                    icon: Clock,
-                    title: 'Automatización por Horarios',
-                    description: 'Apertura y cierre programado. Simula presencia cuando viajas.',
+                    title: 'Integración Total',
+                    description: 'Compatible con Alexa, Google Home, IFTTT y SmartThings.',
                   },
                   {
                     icon: Sparkles,
-                    title: 'App Móvil Dedicada',
-                    description: 'Control total desde tu celular, estés donde estés.',
+                    title: 'App Gratuita',
+                    description: 'Programación de escenas, horarios automáticos y control remoto.',
+                  },
+                  {
+                    icon: Sun,
+                    title: 'Sin Cables Visibles',
+                    description: 'Instalación limpia sin obra. Baterías autónomas recargables.',
+                  },
+                  {
+                    icon: Clock,
+                    title: 'Garantía Limitada 5 Años',
+                    description: 'Soporte técnico en programación y acompañamiento continuo.',
+                  },
+                  {
+                    icon: Shield,
+                    title: 'Control Inteligente',
+                    description: 'Agrupación de cortinas, bloqueo de cambios no autorizados y domótica.',
                   },
                 ].map((tech, index) => (
                   <div
@@ -672,20 +727,22 @@ export default function Servicios() {
             className="text-center mb-16"
           >
             <h2 className="text-3xl sm:text-4xl font-semibold mb-6 tracking-tight text-stone-900">
-              Nuestro Proceso de Trabajo
+              Acompañamos el Proceso Completo
             </h2>
             <p className="text-lg max-w-2xl mx-auto text-stone-600">
-              Metodología probada para resultados excepcionales
+              De la asesoría a la postventa, estamos contigo en cada paso
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-6">
             {[
-              { step: '01', title: 'Consultamos', time: '1 día', description: 'Visita y evaluación inicial' },
-              { step: '02', title: 'Diseñamos', time: '3 días', description: 'Propuesta y renders 3D' },
-              { step: '03', title: 'Aprobamos', time: '1 día', description: 'Ajustes y confirmación' },
-              { step: '04', title: 'Fabricamos', time: '2 semanas', description: 'Producción a medida' },
-              { step: '05', title: 'Instalamos', time: '2-3 días', description: 'Montaje y configuración' },
+              { step: '01', title: 'Análisis', description: 'Análisis de proyecto' },
+              { step: '02', title: 'Asesoría', description: 'Asesoría en diseño' },
+              { step: '03', title: 'Medidas', description: 'Toma de medidas' },
+              { step: '04', title: 'Fabricación', description: 'Producción a medida' },
+              { step: '05', title: 'Instalación', description: 'Montaje profesional' },
+              { step: '06', title: 'Automatización', description: 'Programación del sistema' },
+              { step: '07', title: 'Postventa', description: 'Soporte continuo' },
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -703,9 +760,6 @@ export default function Servicios() {
                 <h3 className="text-xl font-semibold mb-2 text-stone-900">
                   {item.title}
                 </h3>
-                <p className="text-sm mb-3 px-3 py-1 rounded-full inline-block bg-stone-100 text-stone-500 font-medium">
-                  {item.time}
-                </p>
                 <p className="text-sm text-stone-500">
                   {item.description}
                 </p>
@@ -737,7 +791,7 @@ export default function Servicios() {
               const guarantees = [
                 {
                   icon: Shield,
-                  title: '2 Años de Garantía',
+                  title: '5 Años de Garantía',
                   description: 'Cobertura total en productos y mano de obra',
                 },
                 {

@@ -24,8 +24,8 @@ type GalleryItem = {
 const galleryItems: GalleryItem[] = [
   {
     type: 'image',
-    src: '/home/imgi_104_width_800.webp',
-    alt: 'Cortinas modernas en sala de estar',
+    src: '/home/gallery/cortina-ondessence.png',
+    alt: 'Cortina Ondessence ondas de lujo',
     className: 'row-span-2'
   },
   {
@@ -37,27 +37,26 @@ const galleryItems: GalleryItem[] = [
   },
   {
     type: 'image',
-    src: '/home/imgi_106_width_800.webp',
-    alt: 'Ambiente minimalista con persianas',
+    src: '/home/gallery/cortina-classic.png',
+    alt: 'Cortina Classic elegante',
     className: 'row-span-1'
   },
   {
     type: 'image',
-    src: '/home/imgi_98_width_800.webp',
-    alt: 'Control de luz en dormitorio',
-    className: 'row-span-2'
-  },
-  {
-    type: 'video',
-    src: '/videos/optimized/copy_2F556132-9535-4303-88F9-07ACE5933B06.webm',
-    videoSrc: '/videos/optimized/copy_2F556132-9535-4303-88F9-07ACE5933B06.webm',
-    alt: 'Persianas roller en acción',
+    src: '/home/gallery/enrollable-screen.png',
+    alt: 'Enrollable screen premium',
     className: 'row-span-2'
   },
   {
     type: 'image',
-    src: '/home/imgi_86_0022.webp',
-    alt: 'Persianas motorizadas',
+    src: '/home/gallery/ejemplo-uso-general.png',
+    alt: 'Ambiente decorado con cortinas de lujo',
+    className: 'row-span-2'
+  },
+  {
+    type: 'image',
+    src: '/home/gallery/cortina-celular-blackout.png',
+    alt: 'Cortina celular tejido blackout',
     className: 'row-span-1'
   }
 ];
@@ -70,33 +69,25 @@ export default function Gallery() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(headerRef.current, { opacity: 0, y: 50 });
-      if (gridRef.current) {
-        gsap.set(gridRef.current, { opacity: 0, y: 40 });
-      }
-
-      gsap.to(headerRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: 'top 85%',
+      // Apple-style blur reveal for header
+      gsap.fromTo(headerRef.current,
+        { opacity: 0, y: 60, filter: 'blur(15px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.2, ease: 'power4.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
         }
-      });
+      );
 
       if (gridRef.current) {
-        gsap.to(gridRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: gridRef.current,
-            start: 'top 80%',
+        gsap.fromTo(gridRef.current,
+          { opacity: 0, y: 50, filter: 'blur(10px)' },
+          {
+            opacity: 1, y: 0, filter: 'blur(0px)',
+            duration: 1, ease: 'power4.out',
+            scrollTrigger: { trigger: gridRef.current, start: 'top 82%' }
           }
-        });
+        );
       }
     }, sectionRef);
 
@@ -145,12 +136,12 @@ export default function Gallery() {
       <section ref={sectionRef} className="py-20 md:py-36 bg-stone-50">
         <div className="max-w-[1500px] mx-auto px-4 sm:px-8 lg:px-12">
           <div ref={headerRef} className="text-center mb-10 md:mb-28 space-y-4 md:space-y-6">
-            <span className="text-sm sm:text-base font-semibold text-stone-400 tracking-[0.2em] uppercase">Inspiración</span>
+            <span className="text-sm sm:text-base font-semibold text-stone-400 tracking-[0.2em] uppercase">Proyectos Reales</span>
             <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight">
               Espacios que inspiran
             </h2>
             <p className="text-lg md:text-2xl text-stone-600 max-w-3xl mx-auto font-light">
-              Descubre cómo nuestras soluciones transforman diferentes ambientes y estilos de vida.
+              Proyectos residenciales, comerciales y hoteleros transformados con diseño, tecnología y precisión.
             </p>
           </div>
 

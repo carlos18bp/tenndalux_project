@@ -11,7 +11,8 @@ import {
   ClipboardDocumentCheckIcon, 
   SwatchIcon, 
   TruckIcon, 
-  SparklesIcon 
+  SparklesIcon,
+  WrenchScrewdriverIcon 
 } from '@heroicons/react/24/outline';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -19,23 +20,28 @@ gsap.registerPlugin(ScrollTrigger);
 const steps = [
   {
     icon: ClipboardDocumentCheckIcon,
-    title: 'Cotización',
-    description: 'Envíanos las medidas aproximadas de tus ventanas y recibe un presupuesto preliminar en menos de 24 horas.'
+    title: 'Asesoría personalizada',
+    description: 'Análisis técnico de tu espacio con recomendación estética y funcional. Visita o videollamada sin compromiso.'
   },
   {
     icon: SwatchIcon,
-    title: 'Asesoría en Casa',
-    description: 'Un experto te visitará para rectificar medidas y mostrarte nuestro catálogo físico de telas y acabados.'
+    title: 'Diseño a medida',
+    description: 'Selección de tejidos, sistemas y acabados ideales para tu proyecto, adaptados a tu estilo y arquitectura.'
+  },
+  {
+    icon: WrenchScrewdriverIcon,
+    title: 'Fabricación especializada',
+    description: 'Producción con materiales premium y control de calidad riguroso para garantizar un resultado impecable.'
   },
   {
     icon: TruckIcon,
-    title: 'Fabricación e Instalación',
-    description: 'Fabricamos tus persianas a medida y las instalamos profesionalmente para asegurar un funcionamiento perfecto.'
+    title: 'Instalación profesional limpia',
+    description: 'Montaje limpio y preciso por técnicos certificados. Nivelación, planchado a vapor y programación incluidos.'
   },
   {
     icon: SparklesIcon,
-    title: 'Garantía Total',
-    description: 'Disfruta de tus espacios con la tranquilidad de contar con nuestra garantía extendida y soporte post-venta.'
+    title: 'Garantía y soporte continuo',
+    description: 'Hasta 5 años de garantía según producto. Acompañamiento, ajustes técnicos y soporte en automatización.'
   }
 ];
 
@@ -46,33 +52,25 @@ export default function Process() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.set(headerRef.current, { opacity: 0, y: 50 });
-      if (stepsRef.current) {
-        gsap.set(stepsRef.current, { opacity: 0, y: 60 });
-      }
-
-      gsap.to(headerRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: headerRef.current,
-          start: 'top 85%',
+      // Apple-style blur reveal for header
+      gsap.fromTo(headerRef.current,
+        { opacity: 0, y: 60, filter: 'blur(15px)' },
+        {
+          opacity: 1, y: 0, filter: 'blur(0px)',
+          duration: 1.2, ease: 'power4.out',
+          scrollTrigger: { trigger: headerRef.current, start: 'top 85%' }
         }
-      });
+      );
 
       if (stepsRef.current) {
-        gsap.to(stepsRef.current, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: stepsRef.current,
-            start: 'top 80%',
+        gsap.fromTo(stepsRef.current,
+          { opacity: 0, y: 50, filter: 'blur(10px)' },
+          {
+            opacity: 1, y: 0, filter: 'blur(0px)',
+            duration: 1, ease: 'power4.out',
+            scrollTrigger: { trigger: stepsRef.current, start: 'top 80%' }
           }
-        });
+        );
       }
     }, sectionRef);
 
@@ -98,9 +96,9 @@ export default function Process() {
     <section ref={sectionRef} className="py-20 md:py-36 bg-white">
       <div className="max-w-[1200px] mx-auto px-4 sm:px-8 lg:px-12">
         <div ref={headerRef} className="text-center mb-14 md:mb-32">
-          <span className="text-sm sm:text-base font-semibold text-stone-400 tracking-[0.2em] uppercase mb-4 sm:mb-6 block">Proceso Simple</span>
+          <span className="text-sm sm:text-base font-semibold text-stone-400 tracking-[0.2em] uppercase mb-4 sm:mb-6 block">Experiencia Tenndalux</span>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight">
-            Tu proyecto en 4 pasos
+            Así transformamos tu espacio
           </h2>
         </div>
 
@@ -133,7 +131,7 @@ export default function Process() {
           </div>
 
           {/* Desktop: Grid */}
-          <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-12 relative">
+          <div className="hidden md:grid grid-cols-2 lg:grid-cols-5 gap-16 lg:gap-10 relative">
             <div className="hidden lg:block absolute top-20 left-[12%] right-[12%] h-[2px] bg-gradient-to-r from-stone-100 via-stone-200 to-stone-100 -z-10" />
             {steps.map((step, index) => (
               <StepCard key={index} step={step} index={index} />
