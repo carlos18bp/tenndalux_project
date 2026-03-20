@@ -69,6 +69,13 @@ sudo tail -20 /var/log/nginx/error.log
 - **Static**: `/home/ryzepeck/webapps/tenndalux_project/backend/staticfiles/`
 - **Media**: `/home/ryzepeck/webapps/tenndalux_project/backend/media/`
 
+## Cleanup
+
+9. Remove `node_modules` to save disk space (frontend already compiled):
+```bash
+rm -rf /home/ryzepeck/webapps/tenndalux_project/frontend/node_modules
+```
+
 ## Notes
 
 - `~/scripts` is a symlink to `/home/ryzepeck/webapps/ops/vps/`.
