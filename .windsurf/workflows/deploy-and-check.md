@@ -11,7 +11,7 @@ Run these steps on the production server at `/home/ryzepeck/webapps/tenndalux_pr
 // turbo
 1. Quick status snapshot before deploy:
 ```bash
-bash ~/scripts/quick-status.sh
+bash /home/ryzepeck/webapps/ops/vps/scripts/diagnostics/quick-status.sh
 ```
 
 ## Deploy Steps
@@ -47,7 +47,7 @@ sudo systemctl restart tenndalux_gunicorn && sudo systemctl restart tenndalux-hu
 // turbo
 7. Run post-deploy check:
 ```bash
-bash ~/scripts/post-deploy-check.sh tenndalux_project
+bash /home/ryzepeck/webapps/ops/vps/scripts/deployment/post-deploy-check.sh tenndalux_project
 ```
 
 8. If something fails, check the logs:
@@ -79,5 +79,5 @@ rm -rf /home/ryzepeck/webapps/tenndalux_project/frontend/node_modules
 
 ## Notes
 
-- `~/scripts` is a symlink to `/home/ryzepeck/webapps/ops/vps/`.
+- VPS operations scripts live in `/home/ryzepeck/webapps/ops/vps/scripts/`.
 - Frontend `npm ci` may take a few minutes; the backend stays up during build.

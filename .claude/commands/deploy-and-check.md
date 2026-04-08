@@ -14,7 +14,7 @@ Run these steps on the production server at `/home/ryzepeck/webapps/tenndalux_pr
 
 1. Quick status snapshot before deploy:
 ```bash
-bash ~/scripts/quick-status.sh
+bash /home/ryzepeck/webapps/ops/vps/scripts/diagnostics/quick-status.sh
 ```
 
 ## Deploy Steps
@@ -48,7 +48,7 @@ sudo systemctl restart tenndalux_gunicorn && sudo systemctl restart tenndalux-hu
 
 7. Run post-deploy check for tenndalux_project:
 ```bash
-bash ~/scripts/post-deploy-check.sh tenndalux_project
+bash /home/ryzepeck/webapps/ops/vps/scripts/deployment/post-deploy-check.sh tenndalux_project
 ```
 Expected: PASS on all checks, FAIL=0.
 
@@ -78,7 +78,7 @@ rm -rf /home/ryzepeck/webapps/tenndalux_project/frontend/node_modules
 
 ## Notes
 
-- `~/scripts` is a symlink to `/home/ryzepeck/webapps/ops/vps/`.
+- VPS operations scripts live in `/home/ryzepeck/webapps/ops/vps/scripts/`.
 - Frontend uses `bash build_to_django.sh` which runs `npx next build` (static export) and copies HTML to `backend/templates/frontend/` and JS/CSS assets to `backend/static/`.
 - `DJANGO_SETTINGS_MODULE=core_project.settings_prod` must be set for migrate and collectstatic (manage.py defaults to settings_dev).
 - Git branch is `master` (not `main`).
