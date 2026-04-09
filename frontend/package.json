@@ -16,7 +16,8 @@
     "e2e:desktop": "playwright test --project='Desktop Chrome'",
     "e2e:mobile": "playwright test --project='Mobile Chrome'",
     "e2e:coverage": "playwright test",
-    "e2e:clean": "rm -rf coverage-e2e"
+    "e2e:clean": "rm -rf coverage-e2e",
+    "check:e2e-flow-sync": "node scripts/check-flow-definitions-sync.mjs"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
