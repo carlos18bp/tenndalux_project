@@ -1,3 +1,7 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 # Tenndalux — Claude Compatibility Guide
 
 ## ⚠️ STATUS: SUSPENDED
@@ -30,6 +34,11 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 - **HTTP via Axios** wrapped in `lib/services/http.ts` with token interceptors.
 - **i18n via `next-intl`**: wired but **not yet fully activated** in components — bilingual coverage is incomplete.
 - **No shadcn/ui, no Material UI** — components are custom-built. Icons via `lucide-react` + `@heroicons/react`. Animations via `framer-motion` + `gsap` + `swiper`.
+- **Settings selection**: Controlled by `DJANGO_ENV` env var (`development` → SQLite + console email; `production` → MySQL + SMTP). Values loaded via `python-decouple` from `backend/.env` (not in git).
+- **`SingletonModel`** base: `SiteSettings`, `HomePage`, `AboutPage` allow only one DB row each. Always call `super().save()` correctly when overriding `save()` on these models.
+- **JSON fields for short lists**: `Service.includes`, `Service.excludes`, `ProcessStep.deliverables` are stored as JSON arrays of strings. Promote to FK models only if they gain their own attributes.
+- **`useAuthStore.hydrate()`**: Must be called in every Client Component before reading auth state — prevents SSR/CSR hydration mismatch. Pattern: `useEffect(() => { useAuthStore.hydrate() }, [])`.
+- **Never call `fetch()` or raw `axios` directly** in frontend code — always use the wrapped instance from `lib/services/http.ts` (handles JWT injection and 401 auto-refresh).
 
 ## Working Rules
 - ⚠️ **Project is SUSPENDED** — do not run deploys, migrations, or service restarts without explicit user instruction.
@@ -47,6 +56,11 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 - Frontend E2E (Playwright): `cd frontend && npx playwright test e2e/path/to/spec.ts`
 - Frontend build: `cd frontend && npm run build` (static export to `frontend/out/`)
 - Stage to Django: `bash scripts/build_to_django.sh` (or equivalent)
+- Migrations: `cd backend && source venv/bin/activate && python manage.py makemigrations && python manage.py migrate`
+- Seed dev data: `cd backend && source venv/bin/activate && python manage.py create_fake_data --users 10`
+- Clear fake data: `cd backend && source venv/bin/activate && python manage.py delete_fake_data --confirm`
+- Frontend type-check: `cd frontend && npx tsc --noEmit`
+- Frontend lint: `cd frontend && npm run lint`
 
 ## Testing Constraints
 - Never run the full test suite.

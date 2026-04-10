@@ -60,10 +60,10 @@ sudo tail -20 /var/log/nginx/error.log
 ## Architecture Reference
 
 - **Domain**: `tenndalux.projectapp.co`
-- **Backend**: Django (`core_project` module), settings via `DJANGO_SETTINGS_MODULE=core_project.settings`
-- **Frontend**: Next.js static export → `backend/templates/`
+- **Backend**: Django (`core_project` module), settings via `DJANGO_SETTINGS_MODULE=core_project.settings_prod`
+- **Frontend**: Next.js static export → `backend/static/`
 - **Services**: `tenndalux_gunicorn.service`, `tenndalux-huey.service`
-- **Nginx**: `/etc/nginx/sites-available/tenndalux`
+- **Nginx**: `/etc/nginx/sites-available/tenndalux_project`
 - **Socket**: `/run/tenndalux_gunicorn.sock`
 - **Static**: `/home/ryzepeck/webapps/tenndalux_project/backend/staticfiles/`
 - **Media**: `/home/ryzepeck/webapps/tenndalux_project/backend/media/`
