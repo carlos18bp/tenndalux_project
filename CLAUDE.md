@@ -19,17 +19,17 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 - **Production path**: `/home/ryzepeck/webapps/tenndalux_project`.
 - **Domain**: `tenndalux.projectapp.co`.
 - **Services**: `tenndalux_gunicorn.service` (note `_gunicorn` suffix), `tenndalux-huey.service`. Socket: `/run/tenndalux_gunicorn.sock`.
-- The frontend uses Next.js **static export** (`output: 'export'`) — `next build` emits SSG to `frontend/out/`. A shell script copies the output into `backend/static/` for Django to serve.
+- The frontend uses Next.js **static export** (`output: 'export'`) — `next build` emits SSG to `frontend/out/`. HTML pages are deployed to `backend/templates/frontend/` (served by `frontend_views.py`); static JS/CSS assets (`_next/`) go to `backend/static/`.
 
 ## Architecture Invariants
-- **Backend views are 100% function-based** with `@api_view`. Do not introduce CBV/`APIView`/`ViewSets`/`generics`-based views.
+- **Backend views follow a mixed pattern**: auth uses FBV with `@api_view`; content domains (portfolio, blog, services, leads) use `ModelViewSet` + `DefaultRouter`; singleton pages use `generics.RetrieveUpdateAPIView`; frontend catch-all uses plain Django FBV. Match the pattern of the domain you're extending.
 - **Single business app `core_app`** with model files split per domain (`user.py`, `portfolio.py`, `blog.py`, `services.py`, `leads.py`, `site.py`).
 - **Common base `TimestampedModel`**: all models inherit `created_at`, `updated_at`. Slug-bearing models override `save()` to call `generate_unique_slug()`.
 - **Image attachments via `django_attachments`**: `GalleryField` and `SingleImageField`. Used by `Project`, `Service`, `Post`. **Note**: gallery integration is partially complete — verify the serializer surface before assuming all fields are exposed.
 - **JWT-only auth on `/api/`** via SimpleJWT (1d access, 7d refresh, rotate enabled, blacklist after rotation). Admin uses session + CSRF.
 - **No `services/` package** — `core_app/services/` is empty. Business logic lives in views and serializers.
 - **Frontend uses Next.js 16 + React 19 + App Router** (NOT Pages Router, NOT Vue, NOT Vite SPA).
-- **Static export**: `next.config.ts` uses `output: 'export'`. Server Components are limited to build-time data; per-request data must be in Client Components.
+- **Static export**: `next.config.ts` uses `output: 'export'`. HTML → `backend/templates/frontend/` (Django views); assets → `backend/static/` (Nginx/Django). Server Components are limited to build-time data; per-request data must be in Client Components.
 - **State management is Zustand** (with `persist` middleware for auth tokens).
 - **HTTP via Axios** wrapped in `lib/services/http.ts` with token interceptors.
 - **i18n via `next-intl`**: wired but **not yet fully activated** in components — bilingual coverage is incomplete.
@@ -55,7 +55,7 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 - Frontend unit tests (Jest): `cd frontend && npm test -- path/to/file.test.tsx`
 - Frontend E2E (Playwright): `cd frontend && npx playwright test e2e/path/to/spec.ts`
 - Frontend build: `cd frontend && npm run build` (static export to `frontend/out/`)
-- Stage to Django: `bash scripts/build_to_django.sh` (or equivalent)
+- Stage to Django: copy `frontend/out/` HTML → `backend/templates/frontend/`; copy `_next/` → `backend/static/` (no script yet)
 - Migrations: `cd backend && source venv/bin/activate && python manage.py makemigrations && python manage.py migrate`
 - Seed dev data: `cd backend && source venv/bin/activate && python manage.py create_fake_data --users 10`
 - Clear fake data: `cd backend && source venv/bin/activate && python manage.py delete_fake_data --confirm`

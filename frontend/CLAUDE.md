@@ -4,7 +4,7 @@
 
 ## Stack And Scope
 - **Next.js 16.1.6 + React 19.2 + TypeScript** with the **App Router** (NOT Pages Router, NOT Vue, NOT Vite SPA).
-- **Static export** (`output: 'export'` in `next.config.ts`) — `next build` emits SSG to `frontend/out/`. A shell script (`scripts/build_to_django.sh`) copies the output into `backend/static/`. There is no runtime SSR.
+- **Static export** (`output: 'export'` in `next.config.ts`) — `next build` emits SSG to `frontend/out/`. HTML pages go to `backend/templates/frontend/` (served by `frontend_views.py`); `_next/` static assets go to `backend/static/`. No `build_to_django.sh` script exists yet. There is no runtime SSR.
 - **State management**: **Zustand 5.0** with `persist` middleware (NOT Redux, NOT Context API for global state). Stores in `lib/stores/`.
 - **HTTP**: **Axios 1.13** wrapped in `lib/services/http.ts` with cookie-based JWT injection and automatic refresh on 401.
 - **i18n**: **next-intl 4.8** is installed but **not yet fully activated** in components — bilingual coverage is incomplete.
@@ -38,7 +38,7 @@
 - Unit tests (Jest): `cd frontend && npm test -- path/to/file.test.tsx`
 - E2E (Playwright): `cd frontend && npx playwright test e2e/path/to/spec.ts`
 - Build: `cd frontend && npm run build` (static export to `frontend/out/`)
-- Stage to Django: `bash scripts/build_to_django.sh`
+- Stage to Django: copy HTML → `backend/templates/frontend/`, assets → `backend/static/` (manual, no script yet)
 
 ## Testing Rules
 - Never run the full frontend unit or E2E suite.

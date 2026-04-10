@@ -277,16 +277,17 @@ Reactivation requires the user to confirm payment status before re-enabling serv
 
 ## Memory Bank System
 
-Tenndalux does **not** currently maintain a Memory Bank under `docs/methodology/` or `tasks/`. Long-lived project context lives in:
+Tenndalux maintains a Memory Bank under `docs/methodology/` and `tasks/`:
 
-- `README.md` — top-level overview
-- `START_HERE.md` — quick orientation, setup, learning path, troubleshooting
-- `SETUP.md` — step-by-step backend (venv, pip, migrations, superuser) and frontend (npm install, .env) setup
-- `CHANGE_GUIDELINES.md` — change protocol (validation, English docstrings, test expectations, user manual updates)
-- `DOCUMENTATION_INDEX.md` — annotated index of all docs
-- `docs/` — `BACKEND_AND_FRONTEND_COVERAGE_REPORT_STANDARD.md`, `TESTING_QUALITY_STANDARDS.md`, `DJANGO_REACT_ARCHITECTURE_STANDARD.md`, `E2E_FLOW_COVERAGE_REPORT_STANDARD.md`
+- `docs/methodology/product_requirement_docs.md` — product features, user types, business context
+- `docs/methodology/technical.md` — stack details, configuration, key libraries, env setup
+- `docs/methodology/architecture.md` — directory structure, API routes, architectural patterns
+- `docs/methodology/lessons-learned.md` — project-specific patterns and insights
+- `docs/methodology/error-documentation.md` — known issues and resolved bugs
+- `tasks/tasks_plan.md` — current work and task backlog
+- `tasks/active_context.md` — current session context
 
-If a Memory Bank is needed in the future, it should follow the canonical structure (`docs/methodology/{product_requirement_docs,architecture,technical,error-documentation,lessons-learned}.md` + `tasks/{tasks_plan,active_context}.md`) and be initialized via the `methodology-setup` skill.
+Long-lived reference docs also live in: `README.md`, `START_HERE.md`, `SETUP.md`, `CHANGE_GUIDELINES.md`, `DOCUMENTATION_INDEX.md`, and `docs/` standards files.
 
 ---
 
@@ -307,14 +308,14 @@ flowchart TD
     Backend --> BMedia[media/ + staticfiles/]
 
     BCoreApp --> Models[models/ — User, Project, Post, Service, Lead, Tag, Category, Style, Space, ProcessStep, SiteSettings, HomePage, AboutPage]
-    BCoreApp --> Views[views/ — FBV @api_view: auth, portfolio, blog, services, leads, site, frontend]
+    BCoreApp --> Views[views/ — auth: FBV @api_view | portfolio/blog/services/leads: ModelViewSet | site: generics CBV | frontend: plain FBV]
     BCoreApp --> Tests[tests/ — pytest]
 
     Frontend --> FApp[app/ — Next.js App Router]
     FApp --> FPages[page.tsx + auth/login, auth/register, blog/, portafolio/, servicios/, dashboard/]
     Frontend --> FLib[lib/ — services/http.ts, stores/authStore.ts]
     Frontend --> FComponents[components/]
-    Frontend --> FOut[out/ — static export output staged to backend/static/]
+    Frontend --> FOut[out/ — HTML → backend/templates/frontend/ | assets → backend/static/]
 
     AgentSkills --> SkillSet[plan, implement, debug, deploy-and-check, deploy-staging, git-commit, etc.]
 ```
@@ -397,16 +398,18 @@ A landing site + portfolio CMS for an interior design / decoration brand at `ten
 
 ### Code Style & Conventions
 
-#### Backend: 100% function-based views
-- Every view in `core_app/views/` uses `@api_view` (`auth_views.py`, `portfolio_views.py`, `blog_views.py`, `services_views.py`, `leads_views.py`, `site_views.py`, `frontend_views.py`).
-- Pattern: queryset filter / serializer validation → save/respond. Thin layer.
-- **Do not introduce ViewSets, APIView, or generics-based CBVs** unless explicitly requested.
-- There is **no `services/` package** — business logic is in serializers and view functions (the codebase is small enough that a service layer is not justified yet).
+#### Backend: mixed view pattern by domain
+The project uses different DRF view styles depending on the resource type — match the pattern of the domain you're extending:
+- **Auth** (`auth_views.py`): FBV with `@api_view` — register, login, token refresh, profile GET/PATCH.
+- **Content domains** (`portfolio_views.py`, `blog_views.py`, `services_views.py`, `leads_views.py`): `ModelViewSet` with `DefaultRouter` — full CRUD for Category/Style/Space/Project, Tag/Post, Service/ProcessStep, LeadStatus/Lead.
+- **Singleton pages** (`site_views.py`): `generics.RetrieveUpdateAPIView` — retrieve/update for `SiteSettings`, `HomePage`, `AboutPage` via the `.load()` singleton accessor.
+- **Frontend catch-all** (`frontend_views.py`): plain Django FBV (no DRF) — reads HTML files from `backend/templates/frontend/` and returns `HttpResponse`.
+- There is **no `services/` package** — business logic lives in serializers and view methods (the codebase is small enough).
 
 #### Frontend: Next.js 16 + React 19 + App Router + static export
 - **Stack**: Next.js 16.1.6, React 19.2.3, TypeScript 5.
 - **App Router** in `frontend/app/`.
-- **Static export**: `next.config.ts` uses `output: 'export'` so `next build` emits SSG to `frontend/out/`. A small shell script (`build_to_django.sh`) copies `frontend/out/` into `backend/static/` for Django to serve.
+- **Static export**: `next.config.ts` uses `output: 'export'` so `next build` emits SSG to `frontend/out/`. HTML pages are copied to `backend/templates/frontend/` (served by `frontend_views.py`); static assets (`_next/`) go to `backend/static/`. No `build_to_django.sh` script exists yet — the copy is currently a manual step.
 - This means **Server Components are limited to build-time data**. Anything that needs per-request data must be a Client Component.
 
 #### Frontend: state management with Zustand
@@ -453,7 +456,7 @@ When the project is reactivated, the deploy sequence is:
 1. `git pull origin master`
 2. Backend: `cd backend && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate`
 3. Frontend: `cd frontend && npm ci && npm run build` (Next.js static export → `frontend/out/`)
-4. Run `scripts/build_to_django.sh` (or its equivalent) to copy `frontend/out/` into `backend/static/`.
+4. Manually copy: HTML pages from `frontend/out/` → `backend/templates/frontend/`; `_next/` assets → `backend/static/`. (No `build_to_django.sh` script exists yet.)
 5. Backend: `python manage.py collectstatic --noinput`
 6. Restart: `sudo systemctl restart tenndalux_gunicorn && sudo systemctl restart tenndalux-huey`
 7. Verify: `bash /home/ryzepeck/webapps/ops/vps/scripts/deployment/post-deploy-check.sh tenndalux_project`

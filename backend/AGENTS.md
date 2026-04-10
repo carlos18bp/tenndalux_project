@@ -14,7 +14,12 @@ You are an expert in Python, Django, and scalable web application development.
 ### Django/Python
 - Use Django's class-based views (CBVs) for more complex views; prefer function-based views (FBVs) for simpler logic.
 
-> **Tenndalux override**: 100% of DRF views in `backend/core_app/views/` are **function-based with `@api_view`** (`auth_views`, `portfolio_views`, `blog_views`, `services_views`, `leads_views`, `site_views`). Pattern: queryset filter / serializer validation → save/respond. Never convert to CBV/APIView/ViewSets/generics unless explicitly requested. The Django **module is `core_project`** (not `tenndalux_project`!).
+> **Tenndalux view pattern** — match the domain you're extending:
+> - **Auth** (`auth_views.py`): FBV with `@api_view` — register, login, profile.
+> - **Content** (portfolio, blog, services, leads): `ModelViewSet` with `DefaultRouter`.
+> - **Singletons** (`site_views.py`): `generics.RetrieveUpdateAPIView`.
+> - **Frontend catch-all** (`frontend_views.py`): plain Django FBV, reads HTML from `backend/templates/frontend/`.
+> The Django **module is `core_project`** (not `tenndalux_project`!).
 - Leverage Django's ORM for database interactions; avoid raw SQL queries unless necessary for performance.
 - Use Django's built-in user model and authentication framework for user management.
 - Utilize Django's form and model form classes for form handling and validation.
@@ -89,7 +94,12 @@ api/
 ### Views and API Design
 - Use Class-Based Views: Leverage Django's CBVs with DRF's APIViews (unless project convention is FBV)
 
-> **Tenndalux override**: 100% of DRF views in `backend/core_app/views/` are **function-based with `@api_view`** (`auth_views`, `portfolio_views`, `blog_views`, `services_views`, `leads_views`, `site_views`). Pattern: queryset filter / serializer validation → save/respond. Never convert to CBV/APIView/ViewSets/generics unless explicitly requested. The Django **module is `core_project`** (not `tenndalux_project`!).
+> **Tenndalux view pattern** — match the domain you're extending:
+> - **Auth** (`auth_views.py`): FBV with `@api_view` — register, login, profile.
+> - **Content** (portfolio, blog, services, leads): `ModelViewSet` with `DefaultRouter`.
+> - **Singletons** (`site_views.py`): `generics.RetrieveUpdateAPIView`.
+> - **Frontend catch-all** (`frontend_views.py`): plain Django FBV, reads HTML from `backend/templates/frontend/`.
+> The Django **module is `core_project`** (not `tenndalux_project`!).
 - RESTful Design: Follow RESTful principles strictly with proper HTTP methods and status codes
 - Keep Views Light: Focus views on request handling; keep business logic in models, managers, and services
 - Consistent Response Format: Use unified response structure for both success and error cases

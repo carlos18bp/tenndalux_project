@@ -21,7 +21,7 @@ This is a **Next.js + React 19 + App Router project** — **NOT Vue**, **NOT Vit
 ## Static Export to Django
 
 - `next.config.ts` uses `output: 'export'` so `next build` emits SSG to **`frontend/out/`**.
-- A small shell script (`scripts/build_to_django.sh`) copies `frontend/out/` into `backend/static/` for Django to serve.
+- HTML pages from `frontend/out/` are deployed to `backend/templates/frontend/` (served by `frontend_views.py`); `_next/` static assets go to `backend/static/`. No `build_to_django.sh` script exists yet.
 - The Django backend serves the static HTML files via a catch-all URL pattern handled in `core_app/views/frontend_views.py`.
 - This means **Server Components are limited to build-time data**: any data that changes per request must be fetched **client-side** in `'use client'` components.
 - **Do not introduce server actions or runtime SSR** — they will not work with the static export.
@@ -108,8 +108,8 @@ Mobile-first. Breakpoint order: `sm:` → `md:` → `lg:` → `xl:` → `2xl:`.
 ## Build → Django (static export)
 
 - `next build` (with `output: 'export'`) emits to `frontend/out/`.
-- A small shell script (`scripts/build_to_django.sh`) copies `frontend/out/` into `backend/static/`.
-- Django serves the resulting HTML files via a catch-all URL pattern handled in `core_app/views/frontend_views.py`.
+- HTML pages go to `backend/templates/frontend/` (served by `frontend_views.py`); `_next/` assets go to `backend/static/`.
+- Django serves the HTML files via dedicated URL patterns in `core_app/urls/frontend_urls.py` and `core_app/views/frontend_views.py`.
 - **Do not edit files inside `backend/static/` that come from the export** — they are build artifacts.
 
 ## What NOT to do

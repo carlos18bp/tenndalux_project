@@ -11,7 +11,12 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 - Auth: **JWT via SimpleJWT** for `/api/`, session for admin only.
 
 ## Project Conventions
-- DRF views are **function-based** with `@api_view`. Pattern: queryset filter → serializer validation → save/respond. Never convert to CBV/`APIView`/`ViewSets`/`generics` unless explicitly requested.
+- DRF views follow a **mixed pattern** — match the domain you're working in:
+  - **Auth** (`auth_views.py`): FBV with `@api_view` — register, login, profile.
+  - **Content** (portfolio, blog, services, leads): `ModelViewSet` with `DefaultRouter`.
+  - **Singletons** (`site_views.py`): `generics.RetrieveUpdateAPIView`.
+  - **Frontend** (`frontend_views.py`): plain Django FBV serving HTML from `backend/templates/frontend/`.
+  When adding endpoints, extend the pattern already present in that view file.
 - Models inherit from a common `TimestampedModel` base (`created_at`, `updated_at`).
 - Slug-bearing models override `save()` to call `generate_unique_slug(Model, name, instance_pk)` for auto-generation with conflict resolution.
 - Image attachments use **`django_attachments`** library: `GalleryField` (multi-image) and `SingleImageField` (single image). Used by `Project`, `Service`, and `Post`.

@@ -28,13 +28,13 @@ A landing site + portfolio CMS for an interior design / decoration brand at `ten
 - **Bilingual (incomplete)**: Some models have `*_en` / `*_es` fields but coverage is partial. `next-intl 4.8` is wired but not all components use `useTranslations()` yet.
 - **Huey periodic tasks** (in `backend/core_project/tasks.py`): `scheduled_backup` Mon 02:00 UTC, `silk_garbage_collection` daily 04:00 UTC, `weekly_slow_queries_report` Wed 07:00 UTC, `silk_reports_cleanup` 1st of month 06:30 UTC.
 - **Conditional Silk**: `django-silk` gated by `ENABLE_SILK=True`. Off by default.
-- **Static export + Django serving**: Next.js builds to `frontend/out/` → `scripts/build_to_django.sh` copies it into `backend/static/`. Django serves HTML via catch-all in `frontend_views.py`. No Node.js in production.
+- **Static export + Django serving**: Next.js builds to `frontend/out/`. HTML pages → `backend/templates/frontend/` (served by `frontend_views.py` which reads them as raw `HttpResponse`); `_next/` assets → `backend/static/` (served by Nginx in prod, by Django URL in dev). No Node.js in production. No `build_to_django.sh` script exists yet — copying is currently manual.
 
 ---
 
 ## 3. Code Style & Conventions
 
-- **100% function-based views**: Every view in `core_app/views/` uses `@api_view`. **Do not introduce ViewSets, APIView, or generics-based CBVs.**
+- **Mixed view pattern**: Auth (`auth_views.py`) uses FBV with `@api_view`. Content domains (portfolio, blog, services, leads) use `ModelViewSet` + `DefaultRouter`. Singletons (`site_views.py`) use `generics.RetrieveUpdateAPIView`. Frontend catch-all uses plain Django FBV reading HTML from `backend/templates/frontend/`. When adding endpoints, match the pattern of the domain you're extending.
 - **No service layer**: `core_app/services/` is empty by design. Business logic lives in views and serializers (the codebase is small enough).
 - **JWT-only auth on `/api/`**: SimpleJWT — 1-day access, 7-day refresh, rotate enabled, blacklist after rotation. `/admin/` uses session + CSRF.
 - **Custom email-based User**: `User` extends `AbstractBaseUser + PermissionsMixin`. Email is the username field. Roles: `admin`, `editor`, `viewer`.
@@ -50,7 +50,7 @@ A landing site + portfolio CMS for an interior design / decoration brand at `ten
 
 - **Virtual environment**: Always `cd backend && source venv/bin/activate` before backend commands.
 - **Frontend dev**: `cd frontend && npm run dev` (Next.js, default :3000).
-- **Frontend build**: `cd frontend && npm run build` exports to `frontend/out/`. Then run `bash scripts/build_to_django.sh` to copy to `backend/static/`.
+- **Frontend build**: `cd frontend && npm run build` exports to `frontend/out/`. Then manually copy HTML → `backend/templates/frontend/`; `_next/` → `backend/static/`. (No `build_to_django.sh` script yet.)
 - **Fake data**: `python manage.py create_fake_data --users 10` for seeding; `python manage.py delete_fake_data --confirm` for cleanup.
 - **Test execution**: Run specific files only, never the full suite. Max 20 tests or 3 commands per cycle.
 - **Pre-commit**: `.pre-commit-config.yaml` runs linting before commits.

@@ -1,0 +1,130 @@
+# Product Requirements — Tenndalux
+
+## Project Status
+**SUSPENDED since 2026-03-17** due to non-payment. Services stopped; DB and media preserved. Reactivation requires explicit user confirmation that payment has been resolved.
+
+---
+
+## Product Overview
+
+Tenndalux is a landing site and portfolio CMS for an **interior design / decoration brand**. It serves as the primary digital presence for the brand, showcasing completed projects and services to prospective clients.
+
+- **Domain**: `tenndalux.projectapp.co` / `www.tenndalux.projectapp.co`
+- **Type**: B2C marketing + lead generation site with a lightweight admin CMS
+- **Primary audience**: Prospective clients interested in interior design / decoration services
+
+---
+
+## Core Features
+
+### 1. Portfolio Gallery
+- Projects organised by **Category** (e.g. residential, commercial), **Style** (e.g. modern, classic), and **Space** (e.g. living room, kitchen)
+- Each project has: title, slug, description, location, year, area (sqm), multi-image gallery, M2M tags for categories/styles/spaces, `is_published` flag, `featured` flag
+- Public visitors see only published projects; authenticated users see all
+
+### 2. Services Catalog
+- Each service has: title, slug, short/full description, `includes`/`excludes` lists (JSON arrays), icon image, cover image, `order` and `is_active` flags
+- Process steps (`ProcessStep`) describe the workflow: title, description, duration, `deliverables` list, `order`, `is_active`
+- Public visitors see only active services/steps; authenticated users see all
+
+### 3. Blog
+- Posts with title, slug, excerpt, content, cover image, author (FK to User), M2M tags, `is_published` flag, `published_at` timestamp, SEO meta fields
+- Tags for categorisation
+- Public visitors see only published posts; authenticated users see all
+
+### 4. Lead Capture Form
+- Leads capture: full name, email, phone, city, project type (FK to Category), space types (M2M to Space), message, budget range, how they found us, UTM params, source field
+- Lead statuses (`LeadStatus`) for CRM pipeline management
+- Public POST (no auth); admin-only GET/PATCH
+- Leads managed exclusively through the Django Admin dashboard
+
+### 5. Site Settings (Singleton CMS)
+- `SiteSettings`: company name, tagline, phone, WhatsApp, email, address, city, social URLs (Instagram, Facebook, YouTube, TikTok), logo, favicon, footer text
+- `HomePage`: hero title/subtitle/CTA, hero media gallery, value proposition items (JSON), featured projects (M2M), testimonials gallery, SEO meta
+- `AboutPage`: title, content, team section (JSON array), gallery, SEO meta
+- All three use `SingletonModel` — only one instance of each is allowed; accessed via `.load()`
+
+### 6. Admin Dashboard
+- Django Admin with custom configuration for all models
+- Content managers (role `editor`) and admins can manage portfolio, blog, services, leads, site settings
+- Viewers have read-only access
+
+### 7. Authentication
+- Email-based registration and login (no username field)
+- Roles: `admin`, `editor`, `viewer`
+- JWT-only for `/api/` (1d access, 7d refresh, rotate + blacklist)
+- Session auth for `/admin/` only
+
+---
+
+## User Types
+
+| Role | Description | Access |
+|------|-------------|--------|
+| Public visitor | Unauthenticated user browsing the site | Read-only on published content + lead capture form |
+| Viewer | Authenticated, read-only | Read all content via API |
+| Editor | Content manager | Create/update/delete portfolio, blog, services content via API + Admin |
+| Admin | Full access | All of the above + manage users, leads, site settings |
+
+---
+
+## Frontend Pages
+
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page — hero, value props, featured projects, services overview |
+| `/portafolio/` | Portfolio gallery with filters |
+| `/portafolio/[slug]/` | Project detail |
+| `/servicios/` | Services catalog |
+| `/blog/` | Blog post list |
+| `/blog/[slug]/` | Blog post detail |
+| `/auth/login/` | Login page |
+| `/auth/register/` | Registration page |
+| `/dashboard/` | Protected user dashboard |
+| `/productos/` | Products page (additional route) |
+
+---
+
+## API Surface
+
+| Prefix | Domain | Auth requirement |
+|--------|--------|-----------------|
+| `POST /api/auth/register/` | User registration | Public |
+| `POST /api/auth/login/` | JWT login | Public |
+| `POST /api/auth/token/refresh/` | Token refresh | Public |
+| `GET /api/auth/profile/` | Get own profile | JWT required |
+| `PATCH /api/auth/profile/update/` | Update own profile | JWT required |
+| `GET/POST/PUT/PATCH/DELETE /api/portfolio/categories/` | Category CRUD | GET: public; write: auth |
+| `GET/POST/PUT/PATCH/DELETE /api/portfolio/styles/` | Style CRUD | GET: public; write: auth |
+| `GET/POST/PUT/PATCH/DELETE /api/portfolio/spaces/` | Space CRUD | GET: public; write: auth |
+| `GET/POST/PUT/PATCH/DELETE /api/portfolio/projects/` | Project CRUD | GET: public (published only); write: auth |
+| `GET/POST/... /api/blog/tags/` | Tag CRUD | GET: public; write: auth |
+| `GET/POST/... /api/blog/posts/` | Post CRUD | GET: public (published only); write: auth |
+| `GET/POST/... /api/services/services/` | Service CRUD | GET: public (active only); write: auth |
+| `GET/POST/... /api/services/process-steps/` | ProcessStep CRUD | GET: public (active only); write: auth |
+| `GET/POST/... /api/leads/statuses/` | LeadStatus CRUD | GET: public; write: auth |
+| `POST /api/leads/leads/` | Create lead | Public |
+| `GET/PUT/PATCH /api/leads/leads/` | Manage leads | Auth required |
+| `GET/PUT/PATCH /api/site/settings/` | Site settings | GET: public; write: auth |
+| `GET/PUT/PATCH /api/site/home/` | Home page content | GET: public; write: auth |
+| `GET/PUT/PATCH /api/site/about/` | About page content | GET: public; write: auth |
+| `GET /api/health/` | Health check | Public |
+
+---
+
+## Bilingual Support
+
+The product targets both Spanish and English audiences. Implementation status:
+- Some models have `*_en` / `*_es` field pairs — coverage is **incomplete**
+- Frontend i18n via `next-intl 4.8.2` is configured but **not yet activated** in most components
+- New code should use `useTranslations()` from the start
+
+---
+
+## Tech Debt / Known Gaps
+
+- `GalleryField` on `Project`, `Service`, `Post`, `HomePage`, `AboutPage` is declared but serializers do not yet uniformly expose gallery URLs
+- Lead management is admin-only (no frontend lead management UI)
+- Bilingual coverage is incomplete — many components still hardcode Spanish strings
+- Frontend E2E profiles are limited to Desktop Chrome only
+- The `build_to_django.sh` deployment script is referenced in docs but does not yet exist
