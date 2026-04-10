@@ -9,7 +9,7 @@
 
 - **Name**: Tenndalux
 - **Domain**: `tenndalux.projectapp.co` / `www.tenndalux.projectapp.co`
-- **Stack**: Django 5 + DRF (backend) / Nuxt 3 + Vue 3 (frontend) / MySQL 8 / Redis / Huey
+- **Stack**: Django 6.0+ + DRF (backend) / Next.js 16 + React 19 static export (frontend) / MySQL 8 / Redis / Huey
 - **Server path**: `/home/ryzepeck/webapps/tenndalux_project`
 - **Services**: `tenndalux_gunicorn.service` (Gunicorn), `tenndalux_project.socket`, `tenndalux-huey.service`
 - **Settings module**: `DJANGO_SETTINGS_MODULE=core_project.settings_prod`
