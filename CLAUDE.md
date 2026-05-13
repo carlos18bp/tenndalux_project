@@ -72,3 +72,15 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 - **Not yet established.** No `docs/methodology/` and no `tasks/` directory exist.
 - Long-lived project context lives in `README.md`, `START_HERE.md`, `SETUP.md`, `CHANGE_GUIDELINES.md`, `DOCUMENTATION_INDEX.md`, plus `docs/` standards files (`BACKEND_AND_FRONTEND_COVERAGE_REPORT_STANDARD.md`, `TESTING_QUALITY_STANDARDS.md`, `DJANGO_REACT_ARCHITECTURE_STANDARD.md`, `E2E_FLOW_COVERAGE_REPORT_STANDARD.md`).
 - If you need to bootstrap a Memory Bank, use the `methodology-setup` skill.
+<!-- session-start-protocol:begin -->
+## Session Start Protocol
+
+Al inicio de **cada sesión y antes de editar archivos**, debes invocar la skill `git-sync` para este repo. Razón: el operador trabaja desde múltiples máquinas y procesos automatizados (cron, CI) pueden haber commiteado cambios que tu copia local no tiene; editar sobre una versión desactualizada genera conflictos o trabajo duplicado.
+
+**Flujo:**
+1. Un hook `SessionStart` (definido en `.claude/settings.json`) ejecuta `git fetch + git status` read-only y te inyecta el estado de este repo como contexto.
+2. Si el reporte indica `behind > 0` o `dirty > 0`, **invoca la skill `git-sync`** antes de hacer cualquier cambio. `git-sync` hace rebase contra el parent branch y, si hay conflictos, te guía interactivamente por la resolución.
+3. Si el reporte indica `behind=0 ahead=0 dirty=0`, el repo ya está sincronizado y puedes proceder.
+
+**Importante:** Nunca uses `git pull --force`, `git reset --hard` ni stash automático para "resolver" el sync — usa siempre la skill `git-sync`, que es segura y reproducible.
+<!-- session-start-protocol:end -->
