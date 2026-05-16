@@ -32,8 +32,8 @@ class Command(BaseCommand):
         parser.add_argument(
             '--password',
             type=str,
-            default='password123',
-            help='Password for all fake users (default: password123)'
+            default='password',
+            help='Password for all fake users (default: password)'
         )
     
     def handle(self, *args, **options):
