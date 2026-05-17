@@ -228,7 +228,7 @@ class FlowCoverageReporter {
         totals,
         coveredPercent,
       },
-      flows: knownFlows,
+      flows: Object.fromEntries(knownFlows.map((f) => [f.id, f])),
       unknownFlows,
       unmappedTests: this.unmappedTests,
       unknownFlowTags: this.unknownFlowTags,
@@ -254,7 +254,7 @@ class FlowCoverageReporter {
 
   printReport(report) {
     const { totals, coveredPercent } = report.summary;
-    const flows = report.flows;
+    const flows = Array.isArray(report.flows) ? report.flows : Object.values(report.flows);
 
     const covered = flows.filter((flow) => flow.status === 'covered');
     const partial = flows.filter((flow) => flow.status === 'partial');
