@@ -139,18 +139,23 @@ function parseFrontendE2E() {
   if (!data || !data.summary) {
     return { available: false };
   }
-  const s = data.summary;
-  const coveredPct = s.total > 0 ? ((s.covered / s.total) * 100) : 0;
+  // Reporter emits summary.totals (nested object) and summary.coveredPercent
+  const totals = data.summary.totals || data.summary;
+  const total = totals.total || 0;
+  const coveredPct = data.summary.coveredPercent ?? (total > 0 ? ((totals.covered / total) * 100) : 0);
 
-  // Per-flow details
+  // Per-flow details — flows may be an object (keyed by id) or a legacy array
   const flowList = [];
   if (data.flows) {
-    for (const [flowId, flowData] of Object.entries(data.flows)) {
+    const flowEntries = Array.isArray(data.flows)
+      ? data.flows.map((f) => [f.id, f])
+      : Object.entries(data.flows);
+    for (const [flowId, flowData] of flowEntries) {
       flowList.push({
-        id: flowId,
-        name: flowData.definition?.name || flowId,
-        module: flowData.definition?.module || 'unknown',
-        priority: flowData.definition?.priority || 'P4',
+        id: flowData.id || flowId,
+        name: flowData.name || flowData.definition?.name || flowId,
+        module: flowData.module || flowData.definition?.module || 'unknown',
+        priority: flowData.priority || flowData.definition?.priority || 'P4',
         status: flowData.status || 'missing',
         passed: flowData.tests?.passed || 0,
         failed: flowData.tests?.failed || 0,
@@ -161,11 +166,11 @@ function parseFrontendE2E() {
 
   return {
     available: true,
-    totalFlows: s.total,
-    covered: s.covered,
-    partial: s.partial,
-    failing: s.failing,
-    missing: s.missing,
+    totalFlows: total,
+    covered: totals.covered || 0,
+    partial: totals.partial || 0,
+    failing: totals.failing || 0,
+    missing: totals.missing || 0,
     coveredPct,
     flows: flowList,
   };

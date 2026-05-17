@@ -13,22 +13,27 @@ def test_slug_is_generated_and_unique_for_category():
 
 
 @pytest.mark.django_db
-def test_singleton_load_creates_one_row_and_pk_is_1():
-    settings_1 = SiteSettings.load()
-    settings_2 = SiteSettings.load()
-
-    assert settings_1.pk == 1
-    assert settings_2.pk == 1
+def test_site_settings_singleton_load():
+    s1 = SiteSettings.load()
+    s2 = SiteSettings.load()
+    assert s1.pk == 1
+    assert s2.pk == 1
     assert SiteSettings.objects.count() == 1
 
-    home_1 = HomePage.load()
-    home_2 = HomePage.load()
-    assert home_1.pk == 1
-    assert home_2.pk == 1
+
+@pytest.mark.django_db
+def test_home_page_singleton_load():
+    h1 = HomePage.load()
+    h2 = HomePage.load()
+    assert h1.pk == 1
+    assert h2.pk == 1
     assert HomePage.objects.count() == 1
 
-    about_1 = AboutPage.load()
-    about_2 = AboutPage.load()
-    assert about_1.pk == 1
-    assert about_2.pk == 1
+
+@pytest.mark.django_db
+def test_about_page_singleton_load():
+    a1 = AboutPage.load()
+    a2 = AboutPage.load()
+    assert a1.pk == 1
+    assert a2.pk == 1
     assert AboutPage.objects.count() == 1
