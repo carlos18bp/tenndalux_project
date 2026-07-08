@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 // Icons are inline SVGs to avoid extra dependencies for now, or use @heroicons/react
 
 
@@ -12,7 +13,13 @@ export default function Footer() {
           
           {/* Brand Column */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold tracking-tight text-white">Tenndalux</h2>
+            <Image
+              src="/logo-tenndalux.png"
+              alt="Tenndalux"
+              width={160}
+              height={40}
+              className="h-10 w-auto brightness-0 invert"
+            />
             <p className="text-stone-400 font-light leading-relaxed">
               Cortinas, automatización y soluciones que combinan diseño, tecnología y precisión para transformar tus espacios.
             </p>

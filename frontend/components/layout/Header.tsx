@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
@@ -8,6 +10,11 @@ import { ChatBubbleLeftRightIcon } from '@heroicons/react/24/outline';
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasScrolled, setHasScrolled] = useState(false);
+  const pathname = usePathname();
+  const isHome = pathname === '/';
+
+  // When on home and not scrolled, use light (white) style
+  const isLight = isHome && !hasScrolled;
   const overlayRef = useRef<HTMLDivElement>(null);
   const navLinksRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const ctaBtnRef = useRef<HTMLDivElement>(null);
@@ -100,11 +107,18 @@ export default function Header() {
           <div className="flex items-center justify-between h-[72px] sm:h-20">
             <Link
               href="/"
-              className={`text-[22px] font-semibold tracking-tight transition-colors duration-300 z-[60] ${
-                isMenuOpen ? 'text-stone-900' : hasScrolled ? 'text-stone-900' : 'text-stone-900'
-              }`}
+              className="z-[60] block"
             >
-              Tenndalux
+              <Image
+                src="/logo-tenndalux.png"
+                alt="Tenndalux"
+                width={200}
+                height={50}
+                className={`h-20 sm:h-24 w-auto transition-all duration-300 ${
+                  isLight ? 'brightness-0 invert' : ''
+                }`}
+                priority
+              />
             </Link>
 
             {/* Desktop nav */}
@@ -113,7 +127,11 @@ export default function Header() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="relative text-stone-500 hover:text-stone-900 transition-colors duration-300 text-[15px] font-medium after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1.5px] after:bg-stone-900 after:transition-all after:duration-300 hover:after:w-full"
+                  className={`relative transition-colors duration-300 text-[15px] font-medium after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[1.5px] after:transition-all after:duration-300 hover:after:w-full ${
+                    isLight
+                      ? 'text-white/80 hover:text-white after:bg-white'
+                      : 'text-stone-500 hover:text-stone-900 after:bg-stone-900'
+                  }`}
                 >
                   {item.label}
                 </Link>
@@ -123,7 +141,11 @@ export default function Header() {
             <div className="flex items-center gap-4">
               <Link
                 href="#contacto"
-                className="hidden md:flex bg-stone-900 text-stone-50 px-8 py-3 rounded-full font-medium text-sm hover:bg-stone-800 transition-all duration-300 items-center gap-2.5 hover:shadow-lg hover:shadow-stone-900/10 hover:-translate-y-0.5"
+                className={`hidden md:flex px-8 py-3 rounded-full font-medium text-sm transition-all duration-300 items-center gap-2.5 hover:-translate-y-0.5 ${
+                  isLight
+                    ? 'bg-white/15 text-white border border-white/30 hover:bg-white/25 hover:shadow-lg hover:shadow-white/10'
+                    : 'bg-stone-900 text-stone-50 hover:bg-stone-800 hover:shadow-lg hover:shadow-stone-900/10'
+                }`}
               >
                 <ChatBubbleLeftRightIcon className="w-[18px] h-[18px]" />
                 <span>Contáctanos</span>
@@ -132,17 +154,23 @@ export default function Header() {
               {/* Hamburger / Close — always visible on mobile */}
               <button
                 onClick={() => setIsMenuOpen((prev) => !prev)}
-                className="md:hidden w-10 h-10 flex items-center justify-center rounded-xl text-stone-700 hover:bg-stone-100/60 transition-colors duration-200 z-[60] relative"
+                className={`md:hidden w-10 h-10 flex items-center justify-center rounded-xl transition-colors duration-200 z-[60] relative ${
+                  isLight ? 'text-white hover:bg-white/10' : 'text-stone-700 hover:bg-stone-100/60'
+                }`}
                 aria-label="Toggle menu"
               >
                 <div className="w-6 h-6 flex flex-col items-center justify-center gap-[5px]">
                   <span
-                    className={`block h-[2px] w-6 bg-stone-800 rounded-full transition-all duration-500 origin-center ${
+                    className={`block h-[2px] w-6 rounded-full transition-all duration-500 origin-center ${
+                      isLight ? 'bg-white' : 'bg-stone-800'
+                    } ${
                       isMenuOpen ? 'rotate-45 translate-y-[3.5px]' : ''
                     }`}
                   />
                   <span
-                    className={`block h-[2px] w-6 bg-stone-800 rounded-full transition-all duration-500 origin-center ${
+                    className={`block h-[2px] w-6 rounded-full transition-all duration-500 origin-center ${
+                      isLight ? 'bg-white' : 'bg-stone-800'
+                    } ${
                       isMenuOpen ? '-rotate-45 -translate-y-[3.5px]' : ''
                     }`}
                   />
@@ -161,8 +189,14 @@ export default function Header() {
       >
         {/* Top bar inside overlay mirrors main header */}
         <div className="flex items-center justify-between h-[72px] sm:h-20 px-6 sm:px-8 lg:px-12 max-w-[1400px] mx-auto w-full">
-          <Link href="/" onClick={closeMenu} className="text-[22px] font-semibold text-stone-900 tracking-tight">
-            Tenndalux
+          <Link href="/" onClick={closeMenu} className="block">
+            <Image
+              src="/logo-tenndalux.png"
+              alt="Tenndalux"
+              width={200}
+              height={50}
+              className="h-20 sm:h-24 w-auto"
+            />
           </Link>
           <button
             onClick={closeMenu}

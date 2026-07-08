@@ -3,7 +3,6 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Image from 'next/image';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -55,19 +54,24 @@ export default function AboutSection() {
       <div className="max-w-[1400px] mx-auto px-6 sm:px-8 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-28 items-center">
           <div ref={contentRef} className="space-y-12">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.1]">
-              Diseño que se ve.<br />
-              <span className="text-stone-500">Tecnología que no se nota.</span>
-            </h2>
+            <div className="space-y-3">
+              <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-stone-900 tracking-tight leading-[1.1]">
+                Diseño que se ve<br />
+                <span className="text-stone-500">Tecnología que se integra.</span>
+              </h2>
+              <p className="text-2xl md:text-3xl text-stone-400 font-light">
+                Diseño que transforma espacios.
+              </p>
+            </div>
             <p className="text-xl md:text-2xl text-stone-600 font-light leading-relaxed">
-              En Tenndalux unimos estética, innovación y funcionalidad para crear ambientes inteligentes con estilo y respaldo real.
+              En Tenndalux diseñamos soluciones a la medida que equilibran estética, funcionalidad y confort. Cada proyecto se adapta a la arquitectura, la decoración y el estilo de vida de quienes lo habitan.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
-                'Diseño personalizado para cada espacio',
-                'Tecnología sin cables visibles',
-                'Sistemas ultra silenciosos',
-                'Garantía y soporte postventa confiable',
+                'Más de 12 sistemas de cortinas y soluciones para exteriores.',
+                'Diseño personalizado para cada espacio.',
+                'Tejidos y acabados premium.',
+                'Asesoría especializada en interiorismo.',
               ].map((pillar, i) => (
                 <div key={i} className="flex items-start gap-4">
                   <div className="flex-shrink-0 w-2 h-2 mt-3 rounded-full bg-stone-900" />
@@ -88,14 +92,17 @@ export default function AboutSection() {
           </div>
 
           <div ref={imageRef} className="relative">
-            <div className="aspect-square rounded-[3rem] overflow-hidden bg-stone-200 relative shadow-2xl">
-              <Image
-                src="/home/imgi_106_width_800.webp"
-                alt="Interiorismo Tenndalux"
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
+            <div className="aspect-[3/4] rounded-[3rem] overflow-hidden bg-stone-200 relative shadow-2xl">
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover"
+              >
+                <source src="/videos/optimized/FullSizeRender.webm" type="video/webm" />
+                <source src="/videos/FullSizeRender.mp4" type="video/mp4" />
+              </video>
             </div>
             {/* Decorative element */}
             <div className="absolute -bottom-16 -left-16 w-60 h-60 bg-stone-900 rounded-full -z-10 blur-3xl opacity-20"></div>

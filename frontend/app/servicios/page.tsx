@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -49,6 +49,19 @@ export default function Servicios() {
   const [selectedProductTab, setSelectedProductTab] = useState('cortinas');
   const [mobileDetailProduct, setMobileDetailProduct] = useState<Product | null>(null);
   const [mobileDetailExterior, setMobileDetailExterior] = useState<ExteriorSolution | null>(null);
+  const productsSectionRef = useRef<HTMLElement>(null);
+
+  // Read URL hash to auto-select tab and scroll to products section
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    const validTabs = ['cortinas', 'paredes', 'exterior', 'tecnologia'];
+    if (validTabs.includes(hash)) {
+      setSelectedProductTab(hash);
+      setTimeout(() => {
+        productsSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 300);
+    }
+  }, []);
 
   const toggleProduct = (productId: string) => {
     setExpandedProduct(expandedProduct === productId ? null : productId);
@@ -244,7 +257,7 @@ export default function Servicios() {
       </section>
 
       {/* Products & Solutions */}
-      <section id="productos" className="py-14 sm:py-20 px-4 sm:px-6">
+      <section ref={productsSectionRef} id="productos" className="py-14 sm:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
