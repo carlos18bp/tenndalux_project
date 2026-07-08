@@ -20,42 +20,42 @@ const services = [
     title: 'Cortina Ondessence',
     description: 'Sistema Ripplefold con ondas suaves y continuas. Tejidos europeos certificados y acabado premium.',
     image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/servicios'
+    link: '/servicios#cortinas'
   },
   {
     id: 2,
     title: 'Luminux',
     description: 'Cortina de velo contemporánea. Luz difusa, privacidad y contacto visual con el exterior.',
     image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/servicios'
+    link: '/servicios#cortinas'
   },
   {
     id: 3,
     title: 'Dunes',
     description: 'Cortina de velo con onda tipo montaña segmentada. Caída estructurada y acabado visual refinado.',
     image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/servicios'
+    link: '/servicios#cortinas'
   },
   {
     id: 4,
     title: 'Tecnología y Automatización',
     description: 'Motores avanzados, control por voz, app gratuita e integración con asistentes inteligentes.',
     image: 'https://images.unsplash.com/photo-1558002038-1055907df827?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/servicios'
+    link: '/servicios#tecnologia'
   },
   {
     id: 5,
     title: 'Recubrimientos para Paredes',
     description: 'Vinilo, textil y ecológico. Materiales libres de compuestos nocivos e instalación profesional.',
     image: 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/servicios'
+    link: '/servicios#paredes'
   },
   {
     id: 6,
     title: 'Soluciones para Exterior',
     description: 'Toldos, pérgolas, cortinas exteriores y películas solares. Protección y diseño al aire libre.',
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-    link: '/servicios'
+    link: '/servicios#exterior'
   },
   {
     id: 7,
@@ -144,7 +144,7 @@ export default function Services() {
           >
             {services.map((service) => (
               <SwiperSlide key={service.id}>
-                <div className="group relative h-[420px] rounded-2xl overflow-hidden cursor-pointer">
+                <Link href={service.link} className="block group relative h-[420px] rounded-2xl overflow-hidden cursor-pointer">
                   <Image
                     src={service.image}
                     alt={service.title}
@@ -166,7 +166,7 @@ export default function Services() {
                       <ArrowRightIcon className="w-4 h-4" />
                     </div>
                   </div>
-                </div>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
