@@ -167,8 +167,8 @@ export default function Servicios() {
               {
                 icon: Shield,
                 title: 'Garantía y Mantenimiento',
-                description: 'Hasta 5 años de garantía según producto. Cobertura total en productos y mano de obra.',
-                includes: ['Hasta 5 años según producto', 'Cobertura en productos y mano de obra', 'Mantenimiento preventivo', 'Atención especializada en garantía'],
+                description: 'Motores 5 años, tejidos y sistemas de 1 a 5 años, instalación 3 meses. Cobertura en productos y mano de obra.',
+                includes: ['Motores: 5 años', 'Tejidos y sistemas: de 1 a 5 años', 'Instalación: 3 meses', 'Mantenimiento preventivo y atención en garantía'],
               },
               {
                 icon: Award,
@@ -690,7 +690,7 @@ export default function Servicios() {
                   },
                   {
                     icon: Clock,
-                    title: 'Garantía Limitada 5 Años',
+                    title: 'Motores con 5 Años de Garantía',
                     description: 'Soporte técnico en programación y acompañamiento continuo.',
                   },
                   {
@@ -804,8 +804,8 @@ export default function Servicios() {
               const guarantees = [
                 {
                   icon: Shield,
-                  title: '5 Años de Garantía',
-                  description: 'Cobertura total en productos y mano de obra',
+                  title: 'Garantía Respaldada',
+                  description: 'Motores 5 años, tejidos y sistemas de 1 a 5 años, instalación 3 meses',
                 },
                 {
                   icon: Award,

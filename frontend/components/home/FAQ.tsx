@@ -13,8 +13,8 @@ const faqs = [
     answer: "El tiempo promedio de fabricación es de 5 a 8 días hábiles, dependiendo del tipo de tejido y sistema seleccionado. La instalación se programa inmediatamente después y suele tomar entre 2 y 4 horas."
   },
   {
-    question: "¿Ofrecen garantía en sus productos?",
-    answer: "Sí, todos nuestros productos cuentan con una garantía de 5 años contra defectos de fabricación. Además, los motores tienen garantías extendidas de hasta 7 años dependiendo de la marca."
+    question: "¿Qué garantía ofrecen?",
+    answer: "Los motores cuentan con garantía de 5 años. Los tejidos y sistemas tienen garantía de 1 a 5 años, dependiendo del tejido o sistema seleccionado. La instalación cuenta con garantía de 3 meses."
   },
   {
     question: "¿Puedo automatizar persianas que ya tengo instaladas?",
