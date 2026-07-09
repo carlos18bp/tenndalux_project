@@ -38,7 +38,14 @@ if settings.DEBUG:
         re_path(r'^_next/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static' / '_next'}),
         re_path(r'^home/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static' / 'home'}),
         re_path(r'^videos/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static' / 'videos'}),
-        re_path(r'^(?P<path>favicon\.ico)$', serve, {'document_root': settings.BASE_DIR / 'static'}),
+        re_path(r'^products/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static' / 'products'}),
+        # Root-level public/ assets (logo, svgs, favicon). Mirrors the regex
+        # location in scripts/nginx/tenndalux.conf so dev matches production.
+        re_path(
+            r'^(?P<path>[^/]+\.(?:png|jpe?g|webp|svg|ico|txt|xml|webmanifest))$',
+            serve,
+            {'document_root': settings.BASE_DIR / 'static'},
+        ),
     ]
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

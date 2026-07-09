@@ -41,7 +41,7 @@ const steps = [
   {
     icon: SparklesIcon,
     title: 'Garantía y soporte continuo',
-    description: 'Hasta 5 años de garantía según producto. Acompañamiento, ajustes técnicos y soporte en automatización.'
+    description: 'Motores 5 años, tejidos y sistemas de 1 a 5 años, instalación 3 meses. Acompañamiento y soporte continuo.'
   }
 ];
 

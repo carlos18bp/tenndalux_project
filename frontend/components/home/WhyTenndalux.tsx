@@ -28,7 +28,7 @@ const benefits = [
   {
     icon: ShieldCheckIcon,
     title: 'Sin improvisaciones',
-    description: 'Garantía limitada de 5 años. Soporte técnico y postventa confiable.'
+    description: 'Motores con 5 años de garantía. Soporte técnico y postventa confiable.'
   },
   {
     icon: UserGroupIcon,

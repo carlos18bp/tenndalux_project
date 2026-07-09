@@ -56,10 +56,10 @@ export default function ComparisonTable() {
       label: 'Equipo técnico certificado. Nivelación, planchado a vapor y programación'
     },
     {
-      name: 'Garantía hasta 5 años',
+      name: 'Garantía respaldada',
       tenndalux: true,
       standard: false,
-      label: 'Acompañamiento continuo, ajustes técnicos y soporte en automatización'
+      label: 'Motores 5 años, tejidos y sistemas de 1 a 5 años, instalación 3 meses'
     },
     {
       name: 'Tejidos europeos certificados',
