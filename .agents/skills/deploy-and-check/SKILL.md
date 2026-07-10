@@ -67,7 +67,9 @@ DJANGO_SETTINGS_MODULE=$(systemctl show "$GUNICORN_SVC" -p Environment --value 2
         | tr ' ' '\n' | grep '^DJANGO_SETTINGS_MODULE=' | head -1 | cut -d= -f2-)
 [ -z "$DJANGO_SETTINGS_MODULE" ] && DJANGO_SETTINGS_MODULE=$(grep -hE '^DJANGO_SETTINGS_MODULE=' \
         "$PROJECT_DIR/backend/.env" 2>/dev/null | head -1 | cut -d= -f2-)
-export DJANGO_SETTINGS_MODULE
+# NO exportar vacío: un env var vacío ANULA el setdefault de manage.py/wsgi → ImproperlyConfigured.
+# Sólo exportar si resolvió; si no, unset para que aplique el default (env-aware) del proyecto.
+if [ -n "$DJANGO_SETTINGS_MODULE" ]; then export DJANGO_SETTINGS_MODULE; else unset DJANGO_SETTINGS_MODULE; fi
 if [ -z "$DJANGO_SETTINGS_MODULE" ]; then
     echo "⚠️  DJANGO_SETTINGS_MODULE no resuelto (ni systemd ni .env) — manage.py usará su setdefault (¡puede apuntar a dev/SQLite!)"
 fi
@@ -125,7 +127,9 @@ DJANGO_SETTINGS_MODULE=$(systemctl show "$GUNICORN_SVC" -p Environment --value 2
         | tr ' ' '\n' | grep '^DJANGO_SETTINGS_MODULE=' | head -1 | cut -d= -f2-)
 [ -z "$DJANGO_SETTINGS_MODULE" ] && DJANGO_SETTINGS_MODULE=$(grep -hE '^DJANGO_SETTINGS_MODULE=' \
         "$PROJECT_DIR/backend/.env" 2>/dev/null | head -1 | cut -d= -f2-)
-export DJANGO_SETTINGS_MODULE
+# NO exportar vacío: un env var vacío ANULA el setdefault de manage.py/wsgi → ImproperlyConfigured.
+# Sólo exportar si resolvió; si no, unset para que aplique el default (env-aware) del proyecto.
+if [ -n "$DJANGO_SETTINGS_MODULE" ]; then export DJANGO_SETTINGS_MODULE; else unset DJANGO_SETTINGS_MODULE; fi
 echo "→ migrate con DJANGO_SETTINGS_MODULE=${DJANGO_SETTINGS_MODULE:-<manage.py default — puede ser dev!>}"
 cd "$PROJECT_DIR/backend" && \
     "$PROJECT_DIR/$VENV_PATH" -m pip install -r requirements.txt && \
@@ -160,7 +164,9 @@ if [ "$COLLECTSTATIC" = "true" ]; then
             | tr ' ' '\n' | grep '^DJANGO_SETTINGS_MODULE=' | head -1 | cut -d= -f2-)
     [ -z "$DJANGO_SETTINGS_MODULE" ] && DJANGO_SETTINGS_MODULE=$(grep -hE '^DJANGO_SETTINGS_MODULE=' \
             "$PROJECT_DIR/backend/.env" 2>/dev/null | head -1 | cut -d= -f2-)
-    export DJANGO_SETTINGS_MODULE
+    # NO exportar vacío: un env var vacío ANULA el setdefault de manage.py/wsgi → ImproperlyConfigured.
+    # Sólo exportar si resolvió; si no, unset para que aplique el default (env-aware) del proyecto.
+    if [ -n "$DJANGO_SETTINGS_MODULE" ]; then export DJANGO_SETTINGS_MODULE; else unset DJANGO_SETTINGS_MODULE; fi
     cd "$PROJECT_DIR/backend" && "$PROJECT_DIR/$VENV_PATH" manage.py collectstatic --noinput
 fi
 ```
