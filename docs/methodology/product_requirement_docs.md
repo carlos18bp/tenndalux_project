@@ -1,7 +1,7 @@
 # Product Requirements — Tenndalux
 
 ## Project Status
-**SUSPENDED since 2026-03-17** due to non-payment. Services stopped; DB and media preserved. Reactivation requires explicit user confirmation that payment has been resolved.
+**ACTIVE (staging)** — reactivated 2026-05-07 after a payment suspension (suspended 2026-03-17; payment resolved 2026-04-22). Runs as `tenndalux_project_staging` on `vps-projectapp-staging`, serving https://tenndalux.projectapp.co. Deploys, migrations, and service restarts are operator-run only (via the `/deploy-and-check` flow).
 
 ---
 

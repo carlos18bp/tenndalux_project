@@ -1,7 +1,7 @@
 # Backend Rules — Tenndalux
 
-## ⚠️ STATUS: SUSPENDED
-Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are stopped; DB and media are preserved. Do not run deploys, migrations, or service restarts without explicit reactivation.
+## Status: ACTIVE (staging)
+Tenndalux is **active** — reactivated 2026-05-07 after a payment suspension (suspended 2026-03-17; payment resolved 2026-04-22). Runs as `tenndalux_project_staging` on `vps-projectapp-staging`, serving https://tenndalux.projectapp.co. Deploys, migrations, and service restarts are **operator-run only** (via the `/deploy-and-check` flow) — never run them autonomously.
 
 ## Stack And Scope
 - Django 6.0 + DRF 3.14+, Python 3.12+.
@@ -49,6 +49,6 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 
 ## Quirks to Remember
 - The Django **module is `core_project`**, not `tenndalux_project` — `DJANGO_SETTINGS_MODULE=core_project.settings_prod`.
-- The systemd unit is **`tenndalux_gunicorn.service`** (with the `_gunicorn` suffix), not the more common `<project>.service` shape.
+- The systemd units are **`tenndalux_project.service`** (gunicorn) and **`tenndalux-huey.service`** (huey).
 - The `core_app/services/` directory is empty by design — there is no service layer yet.
 - `GalleryField` integration is partial — verify serializer surface before assuming all gallery fields are exposed.

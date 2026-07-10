@@ -206,7 +206,7 @@ python manage.py compilemessages
 1. **Activate virtual environment** from inside `backend/`: `cd backend && source venv/bin/activate`. The venv lives at `backend/venv/`.
 2. **Run only modified test files**: `pytest core_app/tests/path/to/test_file.py -v`. `pytest.ini` sets `DJANGO_SETTINGS_MODULE=core_project.settings`.
 3. **Maximum per execution**: 20 tests per batch, 3 commands per cycle.
-4. **Project is SUSPENDED** — do not run tests against the live deploy environment.
+4. **Do not run tests against the live deploy environment** — it is a live client-facing environment.
 
 ### Coverage Prioritization (triage order)
 1. Lowest % coverage (0% first) — maximum impact per test

@@ -28,14 +28,15 @@
 
 | Setting | Value |
 |---------|-------|
-| Server path | `/home/ryzepeck/webapps/tenndalux_project` |
+| Server | `vps-projectapp-staging` (srv571894) |
+| Server path | `/home/ryzepeck/webapps/tenndalux_project_staging` |
 | Domain | `tenndalux.projectapp.co` |
-| Gunicorn service | `tenndalux_gunicorn.service` |
+| Gunicorn service | `tenndalux_project.service` |
 | Huey service | `tenndalux-huey.service` |
-| Socket | `/run/tenndalux_gunicorn.sock` |
+| Socket | `/run/tenndalux_project.sock` |
 | Nginx config | `/etc/nginx/sites-available/tenndalux_project` |
-| Static files | `/home/ryzepeck/webapps/tenndalux_project/backend/staticfiles/` |
-| Media files | `/home/ryzepeck/webapps/tenndalux_project/backend/media/` |
+| Static files | `/home/ryzepeck/webapps/tenndalux_project_staging/backend/staticfiles/` |
+| Media files | `/home/ryzepeck/webapps/tenndalux_project_staging/backend/media/` |
 | Resource limits | MemoryMax=350M, CPUQuota=40%, OOMScoreAdjust=300 |
 
 ---
@@ -247,5 +248,5 @@ Zustand store with `persist` middleware.
 ## CI/CD
 
 - `.github/workflows/test-quality-gate.yml` — test quality gate runs on push
-- No automated deployment pipeline — deployments are manual
+- No automated deployment pipeline — deployments are operator-run (via the `/deploy-and-check` flow)
 - Pre-commit hooks: `.pre-commit-config.yaml`

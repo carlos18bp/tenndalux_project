@@ -168,7 +168,7 @@ Django serves:
   Nginx in prod: _next/ served directly from backend/static/_next/
 ```
 
-**Note**: No `build_to_django.sh` script exists yet. Copying is currently manual.
+**Note**: The `build_to_django.sh` script in `frontend/` automates the export and copy (`npm ci && bash build_to_django.sh`).
 
 ### Auth Flow
 ```

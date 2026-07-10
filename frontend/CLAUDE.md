@@ -1,10 +1,10 @@
 # Frontend Rules — Tenndalux
 
-> **⚠️ Project is SUSPENDED since 2026-03-17.** Do not run dev servers or builds against the live deploy environment without explicit reactivation.
+> **Status: ACTIVE (staging)** — reactivated 2026-05-07 after a payment suspension (suspended 2026-03-17; payment resolved 2026-04-22); runs as `tenndalux_project_staging` on `vps-projectapp-staging`, serving https://tenndalux.projectapp.co. Dev servers and builds against the live deploy environment are **operator-run only** (the production build runs inside the `/deploy-and-check` flow) — never run them autonomously.
 
 ## Stack And Scope
 - **Next.js 16.1.6 + React 19.2 + TypeScript** with the **App Router** (NOT Pages Router, NOT Vue, NOT Vite SPA).
-- **Static export** (`output: 'export'` in `next.config.ts`) — `next build` emits SSG to `frontend/out/`. HTML pages go to `backend/templates/frontend/` (served by `frontend_views.py`); `_next/` static assets go to `backend/static/`. No `build_to_django.sh` script exists yet. There is no runtime SSR.
+- **Static export** (`output: 'export'` in `next.config.ts`) — `next build` emits SSG to `frontend/out/`. HTML pages go to `backend/templates/frontend/` (served by `frontend_views.py`); `_next/` static assets go to `backend/static/_next`. The `build_to_django.sh` script in `frontend/` automates the export and copy (`npm ci && bash build_to_django.sh`). There is no runtime SSR.
 - **State management**: **Zustand 5.0** with `persist` middleware (NOT Redux, NOT Context API for global state). Stores in `lib/stores/`.
 - **HTTP**: **Axios 1.13** wrapped in `lib/services/http.ts` with cookie-based JWT injection and automatic refresh on 401.
 - **i18n**: **next-intl 4.8** is installed but **not yet fully activated** in components — bilingual coverage is incomplete.
@@ -38,16 +38,16 @@
 - Unit tests (Jest): `cd frontend && npm test -- path/to/file.test.tsx`
 - E2E (Playwright): `cd frontend && npx playwright test e2e/path/to/spec.ts`
 - Build: `cd frontend && npm run build` (static export to `frontend/out/`)
-- Stage to Django: copy HTML → `backend/templates/frontend/`, assets → `backend/static/` (manual, no script yet)
+- Stage to Django: `cd frontend && npm ci && bash build_to_django.sh` (HTML → `backend/templates/frontend/`, assets → `backend/static/_next`)
 
 ## Testing Rules
 - Never run the full frontend unit or E2E suite.
 - Maximum 20 tests per batch and 3 commands per cycle.
 - Assert user-visible behavior, not implementation details.
 - Use stable locators in E2E (`getByRole` > `getByTestId`).
-- ⚠️ **Project is SUSPENDED** — do not run tests against the live deploy environment.
+- Do not run tests against the live deploy environment — it is a live client-facing environment.
 
 ## Tech Debt to Be Aware Of
 - `next-intl` is wired but bilingual coverage is incomplete.
-- The build → staging step (`build_to_django.sh`) is **manual**; no CI deploy pipeline.
+- The build → deploy step (`build_to_django.sh`) is **operator-run** (via the `/deploy-and-check` flow); no CI deploy pipeline.
 - The custom hook `useScrollAnimation.ts` should be the canonical scroll-trigger helper — do not duplicate scroll logic in individual components.
