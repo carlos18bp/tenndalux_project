@@ -22,7 +22,7 @@ The codebase uses **different DRF view styles per domain**, not a single pattern
 - `_next/` static assets (JS, CSS, images) → `backend/static/_next/`
   Served by Nginx in prod; by Django URL pattern (`re_path(r'^_next/...'`) in debug mode
 
-No `build_to_django.sh` script exists yet. Copying is manual.
+The `build_to_django.sh` script in `frontend/` (run as `npm ci && bash build_to_django.sh`) automates the export and copy.
 
 ### SingletonModel: Use `.load()`, Never `.create()`
 `SiteSettings`, `HomePage`, and `AboutPage` use `SingletonModel` which enforces `pk=1` on save. Always access via `cls.load()`:
@@ -86,12 +86,11 @@ python manage.py delete_fake_data --confirm
 - `pytest.ini` uses `core_project.settings` (SQLite, not MySQL) for all tests
 - Use `FIXED_NOW` + `monkeypatch` when production code calls `timezone.now()` internally — avoids test flakiness
 
-### Project Is Suspended
-The project is suspended since 2026-03-17. Do not:
-- Run `systemctl restart tenndalux_gunicorn` or `tenndalux-huey`
-- Run `python manage.py migrate` against the production database
+### Live Environment Discipline
+The deploy environment (`vps-projectapp-staging`) is live and client-facing; deploys are operator-run only, via the `/deploy-and-check` flow. Never do the following autonomously:
+- Run `systemctl restart tenndalux_project` or `tenndalux-huey`
+- Run `python manage.py migrate` against the live database
 - Push deploys
-without explicit confirmation from the user that the suspension has been resolved.
 
 ---
 
@@ -101,7 +100,7 @@ without explicit confirmation from the user that the suspension has been resolve
 |----------|-----------|---------|
 | Django project module | `core_project` (not `tenndalux_project`) | `DJANGO_SETTINGS_MODULE=core_project.settings_prod` |
 | Django app | `core_app` | `AUTH_USER_MODEL = 'core_app.User'` |
-| systemd service | `tenndalux_gunicorn.service` | Note: `_gunicorn` suffix |
+| systemd services | `tenndalux_project.service` (gunicorn), `tenndalux-huey.service` (huey) | `sudo systemctl restart tenndalux_project` |
 | Frontend stores | camelCase | `authStore.ts` |
 | Frontend components | PascalCase | `Header.tsx` |
 | Frontend pages | kebab-case folder + `page.tsx` | `portafolio/[slug]/page.tsx` |
@@ -113,7 +112,7 @@ without explicit confirmation from the user that the suspension has been resolve
 
 - `GalleryField` integration incomplete — serializers don't yet uniformly expose gallery URLs
 - `next-intl` is configured but most components still hardcode Spanish strings — migration in progress
-- No `build_to_django.sh` script — frontend deployment step is manual
+- The frontend build → deploy step (`build_to_django.sh`) is operator-run — no automation beyond the script itself
 - Playwright E2E profiles are Desktop Chrome only — mobile/tablet not yet configured
-- No CI deploy pipeline — all deployments are manual
+- No CI deploy pipeline — all deployments are operator-run (via the `/deploy-and-check` flow)
 - `core_app/services/` is empty — no service layer tests needed yet

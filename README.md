@@ -474,7 +474,7 @@ Additional project-specific docs:
 ## Production
 
 - **Domain**: `tenndalux.projectapp.co`
-- **Services**: `tenndalux_gunicorn.service`, `tenndalux-huey.service`
+- **Services**: `tenndalux_project.service`, `tenndalux-huey.service`
 - **Settings**: `DJANGO_ENV=production` activates `core_project/settings_prod.py`
 - **Deploy**: See `docs/deployment-guide.md` or run `/deploy-and-check` workflow
 

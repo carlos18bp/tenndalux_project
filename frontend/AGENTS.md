@@ -1,6 +1,6 @@
 # Frontend Rules — Next.js 16 + React 19 + App Router (Tenndalux)
 
-> **⚠️ Project is SUSPENDED since 2026-03-17.** Do not run dev servers or builds against the live deploy environment without explicit reactivation.
+> **Status: ACTIVE (staging)** — reactivated 2026-05-07 after a payment suspension (suspended 2026-03-17; payment resolved 2026-04-22); runs as `tenndalux_project_staging` on `vps-projectapp-staging`, serving https://tenndalux.projectapp.co. Dev servers and builds against the live deploy environment are **operator-run only** (the production build runs inside the `/deploy-and-check` flow) — never run them autonomously.
 
 ## Stack
 
@@ -21,7 +21,7 @@ This is a **Next.js + React 19 + App Router project** — **NOT Vue**, **NOT Vit
 ## Static Export to Django
 
 - `next.config.ts` uses `output: 'export'` so `next build` emits SSG to **`frontend/out/`**.
-- HTML pages from `frontend/out/` are deployed to `backend/templates/frontend/` (served by `frontend_views.py`); `_next/` static assets go to `backend/static/`. No `build_to_django.sh` script exists yet.
+- HTML pages from `frontend/out/` are deployed to `backend/templates/frontend/` (served by `frontend_views.py`); `_next/` static assets go to `backend/static/_next`. The `build_to_django.sh` script in `frontend/` automates the export and copy (`npm ci && bash build_to_django.sh`).
 - The Django backend serves the static HTML files via a catch-all URL pattern handled in `core_app/views/frontend_views.py`.
 - This means **Server Components are limited to build-time data**: any data that changes per request must be fetched **client-side** in `'use client'` components.
 - **Do not introduce server actions or runtime SSR** — they will not work with the static export.
@@ -121,4 +121,4 @@ Mobile-first. Breakpoint order: `sm:` → `md:` → `lg:` → `xl:` → `2xl:`.
 - Do **not** hardcode user-facing strings in **new** code — use `next-intl`. (Existing components may still hardcode; that is in-progress migration debt.)
 - Do **not** access auth state without calling `useAuthStore.hydrate()` first in client components.
 - Do **not** introduce grouped routes `(public)/(app)/` — Tenndalux uses a flat App Router structure.
-- Do **not** run dev servers or builds against the live deploy environment — the project is **SUSPENDED**.
+- Do **not** run dev servers or builds against the live deploy environment — it is a live client-facing environment; the production build is operator-run via the `/deploy-and-check` flow.

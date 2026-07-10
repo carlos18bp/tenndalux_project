@@ -24,12 +24,15 @@ This file tracks known errors, their context, and resolutions. When a reusable f
 
 ## Known Issues
 
-#### [KNOWN-001] Project is suspended (2026-03-17)
-- **Context**: Services stopped due to non-payment. DB and media preserved.
-- **Workaround**: Do not run deploys, migrations, or service restarts. Wait for explicit reactivation from the user.
+_None currently._
 
 ---
 
 ## Resolved Issues
 
-_No resolved issues recorded yet. When fixing a non-trivial bug, document the root cause and resolution here._
+#### [KNOWN-001] Project suspension (RESOLVED 2026-05-07)
+- **Date**: 2026-03-17 → 2026-05-07
+- **Context**: Services stopped 2026-03-17 due to non-payment. DB and media were preserved throughout.
+- **Resolution**: Payment resolved 2026-04-22; project reactivated 2026-05-07 as `tenndalux_project_staging` on `vps-projectapp-staging`.
+
+_When fixing a non-trivial bug, document the root cause and resolution here._

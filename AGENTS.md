@@ -10,13 +10,13 @@
 - **Name**: Tenndalux
 - **Domain**: `tenndalux.projectapp.co` / `www.tenndalux.projectapp.co`
 - **Stack**: Django 6.0+ + DRF (backend) / Next.js 16 + React 19 static export (frontend) / MySQL 8 / Redis / Huey
-- **Server path**: `/home/ryzepeck/webapps/tenndalux_project`
-- **Services**: `tenndalux_gunicorn.service` (Gunicorn), `tenndalux_project.socket`, `tenndalux-huey.service`
+- **Server path**: `/home/ryzepeck/webapps/tenndalux_project_staging` (on `vps-projectapp-staging`, srv571894)
+- **Services**: `tenndalux_project.service` (Gunicorn), `tenndalux-huey.service` (Huey). Socket: `/run/tenndalux_project.sock`
 - **Settings module**: `DJANGO_SETTINGS_MODULE=core_project.settings_prod`
 - **Nginx**: `/etc/nginx/sites-available/tenndalux_project`
-- **Static**: `/home/ryzepeck/webapps/tenndalux_project/backend/staticfiles/`
-- **Media**: `/home/ryzepeck/webapps/tenndalux_project/backend/media/`
-- **Resource limits**: MemoryMax=350M, CPUQuota=40%, OOMScoreAdjust=300
+- **Static**: `/home/ryzepeck/webapps/tenndalux_project_staging/backend/staticfiles/`
+- **Media**: `/home/ryzepeck/webapps/tenndalux_project_staging/backend/media/`
+- **Resource limits**: MemoryMax=250M, CPUQuota=40%, OOMScoreAdjust=300
 
 ---
 
@@ -267,11 +267,11 @@ def validate_upload(file):
 
 ---
 
-## ⚠️ STATUS: SUSPENDED
+## Status: ACTIVE (staging)
 
-Tenndalux is **suspended since 2026-03-17** due to non-payment. The systemd services (`tenndalux_gunicorn.service`, `tenndalux-huey.service`) are stopped, but the **MySQL database and media files are preserved** at `/home/ryzepeck/webapps/tenndalux_project/`.
+Tenndalux is **active** — reactivated 2026-05-07 after a payment suspension (suspended 2026-03-17; payment resolved 2026-04-22). The systemd services (`tenndalux_project.service` for gunicorn, `tenndalux-huey.service` for huey) run as `tenndalux_project_staging` on `vps-projectapp-staging` (srv571894) at `/home/ryzepeck/webapps/tenndalux_project_staging/`, serving https://tenndalux.projectapp.co.
 
-Reactivation requires the user to confirm payment status before re-enabling services. **Do not run deployments against this project without explicit instruction.**
+Deploys, migrations, and service restarts are **operator-run only** (via the `/deploy-and-check` flow) — never run them autonomously.
 
 ---
 
@@ -320,9 +320,9 @@ flowchart TD
     AgentSkills --> SkillSet[plan, implement, debug, deploy-and-check, deploy-staging, git-commit, etc.]
 ```
 
-**Important note on naming**: like `kore_project`, the **Django project module is `core_project`** (not `tenndalux_project`!) and the **Django app is `core_app`** (not `tenndalux_app`!). The directory `tenndalux_project/` is just the repo location. Settings module is `core_project.settings_prod`. Do not rename these to `tenndalux_*` — keep the `core_*` naming.
+**Important note on naming**: like `kore_project`, the **Django project module is `core_project`** (not `tenndalux_project`!) and the **Django app is `core_app`** (not `tenndalux_app`!). The directory `tenndalux_project_staging/` is just the repo location. Settings module is `core_project.settings_prod`. Do not rename these to `tenndalux_*` — keep the `core_*` naming.
 
-The systemd unit name is **`tenndalux_gunicorn.service`** (note the `_gunicorn` suffix, unlike most projects that use `<project>.service`).
+The systemd unit names are **`tenndalux_project.service`** (gunicorn) and **`tenndalux-huey.service`** (huey).
 
 ---
 
@@ -336,7 +336,7 @@ The systemd unit name is **`tenndalux_gunicorn.service`** (note the `_gunicorn` 
 - **Frontend unit (Jest)**: `cd frontend && npm test -- path/to/file.test.tsx`. Config: `jest.config.cjs` with jsdom.
 - **Frontend E2E (Playwright 1.42)**: `cd frontend && npx playwright test e2e/path/to/spec.ts` — max 2 files per invocation. Use `E2E_REUSE_SERVER=1` when a Next.js dev server is already running.
 
-> **Note**: because the project is currently SUSPENDED, do not run tests against the live deploy environment.
+> **Note**: do not run tests against the live deploy environment — it is a live client-facing environment.
 
 ### Quality Standards
 
@@ -409,7 +409,7 @@ The project uses different DRF view styles depending on the resource type — ma
 #### Frontend: Next.js 16 + React 19 + App Router + static export
 - **Stack**: Next.js 16.1.6, React 19.2.3, TypeScript 5.
 - **App Router** in `frontend/app/`.
-- **Static export**: `next.config.ts` uses `output: 'export'` so `next build` emits SSG to `frontend/out/`. HTML pages are copied to `backend/templates/frontend/` (served by `frontend_views.py`); static assets (`_next/`) go to `backend/static/`. No `build_to_django.sh` script exists yet — the copy is currently a manual step.
+- **Static export**: `next.config.ts` uses `output: 'export'` so `next build` emits SSG to `frontend/out/`. HTML pages are copied to `backend/templates/frontend/` (served by `frontend_views.py`); static assets (`_next/`) go to `backend/static/_next`. The `build_to_django.sh` script in `frontend/` automates the export and copy.
 - This means **Server Components are limited to build-time data**. Anything that needs per-request data must be a Client Component.
 
 #### Frontend: state management with Zustand
@@ -450,18 +450,15 @@ cd backend && source venv/bin/activate
 cd frontend && npm install && npm run dev   # Next.js dev, default :3000
 ```
 
-### Production Deployment (when reactivated)
+### Deployment (staging — operator-run via `/deploy-and-check`)
 
-When the project is reactivated, the deploy sequence is:
+Deploys are **operator-run only**, via the `/deploy-and-check` skill from the project directory — never run this sequence autonomously. The deploy sequence is:
 1. `git pull origin master`
 2. Backend: `cd backend && source venv/bin/activate && pip install -r requirements.txt && python manage.py migrate`
-3. Frontend: `cd frontend && npm ci && npm run build` (Next.js static export → `frontend/out/`)
-4. Manually copy: HTML pages from `frontend/out/` → `backend/templates/frontend/`; `_next/` assets → `backend/static/`. (No `build_to_django.sh` script exists yet.)
-5. Backend: `python manage.py collectstatic --noinput`
-6. Restart: `sudo systemctl restart tenndalux_gunicorn && sudo systemctl restart tenndalux-huey`
-7. Verify: `bash /home/ryzepeck/webapps/ops/vps/scripts/deployment/post-deploy-check.sh tenndalux_project`
-
-⚠️ **Currently the project is SUSPENDED** — do not run any of the above without explicit confirmation that payment has been resolved.
+3. Frontend: `cd frontend && npm ci && bash build_to_django.sh` (builds the Next.js static export and copies HTML → `backend/templates/frontend/`, assets → `backend/static/_next`)
+4. Backend: `python manage.py collectstatic --noinput`
+5. Restart: `sudo systemctl restart tenndalux_project && sudo systemctl restart tenndalux-huey`
+6. Verify: `bash ~/webapps/vps-ops-toolkit/scripts/deployment/post-deploy-check.sh tenndalux_project_staging`
 
 ### Testing Insights
 
@@ -473,7 +470,7 @@ When the project is reactivated, the deploy sequence is:
 ### Tech Debt / Things to Be Aware Of
 
 - `GalleryField` is partially integrated — models declare it but serializers don't yet expose the gallery URLs uniformly.
-- The Next.js static export step is **manual** (`build_to_django.sh`) — there is no CI deploy pipeline yet.
+- The Next.js static export step (`build_to_django.sh`) is **operator-run** (via the `/deploy-and-check` flow) — there is no CI deploy pipeline yet.
 - `next-intl` is wired but not all components use `useTranslations()`.
 - Silk profiling is conditional — disabled by default.
 
@@ -483,13 +480,15 @@ When the project is reactivated, the deploy sequence is:
 
 ### Known Issues
 
-#### [KNOWN-001] Project is suspended (2026-03-17)
-- **Context**: services stopped due to non-payment. DB and media preserved.
-- **Workaround**: do not run deploys, migrations, or service restarts. Wait for explicit reactivation.
+_None currently._
 
 ### Resolved Issues
 
-_No resolved issues recorded yet. When fixing a non-trivial bug, document the root cause and resolution here:_
+#### [KNOWN-001] Project suspension (RESOLVED 2026-05-07)
+- **Context**: services stopped 2026-03-17 due to non-payment. DB and media were preserved throughout.
+- **Resolution**: payment resolved 2026-04-22; project reactivated 2026-05-07 as `tenndalux_project_staging` on `vps-projectapp-staging`.
+
+_When fixing a non-trivial bug, document the root cause and resolution here:_
 
 ```
 #### [ERR-NNN] short title

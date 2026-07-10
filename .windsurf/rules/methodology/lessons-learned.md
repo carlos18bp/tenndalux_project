@@ -13,7 +13,7 @@ This file captures important patterns, preferences, and project intelligence tha
 
 A landing site + portfolio CMS for an interior design / decoration brand at `tenndalux.projectapp.co`. Features: portfolio gallery (projects organised by category, style, and space), services catalog, blog, lead capture form, and a small admin dashboard.
 
-**Status**: ⚠️ SUSPENDED since 2026-03-17 due to non-payment. Services stopped; DB and media preserved. Do not run deploys, migrations, or service restarts without explicit user confirmation.
+**Status**: ACTIVE (staging) — reactivated 2026-05-07 after a payment suspension (suspended 2026-03-17; payment resolved 2026-04-22). Runs as `tenndalux_project_staging` on `vps-projectapp-staging`, serving https://tenndalux.projectapp.co. Deploys, migrations, and service restarts are operator-run only (via the `/deploy-and-check` flow) — never run them autonomously.
 
 ---
 
@@ -28,7 +28,7 @@ A landing site + portfolio CMS for an interior design / decoration brand at `ten
 - **Bilingual (incomplete)**: Some models have `*_en` / `*_es` fields but coverage is partial. `next-intl 4.8` is wired but not all components use `useTranslations()` yet.
 - **Huey periodic tasks** (in `backend/core_project/tasks.py`): `scheduled_backup` Mon 02:00 UTC, `silk_garbage_collection` daily 04:00 UTC, `weekly_slow_queries_report` Wed 07:00 UTC, `silk_reports_cleanup` 1st of month 06:30 UTC.
 - **Conditional Silk**: `django-silk` gated by `ENABLE_SILK=True`. Off by default.
-- **Static export + Django serving**: Next.js builds to `frontend/out/`. HTML pages → `backend/templates/frontend/` (served by `frontend_views.py` which reads them as raw `HttpResponse`); `_next/` assets → `backend/static/` (served by Nginx in prod, by Django URL in dev). No Node.js in production. No `build_to_django.sh` script exists yet — copying is currently manual.
+- **Static export + Django serving**: Next.js builds to `frontend/out/`. HTML pages → `backend/templates/frontend/` (served by `frontend_views.py` which reads them as raw `HttpResponse`); `_next/` assets → `backend/static/` (served by Nginx in prod, by Django URL in dev). No Node.js in production. The `build_to_django.sh` script in `frontend/` automates the export and copy.
 
 ---
 
@@ -50,7 +50,7 @@ A landing site + portfolio CMS for an interior design / decoration brand at `ten
 
 - **Virtual environment**: Always `cd backend && source venv/bin/activate` before backend commands.
 - **Frontend dev**: `cd frontend && npm run dev` (Next.js, default :3000).
-- **Frontend build**: `cd frontend && npm run build` exports to `frontend/out/`. Then manually copy HTML → `backend/templates/frontend/`; `_next/` → `backend/static/`. (No `build_to_django.sh` script yet.)
+- **Frontend build**: `cd frontend && npm ci && bash build_to_django.sh` builds the static export and copies HTML → `backend/templates/frontend/`; `_next/` assets → `backend/static/_next`.
 - **Fake data**: `python manage.py create_fake_data --users 10` for seeding; `python manage.py delete_fake_data --confirm` for cleanup.
 - **Test execution**: Run specific files only, never the full suite. Max 20 tests or 3 commands per cycle.
 - **Pre-commit**: `.pre-commit-config.yaml` runs linting before commits.
@@ -79,7 +79,7 @@ A landing site + portfolio CMS for an interior design / decoration brand at `ten
 ## 7. Tech Debt / Things to Be Aware Of
 
 - `GalleryField` is partially integrated — models declare it but serializers don't expose gallery URLs uniformly.
-- The Next.js static export step is manual (`build_to_django.sh`) — no CI deploy pipeline.
+- The Next.js static export step (`build_to_django.sh`) is operator-run (via the `/deploy-and-check` flow) — no CI deploy pipeline.
 - `next-intl` is wired but not all components use `useTranslations()`.
 - Silk profiling is conditional — disabled by default.
 - `core_app/services/` exists but is empty — no service-layer tests needed yet.

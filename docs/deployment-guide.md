@@ -25,13 +25,13 @@ pip install -r requirements.txt
 python manage.py migrate
 python manage.py collectstatic --noinput
 
-# Frontend
+# Frontend (bake-into-django: exports to backend/static/_next + backend/templates/frontend/)
 cd ../frontend
-npm install
-npm run build
+npm ci
+bash build_to_django.sh
 
 # Restart services
-sudo systemctl restart tenndalux_gunicorn
+sudo systemctl restart tenndalux_project
 sudo systemctl restart tenndalux-huey
 ```
 

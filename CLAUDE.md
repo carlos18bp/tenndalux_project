@@ -176,8 +176,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 # Tenndalux — Claude Compatibility Guide
 
-## ⚠️ STATUS: SUSPENDED
-Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are stopped; database and media are preserved. Do not run deploys, migrations, or service restarts without explicit reactivation from the user.
+## Status: ACTIVE (staging)
+Tenndalux is **active** — reactivated 2026-05-07 after a payment suspension (suspended 2026-03-17; payment resolved 2026-04-22). It runs as `tenndalux_project_staging` on `vps-projectapp-staging` (srv571894), serving https://tenndalux.projectapp.co. Deploys, migrations, and service restarts are **operator-run only** (via the `/deploy-and-check` flow) — never run them autonomously.
 
 ## Source Of Truth
 - The canonical repo guidance is maintained in the Codex-native surfaces: `AGENTS.md`, `backend/AGENTS.md`, `frontend/AGENTS.md`, `.agents/skills/*`, `.codex/config.toml`.
@@ -188,9 +188,9 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 - **What it is**: Tenndalux — a landing site + portfolio CMS for an interior design / decoration brand. Features a portfolio gallery (projects organized by category, style, space), services catalog, blog, lead capture form, and a small admin dashboard.
 - **Stack**: Django 6.0 + DRF (backend) / **Next.js 16.1.6 + React 19.2 + TypeScript 5** (frontend, App Router with **static export**) / MySQL 8 / Redis / Huey / SMTP email.
 - **Single Django app**: `core_app`. **Django module name is `core_project`** (not `tenndalux_project`!). Settings module: `core_project.settings_prod`.
-- **Production path**: `/home/ryzepeck/webapps/tenndalux_project`.
+- **Deploy path (staging)**: `/home/ryzepeck/webapps/tenndalux_project_staging/` on `vps-projectapp-staging` (srv571894).
 - **Domain**: `tenndalux.projectapp.co`.
-- **Services**: `tenndalux_gunicorn.service` (note `_gunicorn` suffix), `tenndalux-huey.service`. Socket: `/run/tenndalux_gunicorn.sock`.
+- **Services**: `tenndalux_project.service` (gunicorn), `tenndalux-huey.service` (huey). Socket: `/run/tenndalux_project.sock`.
 - The frontend uses Next.js **static export** (`output: 'export'`) — `next build` emits SSG to `frontend/out/`. HTML pages are deployed to `backend/templates/frontend/` (served by `frontend_views.py`); static JS/CSS assets (`_next/`) go to `backend/static/`.
 
 ## Architecture Invariants
@@ -213,7 +213,7 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 - **Never call `fetch()` or raw `axios` directly** in frontend code — always use the wrapped instance from `lib/services/http.ts` (handles JWT injection and 401 auto-refresh).
 
 ## Working Rules
-- ⚠️ **Project is SUSPENDED** — do not run deploys, migrations, or service restarts without explicit user instruction.
+- Deploys, migrations, and service restarts are **operator-run only** (via the `/deploy-and-check` flow) — never run them autonomously.
 - Prefer existing project patterns over generic framework advice.
 - Do not rename `core_project` or `core_app` to `tenndalux_*` — keep the generic naming.
 - Do not change old migrations; add new migrations when schema changes are required.
@@ -227,7 +227,7 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 - Frontend unit tests (Jest): `cd frontend && npm test -- path/to/file.test.tsx`
 - Frontend E2E (Playwright): `cd frontend && npx playwright test e2e/path/to/spec.ts`
 - Frontend build: `cd frontend && npm run build` (static export to `frontend/out/`)
-- Stage to Django: copy `frontend/out/` HTML → `backend/templates/frontend/`; copy `_next/` → `backend/static/` (no script yet)
+- Stage to Django: `cd frontend && npm ci && bash build_to_django.sh` (exports HTML → `backend/templates/frontend/`, assets → `backend/static/_next`)
 - Migrations: `cd backend && source venv/bin/activate && python manage.py makemigrations && python manage.py migrate`
 - Seed dev data: `cd backend && source venv/bin/activate && python manage.py create_fake_data --users 10`
 - Clear fake data: `cd backend && source venv/bin/activate && python manage.py delete_fake_data --confirm`
@@ -237,7 +237,7 @@ Tenndalux is **suspended since 2026-03-17** due to non-payment. Services are sto
 ## Testing Constraints
 - Never run the full test suite.
 - Maximum 20 tests per batch and 3 test commands per cycle.
-- Do not run tests against the live deploy environment (project is SUSPENDED).
+- Do not run tests against the live deploy environment — it is a live client-facing environment.
 - Run only the smallest backend, frontend unit, or E2E slice needed for the changed behavior.
 
 ## Memory Bank
