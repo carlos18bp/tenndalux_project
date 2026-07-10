@@ -10,19 +10,19 @@ gsap.registerPlugin(ScrollTrigger);
 const faqs = [
   {
     question: "¿Cuánto tiempo tarda la fabricación e instalación?",
-    answer: "El tiempo promedio de fabricación es de 5 a 8 días hábiles, dependiendo del tipo de tejido y sistema seleccionado. La instalación se programa inmediatamente después y suele tomar entre 2 y 4 horas."
+    answer: "La fabricación toma entre 5 y 10 días hábiles. Una vez listo tu pedido, la instalación normalmente se realiza en 1 o 2 días, según el tamaño del proyecto y la cantidad de productos."
   },
   {
     question: "¿Qué garantía ofrecen?",
-    answer: "Los motores cuentan con garantía de 5 años. Los tejidos y sistemas tienen garantía de 1 a 5 años, dependiendo del tejido o sistema seleccionado. La instalación cuenta con garantía de 3 meses."
+    answer: "Ofrecemos hasta 5 años de garantía, según el producto. Nuestros motores cuentan con 5 años de garantía, y además brindamos respaldo tanto en la instalación como en el servicio posventa para que tengas total tranquilidad."
   },
   {
-    question: "¿Puedo automatizar persianas que ya tengo instaladas?",
-    answer: "En muchos casos es posible. Necesitamos evaluar el sistema actual y el diámetro del tubo. Agenda una visita técnica para que nuestros expertos verifiquen la viabilidad."
+    question: "¿Puedo automatizar cortinas que ya tengo instaladas?",
+    answer: "En muchos casos, sí. Todo depende del sistema, el estado de las cortinas y su compatibilidad. Realizamos una visita de evaluación para confirmar si es posible automatizarlas o recomendar la mejor alternativa."
   },
   {
     question: "¿Realizan visitas fuera de Bogotá?",
-    answer: "Sí, cubrimos toda la sabana de Bogotá y ciudades principales bajo programación previa. Contáctanos para consultar la disponibilidad en tu zona."
+    answer: "Sí. Atendemos Bogotá y la Sabana, incluyendo Chía, Cajicá, Cota y municipios cercanos. Para otras ciudades, ofrecemos asesoría virtual y contamos con una red de aliados para la instalación en diferentes zonas del país."
   }
 ];
 
@@ -88,13 +88,15 @@ export default function FAQ() {
                   }`}
                 />
               </button>
-              <div 
-                className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                  openIndex === index ? 'max-h-48 opacity-100' : 'max-h-0 opacity-0'
+              <div
+                className={`grid transition-all duration-300 ease-in-out ${
+                  openIndex === index ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'
                 }`}
               >
-                <div className="px-8 pb-8 text-lg text-stone-600 font-light leading-relaxed">
-                  {faq.answer}
+                <div className="overflow-hidden">
+                  <div className="px-8 pb-8 text-lg text-stone-600 font-light leading-relaxed">
+                    {faq.answer}
+                  </div>
                 </div>
               </div>
             </div>
