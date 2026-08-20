@@ -57,7 +57,6 @@ tenndalux_project/              repo root
 ├── scripts/                    Quality gate, systemd units, nginx config
 ├── .agents/skills/             Codex skills
 ├── .claude/skills/             Claude Code skills
-├── .windsurf/                  Windsurf rules and workflows
 └── .codex/config.toml          Codex project config
 ```
 

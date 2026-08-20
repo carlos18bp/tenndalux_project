@@ -1,7 +1,6 @@
 ---
-name: repo-cleanup
+name: "repo-cleanup"
 description: "Systematic audit of the repository to find obsolete, deprecated, orphaned, or unnecessary files and recommend cleanup actions."
-argument-hint: "[optional: backend, frontend, docs, or all]"
 ---
 
 # Repo Cleanup — Systematic File Audit
@@ -11,7 +10,7 @@ Scan the repository for files that should be deleted, updated, or added to `.git
 
 ## Cómo invocar este skill
 
-Gating ([[_output-protocol]] §4): si el operador pasó el argumento de alcance
+Gating ($output-protocol §4): si el operador pasó el argumento de alcance
 (`backend`/`frontend`/`docs`/`all`) → ejecutar directo, sin menú. Si la
 intención es clara por la sesión (p.ej. se venía hablando de basura en docs) →
 proponer el comando en una línea y esperar confirmación. Sin argumento y sin
@@ -22,10 +21,10 @@ fleet/headless/cron ni dentro de un barrido.
 
 | label | description | preview |
 |---|---|---|
-| Todo el repo (`all`) *(Recommended)* | audita backend + frontend + docs; read-only, sólo reporta | `/repo-cleanup all` |
-| Sólo backend | dead code Python, artefactos y configs huérfanas de `backend/` | `/repo-cleanup backend` |
-| Sólo frontend | componentes/composables sin referencias, builds trackeados | `/repo-cleanup frontend` |
-| Sólo docs | documentación stale, duplicada o vacía | `/repo-cleanup docs` |
+| Todo el repo (`all`) *(Recommended)* | audita backend + frontend + docs; read-only, sólo reporta | `$repo-cleanup all` |
+| Sólo backend | dead code Python, artefactos y configs huérfanas de `backend/` | `$repo-cleanup backend` |
+| Sólo frontend | componentes/composables sin referencias, builds trackeados | `$repo-cleanup frontend` |
+| Sólo docs | documentación stale, duplicada o vacía | `$repo-cleanup docs` |
 
 **Qué NO se pregunta:** nada más — no hay flags ocultos (el único argumento es
 el alcance). Los lotes de borrado no se preguntan acá: se aprueban después del
@@ -113,7 +112,7 @@ reporte, con lista y evidencia visibles (ver `## Acciones disponibles`).
 
 ## Rules
 - **Read-only until user approves.** Do not delete, edit, or move any file during the audit. Present the report and wait for confirmation.
-- Do not flag files in `.agents/`, `.claude/`, `.windsurf/`, or `.codex/` as obsolete — these are intentional multi-tool compatibility layers.
+- Do not flag files in `.agents/`, `.claude/`, or `.codex/` as obsolete — these are intentional compatibility layers. `.windsurf/` is retired fleet-wide and must be reported as obsolete if present.
 - Do not flag Django migrations as obsolete unless they are clearly broken merge migrations.
 - Do not flag `__init__.py` files as empty/unnecessary — they mark Python packages.
 - Verify dead code claims: a file is only "unused" if it has zero imports AND is not referenced in URL configs, management commands, or template tags.
@@ -122,7 +121,7 @@ reporte, con lista y evidencia visibles (ver `## Acciones disponibles`).
 ## Acciones disponibles
 
 Tras el reporte, si la sesión es interactiva y NO hubo flags explícitos
-(reglas de gating de [[_output-protocol]] §4), ofrecer vía AskUserQuestion:
+(reglas de gating de $output-protocol §4), ofrecer vía AskUserQuestion:
 
 | Opción (label) | description (costo/efecto) | preview (comando exacto) |
 |---|---|---|
@@ -136,7 +135,7 @@ carve-outs de la skill (migrations, `__init__.py`, systemd/cron activos).
 
 ## Output final
 
-Reportar siguiendo [[_output-protocol]]. Plantilla específica de esta skill
+Reportar siguiendo $output-protocol. Plantilla específica de esta skill
 (auditoría read-only; ✅ limpio · ⚠️ hallazgos a revisar · ❌ HIGH: secretos o
 artefactos trackeados):
 
