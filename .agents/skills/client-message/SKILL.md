@@ -1,8 +1,6 @@
 ---
-name: client-message
-description: "Redacta el par correo + mensaje de WhatsApp para avisarle algo a un cliente: envío de un documento (OTROSÍ, contrato, propuesta), entrega de una funcionalidad, respuesta a lo que reportó o un pedido de aprobación. El correo va completo, con asunto, saludo, cuerpo y cierre; el WhatsApp es mucho más corto, invita a revisar el correo y le anticipa qué encontrará. Opcionalmente genera además el reporte de cambios (local + Gestor de Documentos). Si no se pasa el tema, pregunta de qué se trata proponiendo lo último que se trabajó. El par correo/WhatsApp sólo se devuelve como texto en español para copiar y pegar: no envía nada."
-allowed-tools: Bash, Read, Write, AskUserQuestion, mcp__claude_ai_Gmail__search_threads, mcp__claude_ai_Gmail__get_thread, mcp__claude_ai_Gestor_de_Documentos__list_folders, mcp__claude_ai_Gestor_de_Documentos__list_documents, mcp__claude_ai_Gestor_de_Documentos__read_document, mcp__claude_ai_Gestor_de_Documentos__create_folder, mcp__claude_ai_Gestor_de_Documentos__create_document, mcp__claude_ai_Gestor_de_Documentos__update_document
-argument-hint: "[tema del mensaje — ej: 'avisar que se envió el OTROSÍ y resumir qué contiene' | vacío = pregunta]"
+name: "client-message"
+description: "Redacta el par correo + mensaje de WhatsApp para avisarle algo a un cliente: envío de un documento, entrega, respuesta o aprobación. El correo lleva asunto y cuerpo completo; el WhatsApp es breve. Opcionalmente genera el reporte de cambios y guarda ese mismo par como nota privada del documento en el Gestor. Si no se pasa el tema, pregunta proponiendo lo último trabajado. Devuelve texto en español para copiar y pegar; no envía nada."
 ---
 
 # Client Message — el correo + el WhatsApp para el cliente
@@ -12,15 +10,17 @@ una entrega, se respondieron sus observaciones— hacen falta **dos textos, no u
 el correo que lleva el contenido, y el WhatsApp que lo empuja a abrir el correo.
 
 Esta skill devuelve ese par, en español no técnico, listo para copiar y pegar.
-Opcionalmente encadena el **reporte de cambios** delegando en [[client-report]].
+Opcionalmente encadena el **reporte de cambios** delegando en $client-report;
+cuando lo hace, el mismo asunto, correo y WhatsApp quedan como nota privada del
+documento en el Gestor.
 
 > **La diferencia en una línea: el correo es el documento; el WhatsApp es el
 > golpecito en el hombro.**
 
 > **⚠️ Cómo invocar**:
-> - `/client-message avisarle que se le envió el OTROSÍ y resumirle qué contiene`
+> - `$client-message avisarle que se le envió el OTROSÍ y resumirle qué contiene`
 >   → **redacta directo**, sin preguntar el tema.
-> - `/client-message` → pregunta de qué se trata, proponiendo lo último que se trabajó.
+> - `$client-message` → pregunta de qué se trata, proponiendo lo último que se trabajó.
 > - En lenguaje natural: *"dame un correo y un whatsapp para avisarle al cliente
 >   que ya quedó"* → se auto-invoca.
 >
@@ -86,7 +86,7 @@ Reglas, evaluadas **en este orden**. Son el corazón de la skill:
    implementar o arreglar algo concreto en esta conversación, o el operador lo
    describió en su mensaje anterior) → **no abrir picker**: proponer en una línea
    (`Voy a redactar sobre: <tema>`) y esperar confirmación en texto. Regla 2 de
-   [[_output-protocol]] §4.
+   $output-protocol §4.
 3. `$ARGUMENTS` vacío y sin intención clara → disparar la `AskUserQuestion`.
 4. **Nunca** preguntar en modo fleet/headless/cron.
 5. **El perfil ausente NO abre un segundo turno**: va como pregunta adicional de
@@ -155,7 +155,7 @@ git -C "$TOOLKIT" status --short config/client-comms/
 ```
 
 La skill **no commitea**: deja el `status --short` visible para que el operador lo
-haga con `/git-commit`.
+haga con `$git-commit`.
 
 ---
 
@@ -181,13 +181,14 @@ no la tiene, **no entra**.
 
 ## Phase 4 — Reporte de cambios (opcional, sólo si el gating dijo que sí)
 
-> **Orden no negociable: esta fase va ANTES del correo**, porque el correo
+> **Orden no negociable: esta fase va ANTES de mostrar el correo**, porque éste
 > referencia el reporte ("te envié el reporte con…") y necesita su nombre real.
 
-**Se delega en [[client-report]] — no se reimplementa nada de esto.** Aplicá su
+**Se delega en $client-report — no se reimplementa nada de esto.** Aplicá su
 procedimiento tal cual: su Phase 3 (crear el reporte con la plantilla del fleet en
-`docs/reports/<Tema_En_Snake_Case>_DDMMYYYY.md`) y su Phase 4 (publicar en el Gestor
-de Documentos), usando como insumos los que ya reuniste en la Phase 3 de acá.
+`docs/reports/<Tema_En_Snake_Case>_DDMMYYYY.md`), su Phase 3B (preparar la nota
+privada) y su Phase 4 (publicar reporte + nota en el Gestor de Documentos), usando
+como insumos los que ya reuniste en la Phase 3 de acá.
 
 De `client-report` se hereda **todo** lo del reporte y del Gestor, incluida la
 resolución y persistencia de la coordenada (`gestor:` en
@@ -197,12 +198,18 @@ jerarquía si el proyecto todavía no tiene carpeta, y guardarla al publicar.
 **No dupliques esa lógica acá.** Si algo de eso hay que cambiar, se cambia en
 `client-report` y esta skill lo hereda.
 
-Lo único que aporta esta fase es el **encadenamiento**: correrla ANTES del correo, y
-pasarle al correo el nombre y la ubicación reales del reporte.
+Lo único que aporta esta fase es el **encadenamiento**: correrla antes del output y
+recibir el nombre, la ubicación y los tres textos exactos de la nota. Las Phase 5 y
+6 de esta skill muestran esos valores; **no los vuelven a redactar**.
 
 ---
 
 ## Phase 5 — El correo
+
+Si hubo reporte, usá exactamente `client_email_subject` y `client_email_body`
+producidos por la Phase 3B de $client-report: el primero va después de `Asunto:`
+y el segundo debajo, sin cambios. Si no hubo reporte, redactalos ahora con esta
+plantilla y estas reglas.
 
 ```
 Asunto: <5 a 9 palabras, concreto, sin "Re:" y sin mayúsculas sostenidas>
@@ -235,6 +242,10 @@ Asunto: <5 a 9 palabras, concreto, sin "Re:" y sin mayúsculas sostenidas>
   placeholder `[Nombre]` en el saludo: es justo lo que se olvida de reemplazar.
 
 ## Phase 6 — El WhatsApp
+
+Si hubo reporte, usá exactamente `client_whatsapp_message` producido por la Phase
+3B de $client-report. Si no hubo reporte, redactalo ahora con esta plantilla y
+estas reglas.
 
 ```
 <Saludo corto>, <contacto>. <Una frase: te envié un correo con X.>
@@ -305,6 +316,8 @@ sirve en todos lados. `sync-shared-skills.sh` **no toca `config/`**.
 2. **No enviar nada.** Ni borrador de Gmail, ni msmtp, ni MCP de envío.
    `create_draft` está fuera de `allowed-tools` a propósito.
 3. **No escribir archivos del proyecto**, salvo el reporte de Phase 4 en `docs/reports/`.
+   Guardar su nota privada en el mismo documento del Gestor forma parte de esa
+   publicación; no autoriza escribir ni enviar mensajes por otra vía.
 4. **No commitear** — ni el toolkit ni el repo del proyecto.
 5. **No prometer fechas ni plazos**, salvo cita textual del operador en esta sesión.
 6. **Cero jerga técnica:** nada de branch, commit, hash, endpoint, migración,
@@ -321,19 +334,22 @@ sirve en todos lados. `sync-shared-skills.sh` **no toca `config/`**.
     avisa `Gestor de Documentos: n/a en esta sesión`.
 12. **Nunca crear carpeta ni documento en el Gestor sin confirmación explícita.** Esta
     skill tiene los tools de escritura del Gestor en `allowed-tools`, pero las reglas
-    de qué se crea y dónde son de [[client-report]] — no las reinterpretes acá.
+    de qué se crea y dónde son de $client-report — no las reinterpretes acá.
 13. **`$ARGUMENTS` con tema → no preguntar el tema.** Ni picker, ni confirmación.
 14. **Un par por corrida:** un correo y un WhatsApp. Si el tema da para dos avisos
     distintos, elegir el más urgente y decirlo en una línea.
 15. **Nunca meter el WhatsApp dentro del correo ni viceversa.**
 16. **Sin `[…]` sin declarar:** todo placeholder que quede en el texto aparece en la
     lista final. Con placeholders el veredicto **nunca** es 🟢.
+17. **Una sola versión cuando hay reporte:** el asunto, cuerpo y WhatsApp del output
+    son exactamente los tres campos enviados al Gestor. Si la publicación fue
+    omitida o falló, se devuelven igual pero se declara que no quedaron persistidos.
 
 ---
 
 ## Output final
 
-Excepción **output-es-el-producto** de [[_output-protocol]] (§2, "Excepción: skills
+Excepción **output-es-el-producto** de $output-protocol (§2, "Excepción: skills
 cuyo output ES el producto"): los dos textos SON el entregable y se le pegan tal cual
 a un cliente no técnico. Esta skill cierra **SIN tabla de dimensiones** (§2) y **SIN
 Next steps técnicos** (§3) — sólo la línea de veredicto (§1).
@@ -359,7 +375,7 @@ Asunto: <…>
 
 <Datos que faltan — SÓLO si quedó algún `[…]`. Máx 3 bullets: qué dato va y en qué parte.>
 
-<Si hubo reporte: UNA línea con la ruta local y el destino en el Gestor.>
+<Si hubo reporte: UNA línea con la ruta local, el destino en el Gestor y el estado de la nota privada.>
 
 🟢 client-message OK — correo + WhatsApp listos para copiar
 ````
@@ -380,7 +396,7 @@ menú post-run es exactamente el ruido que la excepción existe para evitar.
 
 ## Referencias
 
-- Reporte de cambios (se delega ahí en Phase 4): [[client-report]]
-- Protocolo de salida y gating de preguntas: [[_output-protocol]] §2 y §4
+- Reporte de cambios (se delega ahí en Phase 4): $client-report
+- Protocolo de salida y gating de preguntas: $output-protocol §2 y §4
 - Schema del perfil y de los overrides: `config/client-comms/README.md`
 - Precedente del diseño de persistencia: `config/qa-memory/README.md`
