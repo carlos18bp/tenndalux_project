@@ -429,11 +429,8 @@ export default function Productos() {
     ? products 
     : products.filter(p => p.category === selectedCategory);
 
-  const handleWhatsApp = (productName?: string) => {
-    const message = productName 
-      ? `Hola, quiero información sobre ${productName}` 
-      : 'Hola, quiero información sobre sus productos';
-    window.open(`https://wa.me/573238122373?text=${encodeURIComponent(message)}`, '_blank');
+  const handleWhatsApp = () => {
+    window.open('https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos', '_blank');
   };
 
   return (
@@ -555,7 +552,7 @@ export default function Productos() {
                     </button>
                     
                     <button
-                      onClick={() => handleWhatsApp(product.name)}
+                      onClick={() => handleWhatsApp()}
                       className="w-full py-5 rounded-xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] bg-stone-900 text-stone-50"
                     >
                       <WhatsAppIcon size={20} />
@@ -716,7 +713,7 @@ export default function Productos() {
                 {/* CTA */}
                 <div className="pt-6">
                   <button
-                    onClick={() => handleWhatsApp(selectedProduct.name)}
+                    onClick={() => handleWhatsApp()}
                     className="w-full px-12 py-5 rounded-full flex items-center justify-center gap-4 transition-all hover:scale-105 bg-stone-900 text-stone-50"
                   >
                     <WhatsAppIcon size={24} />

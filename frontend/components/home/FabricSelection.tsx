@@ -85,7 +85,7 @@ export default function FabricSelection() {
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start pt-8">
               <a
-                href="https://wa.me/573238122373?text=Hola,%20quiero%20agendar%20una%20asesoría%20de%20diseño"
+                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 bg-stone-900 text-stone-50 px-8 sm:px-14 py-5 sm:py-6 rounded-full font-bold text-base sm:text-xl hover:bg-stone-800 transition-all duration-300 shadow-xl shadow-stone-900/10 hover:shadow-stone-900/30 transform hover:-translate-y-1"

@@ -174,7 +174,7 @@ export default function BlogPostClient() {
   }
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/573238122373?text=Hola,%20leí%20el%20artículo%20sobre%20cortinas%20inteligentes%20y%20me%20interesa%20una%20consultoría', '_blank');
+    window.open('https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos', '_blank');
   };
 
   const handleShare = () => {
@@ -406,7 +406,7 @@ export default function BlogPostClient() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <a
-                    href="https://wa.me/573238122373?text=Hola,%20quiero%20agendar%20una%20consultoría"
+                    href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
@@ -415,7 +415,7 @@ export default function BlogPostClient() {
                     <ArrowRight className="w-6 h-6" />
                   </a>
                   <a
-                    href="https://wa.me/573238122373?text=Hola,%20leí%20el%20artículo%20y%20me%20interesa%20una%20consultoría"
+                    href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-900 text-stone-900"
