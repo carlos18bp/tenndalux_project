@@ -14,8 +14,6 @@ import {
   Home,
   Building2,
   Settings,
-  ChevronDown,
-  ChevronUp,
   Clock,
   Award,
   Headphones,
@@ -45,8 +43,8 @@ type ExteriorSolution = {
 };
 
 export default function Servicios() {
-  const [expandedProduct, setExpandedProduct] = useState<string | null>(null);
   const [selectedProductTab, setSelectedProductTab] = useState('cortinas');
+  const [selectedCortina, setSelectedCortina] = useState('ondessence');
   const [mobileDetailProduct, setMobileDetailProduct] = useState<Product | null>(null);
   const [mobileDetailExterior, setMobileDetailExterior] = useState<ExteriorSolution | null>(null);
   const productsSectionRef = useRef<HTMLElement>(null);
@@ -62,10 +60,6 @@ export default function Servicios() {
       }, 300);
     }
   }, []);
-
-  const toggleProduct = (productId: string) => {
-    setExpandedProduct(expandedProduct === productId ? null : productId);
-  };
 
   const openMobileDetail = (product: Product) => {
     setMobileDetailProduct(product);
@@ -113,7 +107,7 @@ export default function Servicios() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://wa.me/573238122373?text=Hola,%20quiero%20una%20asesoría%20gratuita"
+                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 sm:px-14 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 hover:shadow-xl bg-stone-900 text-stone-50"
@@ -242,7 +236,7 @@ export default function Servicios() {
             className="text-center mt-8"
           >
             <a
-              href="https://wa.me/573238122373?text=Hola,%20quiero%20hablar%20con%20un%20asesor"
+              href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 hover:shadow-xl bg-stone-900 text-stone-50"
@@ -409,82 +403,114 @@ export default function Servicios() {
                   ))}
                 </div>
 
-                {/* Desktop: Accordion */}
-                <div className="hidden sm:block space-y-6">
-                  {cortinas.map((product) => (
-                    <div key={product.id} className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100">
-                      <button
-                        onClick={() => toggleProduct(product.id)}
-                        className="w-full p-10 flex items-center justify-between hover:bg-stone-50 transition-colors"
-                      >
-                        <div className="flex items-center gap-6">
-                          <div className="relative w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
-                            <Image src={product.image} alt={product.title} fill className="object-cover" sizes="80px" />
-                          </div>
-                          <div className="text-left">
-                            <h3 className="text-2xl font-semibold mb-2 text-stone-900">{product.title}</h3>
-                            <p className="text-base text-stone-600">{product.description}</p>
-                          </div>
-                        </div>
-                        {expandedProduct === product.id ? (
-                          <ChevronUp className="w-6 h-6 flex-shrink-0 text-stone-900" />
-                        ) : (
-                          <ChevronDown className="w-6 h-6 flex-shrink-0 text-stone-900" />
-                        )}
-                      </button>
+                {/* Desktop: galería de altura fija con selector lateral.
+                    Con 9 cortinas, una card grande por producto haría un scroll
+                    interminable: se muestra una sola imagen grande y la lista
+                    completa queda a la derecha, siempre a la vista. */}
+                <div className="hidden sm:block">
+                  {(() => {
+                    const active = cortinas.find((c) => c.id === selectedCortina) ?? cortinas[0];
 
-                      {expandedProduct === product.id && (
-                        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="border-t border-stone-100">
-                          <div className="p-10 pt-8 grid sm:grid-cols-2 md:grid-cols-3 gap-12">
-                            <div>
-                              <h4 className="text-sm font-semibold mb-4 text-stone-900">IDEAL PARA</h4>
-                              <ul className="space-y-3">
-                                {product.idealPara.map((item, i) => (
-                                  <li key={i} className="flex items-center gap-2">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-stone-900" />
-                                    <span className="text-sm text-stone-600">{item}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                            <div>
-                              <h4 className="text-sm font-semibold mb-4 text-stone-900">BENEFICIOS CLAVE</h4>
-                              <ul className="space-y-3">
-                                {product.beneficios.map((item, i) => (
-                                  <li key={i} className="flex items-start gap-3">
-                                    <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-stone-900" />
-                                    <span className="text-sm text-stone-600">{item}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                            <div>
-                              <h4 className="text-sm font-semibold mb-4 text-stone-900">OPCIONES</h4>
-                              <ul className="space-y-3">
-                                {product.opciones.map((item, i) => (
-                                  <li key={i} className="flex items-center gap-2">
-                                    <Sparkles className="w-4 h-4 flex-shrink-0 text-stone-900" />
-                                    <span className="text-sm text-stone-600">{item}</span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
+                    return (
+                      <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-6">
+                        {/* Imagen grande + detalle del producto activo */}
+                        <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100">
+                          <div className="relative w-full h-[380px] lg:h-[520px]">
+                            <Image
+                              src={active.image}
+                              alt={active.title}
+                              fill
+                              className="object-cover"
+                              sizes="(max-width: 1024px) 100vw, 60vw"
+                            />
                           </div>
-                          <div className="px-10 pb-10 pt-4">
+
+                          <div className="p-8 lg:p-10">
+                            <h3 className="text-3xl font-semibold mb-3 text-stone-900">{active.title}</h3>
+                            <p className="text-base text-stone-600 leading-relaxed mb-8">{active.description}</p>
+
+                            <div className="grid md:grid-cols-3 gap-8 mb-8">
+                              <div>
+                                <h4 className="text-sm font-semibold mb-4 text-stone-900">IDEAL PARA</h4>
+                                <ul className="space-y-3">
+                                  {active.idealPara.map((item, i) => (
+                                    <li key={i} className="flex items-center gap-2">
+                                      <div className="w-1.5 h-1.5 rounded-full bg-stone-900" />
+                                      <span className="text-sm text-stone-600">{item}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <div>
+                                <h4 className="text-sm font-semibold mb-4 text-stone-900">BENEFICIOS CLAVE</h4>
+                                <ul className="space-y-3">
+                                  {active.beneficios.map((item, i) => (
+                                    <li key={i} className="flex items-start gap-3">
+                                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-stone-900" />
+                                      <span className="text-sm text-stone-600">{item}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                              <div>
+                                <h4 className="text-sm font-semibold mb-4 text-stone-900">OPCIONES</h4>
+                                <ul className="space-y-3">
+                                  {active.opciones.map((item, i) => (
+                                    <li key={i} className="flex items-center gap-2">
+                                      <Sparkles className="w-4 h-4 flex-shrink-0 text-stone-900" />
+                                      <span className="text-sm text-stone-600">{item}</span>
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            </div>
+
                             <a
-                              href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(product.title)}`}
+                              href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                               target="_blank"
                               rel="noopener noreferrer"
                               className="w-full px-12 py-5 rounded-xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] bg-stone-900 text-stone-50"
                             >
-                              <span className="font-semibold">Cotizar {product.title}</span>
+                              <span className="font-semibold">Cotizar {active.title}</span>
                               <ArrowRight className="w-5 h-5" />
                             </a>
                           </div>
-                        </motion.div>
-                      )}
-                    </div>
-                  ))}
+                        </div>
+
+                        {/* Selector: las 9 cortinas siempre visibles */}
+                        <div className="lg:sticky lg:top-24 lg:self-start bg-white rounded-2xl shadow-sm border border-stone-100 p-4">
+                          <p className="text-xs font-semibold tracking-widest text-stone-400 px-3 pt-2 pb-4">
+                            TIPOS DE CORTINA
+                          </p>
+                          <ul className="space-y-1">
+                            {cortinas.map((product) => {
+                              const isActive = product.id === active.id;
+                              return (
+                                <li key={product.id}>
+                                  <button
+                                    onClick={() => setSelectedCortina(product.id)}
+                                    aria-current={isActive ? 'true' : undefined}
+                                    className={`w-full text-left px-3 py-3 rounded-xl flex items-center gap-3 transition-colors ${
+                                      isActive
+                                        ? 'bg-stone-900 text-stone-50 font-semibold'
+                                        : 'text-stone-600 hover:bg-stone-50 font-medium'
+                                    }`}
+                                  >
+                                    <ArrowRight
+                                      className={`w-4 h-4 flex-shrink-0 transition-opacity ${
+                                        isActive ? 'opacity-100' : 'opacity-0'
+                                      }`}
+                                    />
+                                    <span className="text-sm">{product.title}</span>
+                                  </button>
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
               </motion.div>
             );
@@ -523,7 +549,7 @@ export default function Servicios() {
                   </div>
 
                   <a
-                    href="https://wa.me/573238122373?text=Hola,%20quiero%20el%20catálogo%20de%20recubrimientos"
+                    href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-10 py-5 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
@@ -618,7 +644,7 @@ export default function Servicios() {
                             ))}
                           </ul>
                           <a
-                            href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(solution.title)}`}
+                            href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="px-12 py-5 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
@@ -716,7 +742,7 @@ export default function Servicios() {
 
               <div className="text-center">
                 <a
-                  href="https://wa.me/573238122373?text=Hola,%20quiero%20automatizar%20mi%20espacio"
+                  href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-8 sm:px-14 py-5 sm:py-6 rounded-full inline-flex items-center gap-3 sm:gap-4 transition-all hover:scale-105 bg-stone-50 text-stone-900"
@@ -883,7 +909,7 @@ export default function Servicios() {
             className="flex flex-col sm:flex-row gap-6 justify-center"
           >
             <a
-              href="https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20mi%20proyecto"
+              href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
               target="_blank"
               rel="noopener noreferrer"
               className="group px-8 sm:px-14 py-5 sm:py-6 rounded-full flex items-center justify-center gap-3 sm:gap-4 transition-all hover:scale-110 hover:shadow-2xl bg-stone-50 text-stone-900"
@@ -967,7 +993,7 @@ export default function Servicios() {
               </div>
 
               <a
-                href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(mobileDetailProduct.title)}`}
+                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-4 rounded-xl flex items-center justify-center gap-3 bg-stone-900 text-stone-50 font-semibold text-sm"
@@ -1019,7 +1045,7 @@ export default function Servicios() {
               </div>
 
               <a
-                href={`https://wa.me/573238122373?text=Hola,%20quiero%20cotizar%20${encodeURIComponent(mobileDetailExterior.title)}`}
+                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-4 rounded-xl flex items-center justify-center gap-3 bg-stone-900 text-stone-50 font-semibold text-sm"

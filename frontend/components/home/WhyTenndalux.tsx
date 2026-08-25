@@ -145,7 +145,7 @@ export default function WhyTenndalux() {
               </div>
 
               <a
-                href="https://wa.me/573238122373?text=Hola,%20quiero%20una%20asesoría%20para%20mi%20proyecto"
+                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-4 bg-white text-stone-900 px-10 sm:px-16 py-5 sm:py-6 rounded-full font-bold text-base sm:text-lg hover:bg-stone-100 transition-all duration-300 shadow-xl"

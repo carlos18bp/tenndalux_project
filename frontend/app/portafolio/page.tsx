@@ -525,7 +525,7 @@ export default function Portafolio() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center">
               <a
-                href="https://wa.me/573238122373?text=Hola,%20vi%20su%20portafolio%20y%20quiero%20agendar%20una%20consultoría"
+                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-50 text-stone-900"
@@ -534,7 +534,7 @@ export default function Portafolio() {
                 <ArrowRight className="w-6 h-6" />
               </a>
               <a
-                href="https://wa.me/573238122373?text=Hola,%20vi%20su%20portafolio%20y%20me%20interesa%20una%20consultoría"
+                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 sm:px-10 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-50 text-stone-50"

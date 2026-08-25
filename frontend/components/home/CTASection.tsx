@@ -41,7 +41,7 @@ export default function CTASection() {
         </p>
         <div className="flex flex-col sm:flex-row gap-8 justify-center">
           <a
-            href="https://wa.me/573238122373?text=Hola,%20quiero%20agendar%20una%20visita%20técnica%20gratuita"
+            href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 px-8 sm:px-14 py-5 sm:py-6 border border-transparent text-base sm:text-xl font-bold rounded-full text-stone-900 bg-white hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl"
@@ -52,7 +52,7 @@ export default function CTASection() {
             Agenda asesoría sin costo
           </a>
           <a
-            href="tel:+573238122373"
+            href="tel:+573227904563"
             className="inline-flex items-center justify-center px-8 sm:px-14 py-5 sm:py-6 border-2 border-white text-base sm:text-xl font-bold rounded-full text-white hover:bg-white/10 transition-all duration-300"
           >
             Llamar ahora
