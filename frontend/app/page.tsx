@@ -1,5 +1,6 @@
 import Header from '@/components/layout/Header';
 import Hero from '@/components/home/Hero';
+import GoogleReviews from '@/components/home/GoogleReviews';
 import Services from '@/components/home/Services';
 import FabricSelection from '@/components/home/FabricSelection';
 import ComparisonTable from '@/components/home/ComparisonTable';
@@ -17,6 +18,7 @@ export default function HomePage() {
     <main className="overflow-x-hidden">
       <Header />
       <Hero />
+      <GoogleReviews />
       <Process />
       <AboutSection />
       <Services />

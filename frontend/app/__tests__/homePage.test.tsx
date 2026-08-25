@@ -4,6 +4,7 @@ import HomePage from '../page';
 jest.mock('@/components/layout/Header', () => function MockHeader() { return <header data-testid="header" />; });
 jest.mock('@/components/layout/Footer', () => function MockFooter() { return <footer data-testid="footer" />; });
 jest.mock('@/components/home/Hero', () => function MockHero() { return <div data-testid="hero" />; });
+jest.mock('@/components/home/GoogleReviews', () => function MockGoogleReviews() { return <div data-testid="google-reviews" />; });
 jest.mock('@/components/home/Services', () => function MockServices() { return <div data-testid="services" />; });
 jest.mock('@/components/home/Gallery', () => function MockGallery() { return <div data-testid="gallery" />; });
 jest.mock('@/components/home/Process', () => function MockProcess() { return <div data-testid="process" />; });
@@ -20,6 +21,7 @@ describe('HomePage', () => {
     render(<HomePage />);
     expect(screen.getByTestId('header')).toBeInTheDocument();
     expect(screen.getByTestId('hero')).toBeInTheDocument();
+    expect(screen.getByTestId('google-reviews')).toBeInTheDocument();
     expect(screen.getByTestId('services')).toBeInTheDocument();
     expect(screen.getByTestId('footer')).toBeInTheDocument();
   });
