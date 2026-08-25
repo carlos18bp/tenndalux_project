@@ -63,7 +63,7 @@ export default function Hero() {
             className="text-[36px] sm:text-[48px] md:text-[60px] lg:text-[72px] font-bold text-white leading-[1.08] tracking-tight will-change-transform"
             style={{ opacity: 0 }}
           >
-            Tu casa no solo<br />se estrena.<br />
+            Tu espacio no solo<br />se estrena.<br />
             <em className="font-bold italic">Se diseña.</em>
           </h1>
           <p
@@ -71,12 +71,12 @@ export default function Hero() {
             className="text-lg md:text-xl text-white/85 leading-relaxed max-w-[500px] font-light will-change-transform"
             style={{ opacity: 0 }}
           >
-            Diseño, automatización y control de luz para espacios creados para ser admirados.
+            Cortinas inteligentes, control solar exterior y soluciones que integran diseño y tecnología para transformar la manera de vivir tus espacios.
           </p>
 
           <div ref={ctaRef} className="flex flex-col sm:flex-row gap-5 pt-4" style={{ opacity: 0 }}>
             <a
-              href="https://wa.me/573238122373?text=Hola,%20quiero%20agendar%20una%20asesoría%20gratuita"
+              href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-3 bg-stone-900 text-stone-50 px-8 sm:px-12 py-4 sm:py-5 rounded-full font-semibold text-base sm:text-lg hover:bg-stone-800 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-0.5"

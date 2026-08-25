@@ -17,71 +17,69 @@ gsap.registerPlugin(ScrollTrigger);
 /**
  * Imágenes de las cards de "Nuestras Soluciones".
  *
- * TODO: los valores actuales son fotos de stock (Unsplash) y NO corresponden a
- * productos reales de Tenndalux. Cuando el cliente entregue los assets, sube
- * cada archivo a `frontend/public/products/<solucion>/` y reemplaza el valor de
- * abajo por su ruta local (ej. '/products/ondessence/ondessence-principal.webp').
+ * Assets entregados por el cliente (carpeta "NUESTRAS SOLUCIONES"), optimizados
+ * a WebP q80 y servidos desde `frontend/public/products/<solucion>/`.
  * Es el único lugar que hay que tocar: el array `services` lee de aquí.
  */
 const SOLUTION_IMAGES = {
-  ondessence: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-  luminux: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-  dunes: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-  tecnologia: 'https://images.unsplash.com/photo-1558002038-1055907df827?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-  recubrimientos: 'https://images.unsplash.com/photo-1600607687644-c7171b42498f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-  exterior: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
-  servicioIntegral: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&q=80&w=800',
+  enrollables: '/products/enrollables/enrollables-portada.webp',
+  ondessence: '/products/ondessence/ondessence-portada.webp',
+  luminux: '/products/luminux/luminux-portada.webp',
+  tecnologia: '/products/tecnologia/tecnologia-portada.webp',
+  exterior: '/products/exterior/exterior-portada.webp',
+  recubrimientos: '/products/recubrimientos/recubrimientos-portada.webp',
+  peliculasSolares: '/products/peliculas-solares/peliculas-solares-portada.webp',
 } as const;
 
 const services = [
   {
     id: 1,
-    title: 'Cortina Ondessence',
-    description: 'Sistema Ripplefold con ondas suaves y continuas. Tejidos europeos certificados y acabado premium.',
-    image: SOLUTION_IMAGES.ondessence,
+    title: 'Cortinas enrollables',
+    description: 'Control de luz, privacidad y diseño minimalista en un sistema práctico y versátil.',
+    image: SOLUTION_IMAGES.enrollables,
     link: '/servicios#cortinas'
   },
   {
     id: 2,
-    title: 'Luminux',
-    description: 'Cortina de velo contemporánea. Luz difusa, privacidad y contacto visual con el exterior.',
-    image: SOLUTION_IMAGES.luminux,
+    title: 'Ondessence',
+    description: 'Ondas suaves y continuas que aportan movimiento, suavidad y diseño a tus espacios.',
+    image: SOLUTION_IMAGES.ondessence,
     link: '/servicios#cortinas'
   },
   {
     id: 3,
-    title: 'Dunes',
-    description: 'Cortina de velo con onda tipo montaña segmentada. Caída estructurada y acabado visual refinado.',
-    image: SOLUTION_IMAGES.dunes,
+    title: 'Luminux',
+    description: 'Ondas tipo M o S con giro de 180°, para controlar luz y privacidad en un solo sistema.',
+    image: SOLUTION_IMAGES.luminux,
     link: '/servicios#cortinas'
   },
   {
     id: 4,
-    title: 'Tecnología y Automatización',
+    title: 'Tecnología y automatización',
     description: 'Motores avanzados, control por voz, app gratuita e integración con asistentes inteligentes.',
     image: SOLUTION_IMAGES.tecnologia,
     link: '/servicios#tecnologia'
   },
   {
     id: 5,
-    title: 'Recubrimientos para Paredes',
-    description: 'Vinilo, textil y ecológico. Materiales libres de compuestos nocivos e instalación profesional.',
-    image: SOLUTION_IMAGES.recubrimientos,
-    link: '/servicios#paredes'
-  },
-  {
-    id: 6,
-    title: 'Soluciones para Exterior',
-    description: 'Toldos, pérgolas, cortinas exteriores y películas solares. Protección y diseño al aire libre.',
+    title: 'Soluciones para exterior',
+    description: 'Toldos, pérgolas y sistemas de control solar para disfrutar tus espacios al aire libre.',
     image: SOLUTION_IMAGES.exterior,
     link: '/servicios#exterior'
   },
   {
+    id: 6,
+    title: 'Recubrimiento para paredes',
+    description: 'Papeles tapiz, texturas y acabados que dan personalidad a cada espacio.',
+    image: SOLUTION_IMAGES.recubrimientos,
+    link: '/servicios#paredes'
+  },
+  {
     id: 7,
-    title: 'Servicio Integral',
-    description: 'Asesoría, diseño, fabricación, instalación profesional, garantía y soporte postventa.',
-    image: SOLUTION_IMAGES.servicioIntegral,
-    link: '/servicios'
+    title: 'Películas de control solar',
+    description: 'Protección solar, privacidad y confort térmico sin perder la luz natural ni la vista exterior.',
+    image: SOLUTION_IMAGES.peliculasSolares,
+    link: '/servicios#exterior'
   }
 ];
 
