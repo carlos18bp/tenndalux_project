@@ -53,6 +53,7 @@ if settings.DEBUG:
         re_path(r'^home/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static' / 'home'}),
         re_path(r'^videos/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static' / 'videos'}),
         re_path(r'^products/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static' / 'products'}),
+        re_path(r'^legal/(?P<path>.*)$', serve, {'document_root': settings.BASE_DIR / 'static' / 'legal'}),
         # Root-level public/ assets (logo, svgs, favicon). Mirrors the regex
         # location in scripts/nginx/tenndalux.conf so dev matches production.
         re_path(
