@@ -4,11 +4,36 @@ import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { EnvelopeIcon, PhoneIcon, MapPinIcon } from '@heroicons/react/24/outline';
+import ContactFeedbackModal, { type ContactFeedbackStatus } from '@/components/home/ContactFeedbackModal';
+import { createLead } from '@/lib/services/leads';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const INTERESTS = [
+  { value: 'ondessence', label: 'Cortina Ondessence' },
+  { value: 'luminux', label: 'Luminux' },
+  { value: 'dunes', label: 'Dunes' },
+  { value: 'automatizacion', label: 'Tecnología y Automatización' },
+  { value: 'paredes', label: 'Recubrimientos para Paredes' },
+  { value: 'exterior', label: 'Soluciones para Exterior' },
+  { value: 'otro', label: 'Otro' },
+] as const;
+
+const EMPTY_FORM = {
+  name: '',
+  lastname: '',
+  email: '',
+  phone: '',
+  interest: INTERESTS[0].value as string,
+};
+
 export default function Contact() {
   const [loading, setLoading] = useState(false);
+  const [feedback, setFeedback] = useState<ContactFeedbackStatus | null>(null);
+  const [form, setForm] = useState(EMPTY_FORM);
+
+  const setField = (field: keyof typeof EMPTY_FORM, value: string) =>
+    setForm((current) => ({ ...current, [field]: value }));
   const sectionRef = useRef<HTMLElement>(null);
   const leftRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
@@ -41,11 +66,27 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Simulate form submission
-    setTimeout(() => {
+
+    // El interés viaja en `message` y no en `project_type`: ese campo es una FK
+    // a Category y las opciones del select no son categorías del portafolio,
+    // así que mapearlas inventaría una relación que no existe.
+    const interest = INTERESTS.find((option) => option.value === form.interest);
+
+    try {
+      await createLead({
+        full_name: `${form.name} ${form.lastname}`.trim(),
+        email: form.email,
+        phone: form.phone,
+        message: `Me interesa: ${interest?.label ?? form.interest}`,
+        source: 'formulario-home',
+      });
+      setForm(EMPTY_FORM);
+      setFeedback('success');
+    } catch {
+      setFeedback('error');
+    } finally {
       setLoading(false);
-      alert('¡Gracias por tu interés! Un asesor te contactará pronto.');
-    }, 1500);
+    }
   };
 
   return (
@@ -121,6 +162,8 @@ export default function Contact() {
                     type="text"
                     id="name"
                     required
+                    value={form.name}
+                    onChange={(e) => setField('name', e.target.value)}
                     className="w-full px-4 py-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-900 focus:border-transparent outline-none transition-all placeholder:text-stone-400 text-base"
                     placeholder="Tu nombre"
                   />
@@ -131,6 +174,8 @@ export default function Contact() {
                     type="text"
                     id="lastname"
                     required
+                    value={form.lastname}
+                    onChange={(e) => setField('lastname', e.target.value)}
                     className="w-full px-4 py-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-900 focus:border-transparent outline-none transition-all placeholder:text-stone-400 text-base"
                     placeholder="Tu apellido"
                   />
@@ -143,6 +188,8 @@ export default function Contact() {
                   type="email"
                   id="email"
                   required
+                  value={form.email}
+                  onChange={(e) => setField('email', e.target.value)}
                   className="w-full px-4 py-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-900 focus:border-transparent outline-none transition-all placeholder:text-stone-400 text-base"
                   placeholder="ejemplo@correo.com"
                 />
@@ -154,6 +201,8 @@ export default function Contact() {
                   type="tel"
                   id="phone"
                   required
+                  value={form.phone}
+                  onChange={(e) => setField('phone', e.target.value)}
                   className="w-full px-4 py-3.5 rounded-xl border border-stone-200 bg-stone-50/80 text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-900 focus:border-transparent outline-none transition-all placeholder:text-stone-400 text-base"
                   placeholder="+57 (300) 000-0000"
                 />
@@ -164,15 +213,13 @@ export default function Contact() {
                 <div className="relative">
                   <select
                     id="interest"
+                    value={form.interest}
+                    onChange={(e) => setField('interest', e.target.value)}
                     className="w-full px-4 py-3.5 pr-12 rounded-xl border border-stone-200 bg-stone-50/80 text-stone-900 focus:bg-white focus:ring-2 focus:ring-stone-900 focus:border-transparent outline-none transition-all appearance-none text-base cursor-pointer"
                   >
-                    <option value="ondessence">Cortina Ondessence</option>
-                    <option value="luminux">Luminux</option>
-                    <option value="dunes">Dunes</option>
-                    <option value="automatizacion">Tecnología y Automatización</option>
-                    <option value="paredes">Recubrimientos para Paredes</option>
-                    <option value="exterior">Soluciones para Exterior</option>
-                    <option value="otro">Otro</option>
+                    {INTERESTS.map((option) => (
+                      <option key={option.value} value={option.value}>{option.label}</option>
+                    ))}
                   </select>
                   <div className="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none text-stone-500">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -197,6 +244,7 @@ export default function Contact() {
           </div>
         </div>
       </div>
+      <ContactFeedbackModal status={feedback} onClose={() => setFeedback(null)} />
     </section>
   );
 }

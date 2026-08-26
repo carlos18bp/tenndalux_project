@@ -2,6 +2,7 @@ from rest_framework import viewsets, permissions
 
 from core_app.models import LeadStatus, Lead
 from core_app.serializers import LeadStatusSerializer, LeadSerializer
+from core_app.tasks import send_lead_notification
 
 
 class LeadStatusViewSet(viewsets.ModelViewSet):
@@ -18,3 +19,9 @@ class LeadViewSet(viewsets.ModelViewSet):
         if self.action == 'create':
             return [permissions.AllowAny()]
         return [permissions.IsAuthenticated()]
+
+    def perform_create(self, serializer):
+        lead = serializer.save()
+        # Queued, never inline: a slow or broken SMTP must not turn a captured
+        # lead into a 500 for the person who just filled the form.
+        send_lead_notification(lead.pk)

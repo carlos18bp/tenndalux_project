@@ -203,6 +203,21 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@tenndalux.com')
 
+# Where the leads from the website form are delivered. Comma-separated, so the
+# client can add or drop recipients without a code change. Empty is a valid
+# state and the intended default: the lead is still stored and visible in the
+# admin, only the notification is skipped. Nothing else has to be touched to
+# turn it on -- set the address in backend/.env and restart the service.
+LEADS_NOTIFICATION_EMAILS = [
+    address.strip()
+    for address in config('LEADS_NOTIFICATION_EMAILS', default='').split(',')
+    if address.strip()
+]
+
+# Prefix of the notification subject, so the client can filter or label these
+# in their inbox.
+LEADS_NOTIFICATION_SUBJECT_PREFIX = config('LEADS_NOTIFICATION_SUBJECT_PREFIX', default='[Tenndalux]')
+
 # Thumbnail Configuration (required for django_attachments)
 THUMBNAIL_ALIASES = {
     '': {
