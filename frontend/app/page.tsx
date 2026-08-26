@@ -18,10 +18,10 @@ export default function HomePage() {
     <main className="overflow-x-hidden">
       <Header />
       <Hero />
-      <GoogleReviews />
       <Process />
       <AboutSection />
       <Services />
+      <GoogleReviews />
       <Gallery />
       <WhyTenndalux />
       <FabricSelection />
@@ -29,6 +29,7 @@ export default function HomePage() {
       <CTASection />
       <Contact />
       <FAQ />
+      <GoogleReviews id="opiniones-faq" />
       <Footer />
     </main>
   );
