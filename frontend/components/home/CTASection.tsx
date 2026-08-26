@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { whatsappUrl } from '@/lib/whatsapp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -41,7 +42,7 @@ export default function CTASection() {
         </p>
         <div className="flex flex-col sm:flex-row gap-8 justify-center">
           <a
-            href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+            href={whatsappUrl('agendar una asesoría sin costo')}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 px-8 sm:px-14 py-5 sm:py-6 border border-transparent text-base sm:text-xl font-bold rounded-full text-stone-900 bg-white hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl"

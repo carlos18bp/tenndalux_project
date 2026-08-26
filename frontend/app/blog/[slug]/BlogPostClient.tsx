@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, Clock, Share2, MessageCircle, ArrowRight, Check } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { whatsappUrl } from '@/lib/whatsapp';
 
 // Mock blog data - In production, fetch based on slug
 const blogPosts: Record<string, BlogPost> = {
@@ -174,7 +175,7 @@ export default function BlogPostClient() {
   }
 
   const handleWhatsApp = () => {
-    window.open('https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos', '_blank');
+    window.open(whatsappUrl('agendar una consultoría'), '_blank');
   };
 
   const handleShare = () => {
@@ -406,7 +407,7 @@ export default function BlogPostClient() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <a
-                    href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                    href={whatsappUrl('agendar una consultoría')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
@@ -415,7 +416,7 @@ export default function BlogPostClient() {
                     <ArrowRight className="w-6 h-6" />
                   </a>
                   <a
-                    href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                    href={whatsappUrl('agendar una consultoría')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-900 text-stone-900"

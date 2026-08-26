@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Calendar, MapPin, Share2, ArrowRight, Check } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { whatsappUrl } from '@/lib/whatsapp';
 
 const projectsData: Record<string, Project> = {
   'residencia-premium-envigado': {
@@ -470,7 +471,7 @@ export default function PortafolioProjectClient() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-6 justify-center">
                   <a
-                    href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                    href={whatsappUrl(`un proyecto como ${project.title}`)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
@@ -479,7 +480,7 @@ export default function PortafolioProjectClient() {
                     <ArrowRight style={{ width: '24px', height: '24px' }} />
                   </a>
                   <a
-                    href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                    href={whatsappUrl(`un proyecto como ${project.title}`)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-8 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center justify-center gap-3 transition-all hover:scale-105 border-2 border-stone-900 text-stone-900"

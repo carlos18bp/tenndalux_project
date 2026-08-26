@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { whatsappUrl } from '@/lib/whatsapp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -146,7 +147,7 @@ export default function ComparisonTable() {
             <div className="p-14 bg-stone-50/50 text-center border-t border-stone-100">
               <p className="text-stone-600 mb-8 font-medium text-2xl">Tu espacio merece diseño, tecnología y precisión.</p>
               <a
-                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                href={whatsappUrl('cotizar mi proyecto')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 px-16 py-6 border border-transparent text-xl font-bold rounded-full text-white bg-stone-900 hover:bg-stone-800 transition-all duration-300 shadow-xl hover:shadow-2xl"
@@ -203,7 +204,7 @@ export default function ComparisonTable() {
             <div className="pt-6 text-center">
               <p className="text-stone-600 mb-5 font-medium text-base">Tu espacio merece diseño, tecnología y precisión.</p>
               <a
-                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                href={whatsappUrl('cotizar mi proyecto')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-3 w-full px-8 py-4 text-base font-bold rounded-full text-white bg-stone-900 hover:bg-stone-800 transition-all duration-300 shadow-xl"
