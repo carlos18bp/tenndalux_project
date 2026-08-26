@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 
 from core_app.models import Post
 from core_app.serializers import PostSerializer
-from core_app.utils.content_blocks import validate_content_blocks
+from core_app.utils.content_blocks import BLOCK_TYPES, validate_content_blocks
 
 
 VALID_DOCUMENT = [
@@ -15,7 +15,9 @@ VALID_DOCUMENT = [
     {'type': 'metricas', 'items': [{'metric': '-40%', 'description': 'Menos calor.'}]},
     {'type': 'galeria', 'images': ['img_a1b2c3']},
     {'type': 'video', 'youtube_url': 'https://youtu.be/dQw4w9WgXcQ'},
+    {'type': 'ejemplos', 'items': ['Oficinas en casa con reflejo en pantallas.']},
     {'type': 'testimonio', 'text': 'Impecable.', 'author': 'Ana', 'role': 'Cliente'},
+    {'type': 'cierre', 'text': 'Cada espacio es distinto.', 'note': 'Escríbenos.'},
 ]
 
 
@@ -26,12 +28,15 @@ def _errors(blocks):
 
 
 def test_a_document_using_every_block_type_is_accepted():
-    validate_content_blocks(VALID_DOCUMENT)
+    # Ata el documento al catálogo: al agregar un bloque, este test falla hasta
+    # que se demuestre que también se acepta.
+    assert {block['type'] for block in VALID_DOCUMENT} == set(BLOCK_TYPES)
+    assert validate_content_blocks(VALID_DOCUMENT) is None
 
 
 def test_an_empty_document_is_accepted():
     """Un post recién creado no tiene bloques todavía."""
-    validate_content_blocks([])
+    assert validate_content_blocks([]) is None
 
 
 def test_the_document_must_be_a_list():
