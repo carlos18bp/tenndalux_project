@@ -15,8 +15,6 @@ npx next build
 
 echo "==> Cleaning previous deployment..."
 rm -rf "$BACKEND_DIR/static/_next"
-rm -rf "$BACKEND_DIR/static/home"
-rm -rf "$BACKEND_DIR/static/videos"
 rm -rf "$BACKEND_DIR/templates/frontend"
 
 echo "==> Copying static assets to backend/static/..."
@@ -36,6 +34,13 @@ for item in "$OUT_DIR"/*/; do
     if [ -f "$item/index.html" ]; then
         continue
     fi
+    # Wipe the previous copy first. `cp -r src/ dest` puts the contents in
+    # dest only while dest does NOT exist; once it does, it nests them into
+    # dest/src instead, so newly added files land on a path nobody serves and
+    # the stale copy keeps answering. Every public/ directory is cleaned here
+    # rather than in a hand-maintained list above, which is what let
+    # public/products/ and public/legal/ drift.
+    rm -rf "$BACKEND_DIR/static/$dirname"
     cp -r "$item" "$BACKEND_DIR/static/$dirname"
 done
 
