@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 
@@ -5,6 +6,7 @@ from django_attachments.fields import GalleryField
 
 from .base import TimestampedModel
 from core_app.utils.slug import generate_unique_slug
+from core_app.utils.content_blocks import CONTENT_BLOCKS_HELP, validate_content_blocks
 
 
 class Category(TimestampedModel):
@@ -53,6 +55,11 @@ class Project(TimestampedModel):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=200, unique=True, blank=True)
     description = models.TextField(blank=True)
+    content_blocks = models.JSONField(
+        default=list,
+        blank=True,
+        help_text=CONTENT_BLOCKS_HELP,
+    )
     location = models.CharField(max_length=200, blank=True)
     year = models.PositiveIntegerField(
         validators=[MinValueValidator(1900), MaxValueValidator(2100)],
@@ -71,6 +78,15 @@ class Project(TimestampedModel):
 
     class Meta:
         ordering = ['-year', '-created_at']
+
+    def clean(self):
+        super().clean()
+        # El admin llama a clean() a través del ModelForm; las escrituras por
+        # API las valida el serializer con la misma función.
+        try:
+            validate_content_blocks(self.content_blocks)
+        except ValidationError as exc:
+            raise ValidationError({'content_blocks': exc.messages})
 
     def save(self, *args, **kwargs):
         if not self.slug:

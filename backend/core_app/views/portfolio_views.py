@@ -30,6 +30,7 @@ class SpaceViewSet(viewsets.ModelViewSet):
 class ProjectViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    lookup_field = 'slug'
 
     def get_queryset(self):
         qs = Project.objects.all()

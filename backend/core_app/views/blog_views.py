@@ -13,6 +13,7 @@ class TagViewSet(viewsets.ModelViewSet):
 class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    lookup_field = 'slug'
 
     def get_queryset(self):
         qs = Post.objects.all()

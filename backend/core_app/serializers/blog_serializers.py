@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from core_app.serializers.fields import ContentBlocksField, library_image_url
+
 from core_app.models import Tag, Post
 
 
@@ -11,6 +13,9 @@ class TagSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
+    content_blocks = ContentBlocksField(required=False)
+    cover_image_url = serializers.SerializerMethodField()
+
     tags = TagSerializer(many=True, read_only=True)
     tag_ids = serializers.PrimaryKeyRelatedField(
         source='tags',
@@ -28,7 +33,9 @@ class PostSerializer(serializers.ModelSerializer):
             'slug',
             'excerpt',
             'content',
+            'content_blocks',
             'cover_image',
+            'cover_image_url',
             'author',
             'tags',
             'tag_ids',
@@ -40,3 +47,6 @@ class PostSerializer(serializers.ModelSerializer):
             'updated_at',
         ]
         read_only_fields = ['id', 'slug', 'published_at', 'created_at', 'updated_at']
+
+    def get_cover_image_url(self, obj):
+        return library_image_url(obj.cover_image)
