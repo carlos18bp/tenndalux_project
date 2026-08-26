@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { 
   ArrowRight, 
   Check, 
@@ -22,18 +22,12 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import CurtainChainSelector from '@/components/servicios/CurtainChainSelector';
+import CurtainCard from '@/components/servicios/CurtainCard';
+import { CURTAINS } from '@/lib/data/curtains';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
-
-type Product = {
-  id: string;
-  title: string;
-  image: string;
-  description: string;
-  idealPara: string[];
-  beneficios: string[];
-  opciones: string[];
-};
+import { whatsappUrl } from '@/lib/whatsapp';
 
 type ExteriorSolution = {
   title: string;
@@ -45,9 +39,11 @@ type ExteriorSolution = {
 export default function Servicios() {
   const [selectedProductTab, setSelectedProductTab] = useState('cortinas');
   const [selectedCortina, setSelectedCortina] = useState('ondessence');
-  const [mobileDetailProduct, setMobileDetailProduct] = useState<Product | null>(null);
   const [mobileDetailExterior, setMobileDetailExterior] = useState<ExteriorSolution | null>(null);
   const productsSectionRef = useRef<HTMLElement>(null);
+  // De este botón cuelga la cadenilla del selector de cortinas.
+  const cortinasTabRef = useRef<HTMLButtonElement>(null);
+  const activeCurtain = CURTAINS.find((c) => c.id === selectedCortina) ?? CURTAINS[0];
 
   // Read URL hash to auto-select tab and scroll to products section
   useEffect(() => {
@@ -60,16 +56,6 @@ export default function Servicios() {
       }, 300);
     }
   }, []);
-
-  const openMobileDetail = (product: Product) => {
-    setMobileDetailProduct(product);
-    document.body.style.overflow = 'hidden';
-  };
-
-  const closeMobileDetail = () => {
-    setMobileDetailProduct(null);
-    document.body.style.overflow = '';
-  };
 
   const openMobileExterior = (solution: ExteriorSolution) => {
     setMobileDetailExterior(solution);
@@ -107,7 +93,7 @@ export default function Servicios() {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
-                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                href={whatsappUrl('agendar una asesoría gratis')}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-8 sm:px-14 py-4 sm:py-5 rounded-full flex items-center justify-center gap-3 transition-all hover:scale-105 hover:shadow-xl bg-stone-900 text-stone-50"
@@ -236,7 +222,7 @@ export default function Servicios() {
             className="text-center mt-8"
           >
             <a
-              href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+              href={whatsappUrl('hablar con un asesor')}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 sm:px-10 py-4 sm:py-5 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 hover:shadow-xl bg-stone-900 text-stone-50"
@@ -277,6 +263,7 @@ export default function Servicios() {
             ].map((tab) => (
               <button
                 key={tab.id}
+                ref={tab.id === 'cortinas' ? cortinasTabRef : undefined}
                 onClick={() => setSelectedProductTab(tab.id)}
                 className={`px-5 sm:px-7 py-2.5 sm:py-3 rounded-full transition-all hover:scale-105 flex items-center gap-2 border-2 text-sm sm:text-base ${
                   selectedProductTab === tab.id 
@@ -291,230 +278,19 @@ export default function Servicios() {
           </div>
 
           {/* Cortinas */}
-          {selectedProductTab === 'cortinas' && (() => {
-            const cortinas: Product[] = [
-              {
-                id: 'ondessence',
-                title: 'Cortina Ondessence',
-                image: '/products/ondessence/ondessence-principal.webp',
-                description: 'La evolución moderna de la cortina tradicional. Sistema Ripplefold con ondas suaves, perfectamente definidas y continuas.',
-                idealPara: ['Salas amplias', 'Dormitorios principales', 'Hoteles', 'Ventanales piso a techo'],
-                beneficios: ['Ondas técnicas uniformes', 'Movimiento fluido y silencioso', 'Tejidos europeos certificados (Light Fastness Clase 6)', 'Instalación premium con planchado a vapor'],
-                opciones: ['Proporción 2.3 (onda sutil 9 cm)', 'Proporción 2.8 (onda profunda)', 'Automatización RF, Wi-Fi y app gratuita', 'Compatible con asistentes de voz'],
-              },
-              {
-                id: 'luminux',
-                title: 'Luminux',
-                image: '/products/luminux/luminux-m.webp',
-                description: 'Cortina de velo contemporánea que combina suavidad visual, control de luz y diseño escultural.',
-                idealPara: ['Espacios sociales', 'Ambientes modernos', 'Ventanales piso a techo', 'Salas de estar'],
-                beneficios: ['Entrada de luz controlada', 'Estética continua y decorativa', 'Instalación profesional', 'Motorización opcional'],
-                opciones: ['Luminux M (onda tipo montaña)', 'Luminux S (onda tipo S intercalada)', 'Accionamiento manual o motorizado', 'Recolección lateral, central o a extremos'],
-              },
-              {
-                id: 'dunes',
-                title: 'Dunes',
-                image: '/products/dunes/dunes-principal.webp',
-                description: 'Cortina de velo con onda tipo montaña segmentada. Cada ola es un tramo independiente de tela con caída estructurada y acabado visual refinado.',
-                idealPara: ['Espacios de diseño protagonista', 'Salas elegantes', 'Ambientes sofisticados', 'Proyectos arquitectónicos'],
-                beneficios: ['Estética sofisticada', 'Movimiento definido', 'Control suave de luz', 'Mayor control estructural en caída'],
-                opciones: ['Sistema segmentado de ondas independientes', 'Automatización opcional', 'Instalación técnica especializada', 'Compatible con automatización'],
-              },
-              {
-                id: 'celulares',
-                title: 'Persianas Celulares',
-                image: '/products/celulares/celular-principal.webp',
-                description: 'Sistema estructural con diseño celular que crea una cámara de aire interna para mejorar el confort térmico y acústico.',
-                idealPara: ['Habitaciones', 'Oficinas', 'Espacios con ruido exterior', 'Ambientes con alta exposición solar'],
-                beneficios: ['Aislamiento térmico', 'Reducción de ruido exterior', 'Alta eficiencia energética', 'Sistema Día y Noche disponible'],
-                opciones: ['Top Down Bottom Up', 'Manual o TwinPull (seguro para niños)', 'Motorizado RF + Bluetooth', 'Transparentes, translúcidas y blackout'],
-              },
-              {
-                id: 'enrollables',
-                title: 'Cortinas Enrollables',
-                image: '/products/enrollables/enrollable-screen.webp',
-                description: 'Solución minimalista y funcional para el control de luz y privacidad.',
-                idealPara: ['Oficinas', 'Salas de estar', 'Habitaciones', 'Cocinas'],
-                beneficios: ['Control total de luz', 'Fácil mantenimiento', 'Durabilidad superior', 'Guías laterales disponibles para blackout'],
-                opciones: ['Screen solar (filtro UV)', 'Blackout total', 'Translúcidas', 'Cabezal Modern 3 y perfiles Coverlight Boston'],
-              },
-              {
-                id: 'paneles',
-                title: 'Paneles Deslizantes',
-                image: '/products/paneles/panel-principal.webp',
-                description: 'Sistema modular ideal para grandes ventanales. Modularidad hasta 11.5 m con rieles de 2 a 10 vías.',
-                idealPara: ['Grandes ventanales', 'Divisores de ambiente', 'Puertas corredizas', 'Espacios abiertos'],
-                beneficios: ['Diseño arquitectónico', 'Sistema modular', 'Rieles de 2 a 10 vías', 'Gran impacto visual'],
-                opciones: ['Telos de 50–60 cm', 'Motorización opcional', 'Recogida lateral, central o combinada', 'Instalación consecutiva hasta 11.5 m'],
-              },
-              {
-                id: 'duo',
-                title: 'Roller Dúo',
-                image: '/products/roller-duo/roller-duo-principal.webp',
-                description: 'Sistema de doble capa con franjas alternadas opacas y transparentes. Permite regular luz sin subir la cortina.',
-                idealPara: ['Habitaciones', 'Oficinas en casa', 'Estudios', 'Salas multiuso'],
-                beneficios: ['Doble funcionalidad', 'Control preciso de luz', 'Perfil inferior técnico', 'Cabezal de lujo'],
-                opciones: ['Franjas opacas y transparentes', 'Automatización compatible', 'Telas texturizadas', 'Colores variados'],
-              },
-              {
-                id: 'horizontales',
-                title: 'Persianas Horizontales',
-                image: '/products/horizontales/horizontal-principal.webp',
-                description: 'Disponibles en madera Basswood, aluminio y poliéster. Opciones manuales y motorizadas con acabados premium.',
-                idealPara: ['Estudios', 'Oficinas', 'Cocinas', 'Baños'],
-                beneficios: ['Acabado artesanal en madera', 'Control eficiente de luz', 'Resistentes a agua y rayaduras', 'Retardantes al fuego'],
-                opciones: ['Madera Basswood', 'Aluminio Micro y Mini', 'Poliéster con nanopartículas', 'Classic 50'],
-              },
-              {
-                id: 'verticales',
-                title: 'Persianas Verticales',
-                image: '/products/dunes/dunes-giro.webp',
-                description: 'Sistema moderno adaptable incluso a ventanas inclinadas. Lamas de 9 cm y 13 cm con motorización disponible.',
-                idealPara: ['Ventanas trapezoidales', 'Oficinas', 'Espacios comerciales', 'Ventanales amplios'],
-                beneficios: ['Adaptación a ventanas inclinadas', 'Sistema de liberación para limpieza', 'Riel delgado con carros equidistantes', 'Motorización disponible'],
-                opciones: ['Lamas de 9 cm', 'Lamas de 13 cm', 'Colección screen y blackout', 'Colección decorativa'],
-              },
-            ];
-
-            return (
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-                {/* Mobile: 2-col image grid */}
-                <div className="grid grid-cols-2 gap-3 sm:hidden">
-                  {cortinas.map((product) => (
-                    <button
-                      key={product.id}
-                      onClick={() => openMobileDetail(product)}
-                      className="group text-left bg-white rounded-2xl overflow-hidden border border-stone-100 shadow-sm active:scale-[0.98] transition-transform"
-                    >
-                      <div className="relative aspect-[4/3]">
-                        <Image src={product.image} alt={product.title} fill className="object-cover" sizes="50vw" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                        <div className="absolute bottom-0 left-0 right-0 p-3">
-                          <h3 className="text-sm font-semibold text-white leading-tight">{product.title}</h3>
-                        </div>
-                      </div>
-                      <div className="p-3">
-                        <p className="text-xs text-stone-500 line-clamp-2">{product.description}</p>
-                        <span className="text-xs font-semibold text-stone-900 mt-2 inline-flex items-center gap-1">
-                          Ver detalles <ArrowRight className="w-3 h-3" />
-                        </span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-
-                {/* Desktop: galería de altura fija con selector lateral.
-                    Con 9 cortinas, una card grande por producto haría un scroll
-                    interminable: se muestra una sola imagen grande y la lista
-                    completa queda a la derecha, siempre a la vista. */}
-                <div className="hidden sm:block">
-                  {(() => {
-                    const active = cortinas.find((c) => c.id === selectedCortina) ?? cortinas[0];
-
-                    return (
-                      <div className="grid lg:grid-cols-[minmax(0,1fr)_300px] gap-6">
-                        {/* Imagen grande + detalle del producto activo */}
-                        <div className="bg-white rounded-2xl overflow-hidden shadow-sm border border-stone-100">
-                          <div className="relative w-full h-[380px] lg:h-[520px]">
-                            <Image
-                              src={active.image}
-                              alt={active.title}
-                              fill
-                              className="object-cover"
-                              sizes="(max-width: 1024px) 100vw, 60vw"
-                            />
-                          </div>
-
-                          <div className="p-8 lg:p-10">
-                            <h3 className="text-3xl font-semibold mb-3 text-stone-900">{active.title}</h3>
-                            <p className="text-base text-stone-600 leading-relaxed mb-8">{active.description}</p>
-
-                            <div className="grid md:grid-cols-3 gap-8 mb-8">
-                              <div>
-                                <h4 className="text-sm font-semibold mb-4 text-stone-900">IDEAL PARA</h4>
-                                <ul className="space-y-3">
-                                  {active.idealPara.map((item, i) => (
-                                    <li key={i} className="flex items-center gap-2">
-                                      <div className="w-1.5 h-1.5 rounded-full bg-stone-900" />
-                                      <span className="text-sm text-stone-600">{item}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              <div>
-                                <h4 className="text-sm font-semibold mb-4 text-stone-900">BENEFICIOS CLAVE</h4>
-                                <ul className="space-y-3">
-                                  {active.beneficios.map((item, i) => (
-                                    <li key={i} className="flex items-start gap-3">
-                                      <Check className="w-4 h-4 flex-shrink-0 mt-0.5 text-stone-900" />
-                                      <span className="text-sm text-stone-600">{item}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                              <div>
-                                <h4 className="text-sm font-semibold mb-4 text-stone-900">OPCIONES</h4>
-                                <ul className="space-y-3">
-                                  {active.opciones.map((item, i) => (
-                                    <li key={i} className="flex items-center gap-2">
-                                      <Sparkles className="w-4 h-4 flex-shrink-0 text-stone-900" />
-                                      <span className="text-sm text-stone-600">{item}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            </div>
-
-                            <a
-                              href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="w-full px-12 py-5 rounded-xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] bg-stone-900 text-stone-50"
-                            >
-                              <span className="font-semibold">Cotizar {active.title}</span>
-                              <ArrowRight className="w-5 h-5" />
-                            </a>
-                          </div>
-                        </div>
-
-                        {/* Selector: las 9 cortinas siempre visibles */}
-                        <div className="lg:sticky lg:top-24 lg:self-start bg-white rounded-2xl shadow-sm border border-stone-100 p-4">
-                          <p className="text-xs font-semibold tracking-widest text-stone-400 px-3 pt-2 pb-4">
-                            TIPOS DE CORTINA
-                          </p>
-                          <ul className="space-y-1">
-                            {cortinas.map((product) => {
-                              const isActive = product.id === active.id;
-                              return (
-                                <li key={product.id}>
-                                  <button
-                                    onClick={() => setSelectedCortina(product.id)}
-                                    aria-current={isActive ? 'true' : undefined}
-                                    className={`w-full text-left px-3 py-3 rounded-xl flex items-center gap-3 transition-colors ${
-                                      isActive
-                                        ? 'bg-stone-900 text-stone-50 font-semibold'
-                                        : 'text-stone-600 hover:bg-stone-50 font-medium'
-                                    }`}
-                                  >
-                                    <ArrowRight
-                                      className={`w-4 h-4 flex-shrink-0 transition-opacity ${
-                                        isActive ? 'opacity-100' : 'opacity-0'
-                                      }`}
-                                    />
-                                    <span className="text-sm">{product.title}</span>
-                                  </button>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        </div>
-                      </div>
-                    );
-                  })()}
-                </div>
-              </motion.div>
-            );
-          })()}
+          {selectedProductTab === 'cortinas' && (
+            <>
+              <CurtainChainSelector
+                curtains={CURTAINS}
+                selectedId={selectedCortina}
+                onSelect={setSelectedCortina}
+                originRef={cortinasTabRef}
+              />
+              <AnimatePresence mode="wait">
+                <CurtainCard key={activeCurtain.id} curtain={activeCurtain} />
+              </AnimatePresence>
+            </>
+          )}
 
           {/* Recubrimientos para Paredes */}
           {selectedProductTab === 'paredes' && (
@@ -549,7 +325,7 @@ export default function Servicios() {
                   </div>
 
                   <a
-                    href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                    href={whatsappUrl('el catálogo de recubrimientos para paredes')}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="px-10 py-5 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
@@ -644,7 +420,7 @@ export default function Servicios() {
                             ))}
                           </ul>
                           <a
-                            href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                            href={whatsappUrl(`cotizar ${solution.title}`)}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="px-12 py-5 rounded-full inline-flex items-center gap-3 transition-all hover:scale-105 bg-stone-900 text-stone-50"
@@ -742,7 +518,7 @@ export default function Servicios() {
 
               <div className="text-center">
                 <a
-                  href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                  href={whatsappUrl('cotizar automatización y motorización')}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="px-8 sm:px-14 py-5 sm:py-6 rounded-full inline-flex items-center gap-3 sm:gap-4 transition-all hover:scale-105 bg-stone-50 text-stone-900"
@@ -909,7 +685,7 @@ export default function Servicios() {
             className="flex flex-col sm:flex-row gap-6 justify-center"
           >
             <a
-              href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+              href={whatsappUrl('cotizar mi proyecto')}
               target="_blank"
               rel="noopener noreferrer"
               className="group px-8 sm:px-14 py-5 sm:py-6 rounded-full flex items-center justify-center gap-3 sm:gap-4 transition-all hover:scale-110 hover:shadow-2xl bg-stone-50 text-stone-900"
@@ -929,82 +705,6 @@ export default function Servicios() {
       </section>
 
       <Footer />
-
-      {/* Mobile Bottom Sheet: Product Detail */}
-      {mobileDetailProduct && (
-        <div className="fixed inset-0 z-50 sm:hidden" onClick={closeMobileDetail}>
-          <div className="absolute inset-0 bg-black/50" />
-          <motion.div
-            initial={{ y: '100%' }}
-            animate={{ y: 0 }}
-            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-[85vh] overflow-y-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Handle bar */}
-            <div className="sticky top-0 bg-white rounded-t-3xl z-10 pt-3 pb-2 px-6">
-              <div className="w-10 h-1 bg-stone-300 rounded-full mx-auto" />
-            </div>
-
-            {/* Hero image */}
-            <div className="relative aspect-[16/9] mx-4 rounded-2xl overflow-hidden">
-              <Image src={mobileDetailProduct.image} alt={mobileDetailProduct.title} fill className="object-cover" sizes="100vw" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-4">
-                <h3 className="text-xl font-bold text-white">{mobileDetailProduct.title}</h3>
-              </div>
-            </div>
-
-            <div className="px-5 py-5 space-y-5">
-              <p className="text-sm text-stone-600 leading-relaxed">{mobileDetailProduct.description}</p>
-
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-stone-50 rounded-xl p-4">
-                  <h4 className="text-xs font-bold text-stone-900 mb-3 uppercase tracking-wide">Ideal para</h4>
-                  <ul className="space-y-1.5">
-                    {mobileDetailProduct.idealPara.map((item, i) => (
-                      <li key={i} className="flex items-center gap-1.5">
-                        <div className="w-1 h-1 rounded-full bg-stone-900" />
-                        <span className="text-xs text-stone-600">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="bg-stone-50 rounded-xl p-4">
-                  <h4 className="text-xs font-bold text-stone-900 mb-3 uppercase tracking-wide">Beneficios</h4>
-                  <ul className="space-y-1.5">
-                    {mobileDetailProduct.beneficios.map((item, i) => (
-                      <li key={i} className="flex items-start gap-1.5">
-                        <Check className="w-3 h-3 flex-shrink-0 mt-0.5 text-stone-900" />
-                        <span className="text-xs text-stone-600">{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-
-              <div className="bg-stone-50 rounded-xl p-4">
-                <h4 className="text-xs font-bold text-stone-900 mb-3 uppercase tracking-wide">Opciones disponibles</h4>
-                <div className="flex flex-wrap gap-2">
-                  {mobileDetailProduct.opciones.map((item, i) => (
-                    <span key={i} className="text-xs bg-white border border-stone-200 text-stone-700 px-3 py-1.5 rounded-full">{item}</span>
-                  ))}
-                </div>
-              </div>
-
-              <a
-                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-4 rounded-xl flex items-center justify-center gap-3 bg-stone-900 text-stone-50 font-semibold text-sm"
-              >
-                Cotizar {mobileDetailProduct.title}
-                <ArrowRight className="w-4 h-4" />
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      )}
 
       {/* Mobile Bottom Sheet: Exterior Detail */}
       {mobileDetailExterior && (
@@ -1045,7 +745,7 @@ export default function Servicios() {
               </div>
 
               <a
-                href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos"
+                href={whatsappUrl(`cotizar ${mobileDetailExterior.title}`)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-4 rounded-xl flex items-center justify-center gap-3 bg-stone-900 text-stone-50 font-semibold text-sm"
