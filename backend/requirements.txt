@@ -1,6 +1,6 @@
 # Core Django
 # 6.1 requires MySQL 8.4+; this server runs MySQL 8.0.46 (verified 2026-08-27)
-Django>=6.0.5,<6.1
+Django>=6.0.8,<6.1
 djangorestframework>=3.18.0
 
 # Authentication
