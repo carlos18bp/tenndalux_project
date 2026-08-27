@@ -58,8 +58,93 @@ const galleryItems: GalleryItem[] = [
     src: '/home/gallery/cortina-celular-blackout.png',
     alt: 'Cortina celular tejido blackout',
     className: 'row-span-1'
+  },
+  // Proyectos reales. `src` es un clip de 7s sin audio que se reproduce solo en
+  // la grilla; `videoSrc` es el video completo que abre la modal. Separarlos
+  // evita que entrar al home descargue varios minutos de video.
+  {
+    type: 'video',
+    src: '/videos/proyectos/proyecto-1-clip.webm',
+    videoSrc: '/videos/proyectos/proyecto-1.webm',
+    alt: 'Proyecto 1 — instalación de cortinas',
+    className: 'row-span-2'
+  },
+  {
+    type: 'video',
+    src: '/videos/proyectos/proyecto-2-clip.webm',
+    videoSrc: '/videos/proyectos/proyecto-2.webm',
+    alt: 'Proyecto 2 — instalación de cortinas',
+    className: 'row-span-2'
+  },
+  {
+    type: 'video',
+    src: '/videos/proyectos/proyecto-3-clip.webm',
+    videoSrc: '/videos/proyectos/proyecto-3.webm',
+    alt: 'Proyecto 3 — instalación de cortinas',
+    className: 'row-span-2'
+  },
+  {
+    type: 'video',
+    src: '/videos/proyectos/proyecto-4-clip.webm',
+    videoSrc: '/videos/proyectos/proyecto-4.webm',
+    alt: 'Proyecto 4 — instalación de cortinas',
+    className: 'row-span-2'
+  },
+  {
+    type: 'video',
+    src: '/videos/proyectos/proyecto-5-clip.webm',
+    videoSrc: '/videos/proyectos/proyecto-5.webm',
+    alt: 'Proyecto 5 — instalación de cortinas',
+    className: 'row-span-2'
   }
 ];
+
+/**
+ * Clip de la grilla: sólo se reproduce mientras está a la vista.
+ *
+ * Con seis videos en la sección, dejarlos todos con `autoPlay` haría que el
+ * navegador decodifique seis a la vez aunque cinco estén fuera de pantalla, y
+ * `preload="none"` evita bajar los 4.8 MB de clips al abrir el home.
+ */
+function GalleryVideo({ item }: { item: GalleryItem }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {
+            // Algunos navegadores bloquean el autoplay: queda el primer frame,
+            // y el botón de reproducir sigue abriendo el video completo.
+          });
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.25 },
+    );
+
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      muted
+      loop
+      playsInline
+      preload="none"
+      aria-label={item.alt}
+      className="absolute inset-0 w-full h-full object-cover"
+    >
+      <source src={item.src} type="video/webm" />
+    </video>
+  );
+}
 
 export default function Gallery() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
@@ -112,17 +197,11 @@ export default function Gallery() {
         </>
       ) : (
         <div className="relative w-full h-full">
-          <video
-            muted
-            loop
-            playsInline
-            autoPlay
-            className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src={item.src} type="video/webm" />
-          </video>
-          <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors duration-300">
-            <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-white/95 flex items-center justify-center shadow-2xl group-hover:scale-110 transition-transform duration-300">
+          <GalleryVideo item={item} />
+          {/* En escritorio el botón sólo aparece al pasar el mouse, para no tapar
+              el clip. En táctil no hay hover, así que ahí queda siempre visible. */}
+          <div className="absolute inset-0 flex items-center justify-center bg-black/10 transition-colors duration-300 sm:bg-transparent sm:group-hover:bg-black/25">
+            <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-white/95 flex items-center justify-center shadow-2xl transition-all duration-300 sm:opacity-0 sm:scale-90 sm:group-hover:opacity-100 sm:group-hover:scale-100">
               <PlayIcon className="w-7 h-7 md:w-10 md:h-10 text-stone-900 ml-0.5" />
             </div>
           </div>
