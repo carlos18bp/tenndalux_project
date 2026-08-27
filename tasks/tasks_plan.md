@@ -11,7 +11,7 @@ own commit and must have a green PR CI run before the next item starts.
 - [x] idna 3.13 -> 3.19
 - [x] sqlparse 0.5.5 -> 0.6.0
 - [x] asgiref 3.11.1 -> 3.12.1
-- [ ] certifi 2026.4.22 -> 2026.7.22
+- [x] certifi 2026.4.22 -> 2026.7.22
 - [ ] charset-normalizer 3.4.7 -> 3.5.1
 - [ ] packaging 26.2 -> 26.3
 - [ ] Pygments 2.20.0 -> 2.21.0

@@ -8,9 +8,9 @@ between dependencies.
 
 ## Current step
 
-certifi 2026.4.22 -> 2026.7.22. asgiref 3.12.1 passed an isolated requirements
-install, `pip check`, Django's system check, and a sync/async bridge smoke test;
-all earlier commits are green in PR CI.
+charset-normalizer 3.4.7 -> 3.5.1. certifi 2026.7.22 passed an isolated
+requirements install, `pip check`, and SSL CA-bundle loading; all earlier
+commits are green in PR CI.
 
 ## Guardrails
 
