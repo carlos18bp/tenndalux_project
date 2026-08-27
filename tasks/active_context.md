@@ -8,9 +8,8 @@ between dependencies.
 
 ## Current step
 
-pip 26.1.1 -> 26.2.1. PyJWT 2.13.0 and the initial reproducible
-constraints setup passed `pip check`, Django's system check, and three auth
-tests in the isolated venv.
+urllib3 2.6.3 -> 2.7.0. pip 26.2.1 passed an isolated requirements install
+and `pip check`; PyJWT 2.13.0 is already green in PR CI.
 
 ## Guardrails
 

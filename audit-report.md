@@ -25,7 +25,7 @@ the constraints file with `-c constraints.txt`.
 | Package | Initial | Target | Status | Verification |
 |---|---:|---:|---|---|
 | PyJWT | 2.12.1 | 2.13.0 | applied | `pip check`; 3 auth tests passed |
-| pip | 26.1.1 | 26.2.1 | pending | pending |
+| pip | 26.1.1 | 26.2.1 | applied | isolated install; `pip check` |
 | urllib3 | 2.6.3 | 2.7.0 | pending | pending |
 | idna | 3.13 | 3.19 | pending | pending |
 | sqlparse | 0.5.5 | 0.6.0 | pending | pending |
