@@ -49,9 +49,12 @@ gate between commits. Resolver-inseparable additions, such as
 `typing_extensions` introduced by django-redis 7, belong to the parent
 dependency's commit.
 
-Django 6.1 is not a safe bump on the current host: it requires MySQL 8.4+, while
-the fleet server is on MySQL 8.0.46. Keep `Django>=6.0.8,<6.1` until the database
-server is upgraded, then re-audit before removing the cap.
+Django 6.1 requires MySQL 8.4+. The fleet host was upgraded from MySQL 8.0.46
+to 8.4.11 on 2026-08-27 after a clean official preflight and verified logical
+restore, so Tenndalux can use `Django>=6.1,<6.2` safely. Validate the exact
+target patch too: the 8.4.10 upgrade checker did not flag that
+`binlog_transaction_dependency_tracking` is gone in 8.4.11. Running
+`mysqld --validate-config` caught it before applications were reopened.
 
 ---
 

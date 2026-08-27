@@ -350,8 +350,8 @@ npx tsc --noEmit
 ## 🎨 Tech Stack
 
 ### Backend
-- **Framework:** Django 6.0.1
-- **API:** Django REST Framework 3.16.1
+- **Framework:** Django 6.1
+- **API:** Django REST Framework 3.18.0
 - **Auth:** djangorestframework-simplejwt 5.5.1
 - **CORS:** django-cors-headers 4.9.0
 - **Fake Data:** Faker 40.1.2

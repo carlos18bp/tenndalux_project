@@ -4,11 +4,11 @@
 
 | Layer | Technology | Version |
 |-------|-----------|---------|
-| Backend framework | Django + DRF | Django 6.0.8, DRF 3.18.0 |
+| Backend framework | Django + DRF | Django 6.1, DRF 3.18.0 |
 | Language | Python | 3.12+ |
 | Frontend framework | Next.js + React | 16.1.6 + 19.2.3 |
 | Frontend language | TypeScript | 5 |
-| Database (prod) | MySQL | 8.0.46 |
+| Database (prod) | MySQL | 8.4.11 |
 | Database (dev) | SQLite | (default) |
 | Cache / queue | Redis + Huey | Redis 8.1.0, Huey 3.3.4 |
 | Auth | SimpleJWT | 5.5.1 |
@@ -230,8 +230,8 @@ Zustand store with `persist` middleware.
 - `backend/requirements.txt` declares direct dependencies and their supported
   ranges; it loads `backend/constraints.txt` with `-c constraints.txt`.
 - `backend/constraints.txt` pins the complete tested Python 3.12 resolution.
-- Django remains at 6.0.8 (`<6.1`) while the fleet host runs MySQL 8.0.46;
-  [Django 6.1 requires MySQL 8.4 or newer](https://docs.djangoproject.com/en/6.1/ref/databases/#mysql-notes).
+- Django is pinned to 6.1 and the fleet host runs MySQL 8.4.11, satisfying
+  [Django 6.1's MySQL 8.4+ requirement](https://docs.djangoproject.com/en/6.1/ref/databases/#mysql-notes).
 - Upgrade one dependency per commit and require a green PR CI run before the
   next bump, especially across major versions.
 

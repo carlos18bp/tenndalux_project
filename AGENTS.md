@@ -263,7 +263,7 @@ Tenndalux is **active** — reactivated 2026-05-07 after a payment suspension (s
 
 ## Project Overview
 - **What it is**: Tenndalux — a landing site + portfolio CMS for an interior design / decoration brand. Features a portfolio gallery (projects organized by category, style, space), services catalog, blog, lead capture form, and a small admin dashboard.
-- **Stack**: Django 6.0 + DRF (backend) / **Next.js 16.1.6 + React 19.2 + TypeScript 5** (frontend, App Router with **static export**) / MySQL 8 / Redis / Huey / SMTP email.
+- **Stack**: Django 6.1 + DRF (backend) / **Next.js 16.1.6 + React 19.2 + TypeScript 5** (frontend, App Router with **static export**) / MySQL 8 / Redis / Huey / SMTP email.
 - **Single Django app**: `core_app`. **Django module name is `core_project`** (not `tenndalux_project`!). Settings module: `core_project.settings_prod`.
 - **Deploy path (staging)**: `/home/ryzepeck/webapps/tenndalux_project_staging/` on `vps-projectapp-staging` (srv571894).
 - **Domain**: `tenndalux.projectapp.co`.

@@ -48,4 +48,17 @@ DATABASES = {
 # ---------------------------------------------------------------------------
 # Email — SMTP
 # ---------------------------------------------------------------------------
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+MAILERS = {
+    'default': {
+        'BACKEND': 'django.core.mail.backends.smtp.EmailBackend',
+        'OPTIONS': {
+            'host': _config('EMAIL_HOST', default='localhost'),
+            'port': _config('EMAIL_PORT', default=587, cast=int),
+            'use_tls': _config('EMAIL_USE_TLS', default=True, cast=bool),
+            'use_ssl': _config('EMAIL_USE_SSL', default=False, cast=bool),
+            'username': _config('EMAIL_HOST_USER', default=''),
+            'password': _config('EMAIL_HOST_PASSWORD', default=''),
+            'timeout': _config('EMAIL_TIMEOUT', default=10, cast=int),
+        },
+    },
+}

@@ -60,7 +60,7 @@ def send_lead_notification(lead_id: int) -> None:
     )
 
     try:
-        message.send(fail_silently=False)
+        message.send()
     except Exception:
         # Huey runs immediately outside production, so an SMTP error here would
         # surface as a 500 to the visitor whose lead was already saved. The lead

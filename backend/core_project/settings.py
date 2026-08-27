@@ -94,7 +94,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core_project.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+# https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': config('DJANGO_DB_ENGINE', default='django.db.backends.sqlite3'),
@@ -199,8 +199,20 @@ STORAGES = {
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Email Configuration (Console backend for development)
-EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+# Email configuration. ``EMAIL_BACKEND`` remains an environment-variable
+# fallback so existing deployments keep working; Django itself only receives
+# the 6.1 ``MAILERS`` setting.
+MAILERS = {
+    'default': {
+        'BACKEND': config(
+            'MAILER_BACKEND',
+            default=config(
+                'EMAIL_BACKEND',
+                default='django.core.mail.backends.console.EmailBackend',
+            ),
+        ),
+    },
+}
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL', default='noreply@tenndalux.com')
 
 # Where the leads from the website form are delivered. Comma-separated, so the
