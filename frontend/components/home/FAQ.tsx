@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { whatsappUrl } from '@/lib/whatsapp';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -106,7 +107,7 @@ export default function FAQ() {
         <div className="mt-16 text-center">
           <p className="text-lg text-stone-500 mb-6">¿Tienes más preguntas?</p>
           <a 
-            href="https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos" 
+            href={whatsappUrl('hablar con un experto sobre mi proyecto')} 
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center justify-center gap-3 px-10 py-5 border-2 border-stone-200 rounded-full text-lg text-stone-900 font-semibold hover:bg-stone-50 transition-colors"

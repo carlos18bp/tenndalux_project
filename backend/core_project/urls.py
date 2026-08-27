@@ -42,6 +42,9 @@ urlpatterns = [
     path('api/leads/', include('core_app.urls.leads_urls')),
     path('api/site/', include('core_app.urls.site_urls')),
 
+    # Herramientas del editor de bloques del admin (sesión de staff, no JWT)
+    path('admin-tools/', include('core_app.urls.admin_tools_urls')),
+
     # Frontend pages (Next.js static export served by Django)
     path('', include('core_app.urls.frontend_urls')),
 ]

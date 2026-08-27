@@ -9,6 +9,7 @@ from .blog import Tag, Post
 from .services import Service, ProcessStep
 from .leads import LeadStatus, Lead
 from .site import SiteSettings, HomePage, AboutPage
+from .content import ContentImage
 
 __all__ = [
     'User',
@@ -25,4 +26,5 @@ __all__ = [
     'SiteSettings',
     'HomePage',
     'AboutPage',
+    'ContentImage',
 ]

@@ -7,8 +7,14 @@ const devOrigins = (process.env.NEXT_DEV_ALLOWED_ORIGINS ?? '')
   .map((o) => o.trim())
   .filter(Boolean);
 
+// El export estático sólo en el build. En `next dev` haría que /blog/<slug>/ y
+// /portafolio/<slug>/ exigieran que cada slug esté en generateStaticParams(),
+// y esas dos rutas se sirven con UNA plantilla para todos los slugs: Django la
+// entrega y el contenido lo pide el navegador a la API.
+const isBuild = process.env.NODE_ENV === 'production';
+
 const nextConfig: NextConfig = {
-  output: 'export',
+  ...(isBuild ? { output: 'export' as const } : {}),
   trailingSlash: true,
   images: {
     unoptimized: true,

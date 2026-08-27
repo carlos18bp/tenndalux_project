@@ -21,7 +21,8 @@ describe('HomePage', () => {
     render(<HomePage />);
     expect(screen.getByTestId('header')).toBeInTheDocument();
     expect(screen.getByTestId('hero')).toBeInTheDocument();
-    expect(screen.getByTestId('google-reviews')).toBeInTheDocument();
+    // Las reseñas se muestran dos veces: bajo el hero y al cierre, tras el FAQ.
+    expect(screen.getAllByTestId('google-reviews')).toHaveLength(2);
     expect(screen.getByTestId('services')).toBeInTheDocument();
     expect(screen.getByTestId('footer')).toBeInTheDocument();
   });

@@ -4,11 +4,14 @@ Django Admin configuration for core_app models.
 Provides customized admin interfaces with search, filtering,
 and display options for better management experience.
 """
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
 from django_attachments.admin import AttachmentsAdminMixin
+
+from .forms import ContentBlocksWidget
 
 from .models import (
     User,
@@ -22,6 +25,7 @@ from .models import (
     ProcessStep,
     LeadStatus,
     Lead,
+    ContentImage,
     SiteSettings,
     HomePage,
     AboutPage,
@@ -90,8 +94,24 @@ class SpaceAdmin(admin.ModelAdmin):
     ordering = ('order', 'name')
 
 
+
+class ProjectAdminForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = '__all__'
+        widgets = {'content_blocks': ContentBlocksWidget(kind='portafolio')}
+
+
+class PostAdminForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = '__all__'
+        widgets = {'content_blocks': ContentBlocksWidget(kind='blog')}
+
+
 @admin.register(Project)
 class ProjectAdmin(AttachmentsAdminMixin, admin.ModelAdmin):
+    form = ProjectAdminForm
     list_display = ('title', 'slug', 'year', 'featured', 'is_published', 'created_at')
     list_filter = ('featured', 'is_published', 'year')
     search_fields = ('title', 'slug', 'location')
@@ -108,6 +128,7 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(AttachmentsAdminMixin, admin.ModelAdmin):
+    form = PostAdminForm
     list_display = ('title', 'slug', 'is_published', 'published_at', 'created_at')
     list_filter = ('is_published',)
     search_fields = ('title', 'slug', 'excerpt')
@@ -159,3 +180,13 @@ class HomePageAdmin(AttachmentsAdminMixin, admin.ModelAdmin):
 @admin.register(AboutPage)
 class AboutPageAdmin(AttachmentsAdminMixin, admin.ModelAdmin):
     list_display = ('title', 'updated_at')
+
+
+@admin.register(ContentImage)
+class ContentImageAdmin(admin.ModelAdmin):
+    """Fotos de los bloques «galeria». Se suben desde el editor, no desde aquí."""
+
+    list_display = ('public_id', 'alt', 'created_at')
+    search_fields = ('public_id', 'alt')
+    readonly_fields = ('public_id',)
+    ordering = ('-created_at',)

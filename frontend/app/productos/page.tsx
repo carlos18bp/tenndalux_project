@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import { whatsappUrl } from '@/lib/whatsapp';
 
 // WhatsApp SVG component
 const WhatsAppIcon = ({ size = 24 }: { size?: number }) => (
@@ -429,8 +430,8 @@ export default function Productos() {
     ? products 
     : products.filter(p => p.category === selectedCategory);
 
-  const handleWhatsApp = () => {
-    window.open('https://wa.me/573227904563?text=Vi%20su%20página%20web%20y%20quiero%20contactarlos', '_blank');
+  const handleWhatsApp = (interest?: string) => {
+    window.open(whatsappUrl(interest), '_blank');
   };
 
   return (
@@ -552,7 +553,7 @@ export default function Productos() {
                     </button>
                     
                     <button
-                      onClick={() => handleWhatsApp()}
+                      onClick={() => handleWhatsApp(`cotizar ${product.name}`)}
                       className="w-full py-5 rounded-xl flex items-center justify-center gap-3 transition-all hover:scale-[1.02] bg-stone-900 text-stone-50"
                     >
                       <WhatsAppIcon size={20} />
@@ -581,7 +582,7 @@ export default function Productos() {
               Nuestros asesores te ayudan a encontrar la solución perfecta para tu proyecto
             </p>
             <button
-              onClick={() => handleWhatsApp()}
+              onClick={() => handleWhatsApp('hablar con un asesor')}
               className="px-8 sm:px-14 py-5 sm:py-6 rounded-full inline-flex items-center gap-3 sm:gap-4 transition-all hover:scale-105 bg-stone-50 text-stone-900"
             >
               <span className="text-base sm:text-xl font-semibold">Hablar con un Asesor</span>
@@ -713,7 +714,7 @@ export default function Productos() {
                 {/* CTA */}
                 <div className="pt-6">
                   <button
-                    onClick={() => handleWhatsApp()}
+                    onClick={() => handleWhatsApp(`cotizar ${selectedProduct.name}`)}
                     className="w-full px-12 py-5 rounded-full flex items-center justify-center gap-4 transition-all hover:scale-105 bg-stone-900 text-stone-50"
                   >
                     <WhatsAppIcon size={24} />

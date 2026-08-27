@@ -1,0 +1,33 @@
+{% load static %}
+<div class="cb-editor"
+     data-kind="{{ kind }}"
+     data-instructions-url="{{ instructions_url }}"
+     data-upload-url="{{ upload_url }}"
+     data-validate-url="{{ validate_url }}">
+
+  <div class="cb-toolbar">
+    <button type="button" class="cb-button" data-cb-copy>Copiar instrucciones para la IA</button>
+    <a class="cb-button cb-button--link" data-cb-download href="#" download>Descargar (.md + formato .json)</a>
+    <button type="button" class="cb-button" data-cb-validate>Revisar el JSON</button>
+    <span class="cb-status" data-cb-status role="status" aria-live="polite"></span>
+  </div>
+
+  {{ textarea }}
+
+  <div class="cb-uploader">
+    <p class="cb-uploader__title">Fotos para los bloques «galeria»</p>
+    <p class="cb-uploader__hint">
+      Se comprimen en tu navegador por debajo de 1 MB y se suben de una en una.
+      Copia el id de cada foto y pégalo en el bloque <code>galeria</code>.
+    </p>
+
+    <input type="file" accept="image/*" multiple data-cb-files>
+
+    <div class="cb-progress" data-cb-progress hidden>
+      <div class="cb-progress__bar"><span data-cb-progress-fill></span></div>
+      <p class="cb-progress__label" data-cb-progress-label></p>
+    </div>
+
+    <ul class="cb-images" data-cb-images></ul>
+  </div>
+</div>

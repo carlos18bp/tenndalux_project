@@ -1,5 +1,7 @@
 from rest_framework import serializers
 
+from core_app.serializers.fields import ContentBlocksField
+
 from core_app.models import Category, Style, Space, Project
 
 
@@ -25,6 +27,8 @@ class SpaceSerializer(serializers.ModelSerializer):
 
 
 class ProjectSerializer(serializers.ModelSerializer):
+    content_blocks = ContentBlocksField(required=False)
+
     categories = CategorySerializer(many=True, read_only=True)
     category_ids = serializers.PrimaryKeyRelatedField(
         source='categories',
@@ -59,6 +63,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'title',
             'slug',
             'description',
+            'content_blocks',
             'location',
             'year',
             'area_sqm',

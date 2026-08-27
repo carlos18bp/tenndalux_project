@@ -21,26 +21,47 @@ export type GoogleReview = {
   url: string;
 };
 
-/** Ficha del negocio en Google Maps (place CID 4281377378138462335). */
-export const GOOGLE_PROFILE_URL = 'https://www.google.com/maps?cid=4281377378138462335';
+/** Panel del negocio en Google, con las 143 opiniones. */
+export const GOOGLE_PROFILE_URL = 'https://share.google/IzOrQiMDU3qLOqptR';
 
-/** Calificación global. `null` mientras no se confirme el valor real en la ficha. */
-export const GOOGLE_RATING: number | null = null;
+/** Ficha en Google Maps (place CID 4281377378138462335). */
+export const GOOGLE_MAPS_URL = 'https://www.google.com/maps?cid=4281377378138462335';
 
-/** Cantidad total de opiniones. `null` mientras no se confirme el valor real. */
-export const GOOGLE_REVIEW_COUNT: number | null = null;
+/** Calificación global del perfil. */
+export const GOOGLE_RATING: number | null = 4.8;
 
-// Transcritas del perfil el 2026-08-25. Las fechas son relativas, como las
+/** Cantidad total de opiniones del perfil. */
+export const GOOGLE_REVIEW_COUNT: number | null = 143;
+
+// Transcritas del perfil el 2026-08-26. Las fechas son relativas, como las
 // muestra Google: si pasa mucho tiempo hay que volver a capturarlas.
 // El texto va tal cual lo escribió cada persona, sin corregir ni recortar.
+// El orden es el que pidió el cliente; las tres últimas venían de la primera
+// tanda y se conservan al final.
 export const GOOGLE_REVIEWS: GoogleReview[] = [
   {
-    author: 'L Acosta',
+    author: 'Guillermo Andres Torres Ramirez',
     rating: 5,
-    date: 'hace 7 meses',
+    date: 'hace 3 semanas',
     text:
-      'Excelente servicio, entienden tus necesidades, van a tu casa y toman medidas. Sin duda, recomendaría a esta empresa. Encortine todo mi apto con ellos y fue la mejor decisión!',
-    url: 'https://maps.app.goo.gl/iLSSQHgWCCibS6yf8',
+      'Realice la instalación de las cortinas motorizadas en mi apartamento y quede muy satisfecho. Manejan una excelente asesoría ya que en la visita se tomaron el tiempo necesario y sin prisas que me llevaron a tomar una buena decisión. La calidad de las telas y de los materiales son excelentes, entre los que destaco los motores y las telas. Adicional me ayudaron a programar los comandos para abrir y cerrar las cortinas a través de Alexa y crear escenarios lo cual me pareció una maravilla. Excelente la venta y la posventa porque realice una solicitud de la programación y me atendieron inmediatamente para resolver mis dudas. Tenndalux muchas gracias.',
+    url: 'https://share.google/5fECPLt4JYZziS57i',
+  },
+  {
+    author: 'Nataly Oviedo',
+    rating: 5,
+    date: 'hace 3 meses',
+    text:
+      'La atención es muy buena, te asesoran y la calidad es excelente',
+    url: 'https://share.google/jwX8sCVV6f2DHm8Ww',
+  },
+  {
+    author: 'weymar gomez',
+    rating: 5,
+    date: 'hace 6 meses',
+    text:
+      'Que buena decisión haber realizado el proceso de elegir a Tenndalux para las cortinas y Blackout de mi apto. Personas profesionales, agradables, decentes y cumplidos. Recomendados 100%',
+    url: 'https://share.google/AIs0nk6PlkKszATZU',
   },
   {
     author: 'Monica Santos',
@@ -48,7 +69,63 @@ export const GOOGLE_REVIEWS: GoogleReview[] = [
     date: 'hace 4 meses',
     text:
       'Super recomendados. Desde el inicio de la asesoría, durante el proceso de elaboración y en la entrega e instalación. Todo impecable 11/10. Muchas gracias Tenndalux quedé muy feliz con mis cortinas',
-    url: 'https://maps.app.goo.gl/qb9ZNeA5sJWb6nGt9',
+    url: 'https://share.google/ClBMfPkSdhVgERcxB',
+  },
+  {
+    author: 'Estudio Juridico',
+    rating: 5,
+    date: 'hace 4 meses',
+    text:
+      'Excelente servicio y calidad. Los recomiendo. Muy profesionales y cumplidos. Trabajan mucho la estética. Cero cables visibles. Compatibles con automatización. La verde los recomiendo.',
+    url: 'https://share.google/5Xp1ueYRSPcRrPbgz',
+  },
+  {
+    author: 'Milena Moreno',
+    rating: 5,
+    date: 'hace 5 meses',
+    text:
+      'Excelente aliado para las cortinas de tu hogar! Una empresa seria, responsable, cumplida y que está pendiente de todo el proceso desde la cotización hasta la post venta. Los recomiendo al 100%',
+    url: 'https://share.google/Gy5Pg5GFMPbG45ulo',
+  },
+  {
+    author: 'Juan Pablo Castro Peña',
+    rating: 5,
+    date: 'hace 6 meses',
+    text:
+      'Excelente servicio y calidad, muy buena asistencia y variedad de productos, súper recomendado',
+    url: 'https://share.google/uvqxAUVoGomqsCWJl',
+  },
+  {
+    author: 'CARLOS ECHEVERRY RAMIREZ',
+    rating: 5,
+    date: 'hace 7 meses',
+    text:
+      'Excelente inversión. Recomiendo 110%',
+    url: 'https://share.google/n6pYbJjDB3dnb8nfI',
+  },
+  {
+    author: 'LUIS FERNANDO LEAL GOMEZ',
+    rating: 5,
+    date: 'hace 6 meses',
+    text:
+      'Los mejores en tiempos de entrega, instalación y post venta',
+    url: 'https://share.google/EwYpDhvU3WdQlUUYF',
+  },
+  {
+    author: 'Adriana Cuestas',
+    rating: 5,
+    date: 'hace 6 meses',
+    text:
+      'Excelente servicio, cumplidos. Se puede presentar incidentes pero muy amables y dispuestos para dar solución lo más rápido posible',
+    url: 'https://share.google/mOTz0qw60laxqKP24',
+  },
+  {
+    author: 'L Acosta',
+    rating: 5,
+    date: 'hace 7 meses',
+    text:
+      'Excelente servicio, entienden tus necesidades, van a tu casa y toman medidas. Sin duda, recomendaría a esta empresa. Encortine todo mi apto con ellos y fue la mejor decisión!',
+    url: 'https://maps.app.goo.gl/iLSSQHgWCCibS6yf8',
   },
   {
     author: 'Caro Rubiano',

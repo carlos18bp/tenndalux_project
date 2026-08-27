@@ -10,6 +10,7 @@ const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
   testMatch: ['<rootDir>/**/__tests__/**/*.test.(ts|tsx)'],
   moduleNameMapper: {
+    '^swiper/css(/.*)?$': '<rootDir>/__mocks__/styleMock.js',
     '^@/(.*)$': '<rootDir>/$1',
   },
 };
