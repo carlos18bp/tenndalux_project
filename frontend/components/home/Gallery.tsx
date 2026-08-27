@@ -19,6 +19,9 @@ type GalleryItem = {
   alt: string;
   className: string;
   videoSrc?: string;
+  /** Primer fotograma. Sin él la tarjeta es un rectángulo negro hasta que el
+   *  clip entra en pantalla y empieza a cargar. */
+  poster?: string;
 };
 
 const galleryItems: GalleryItem[] = [
@@ -66,6 +69,7 @@ const galleryItems: GalleryItem[] = [
     type: 'video',
     src: '/videos/proyectos/proyecto-1-clip.webm',
     videoSrc: '/videos/proyectos/proyecto-1.webm',
+    poster: '/videos/proyectos/proyecto-1-poster.webp',
     alt: 'Proyecto 1 — instalación de cortinas',
     className: 'row-span-2'
   },
@@ -73,6 +77,7 @@ const galleryItems: GalleryItem[] = [
     type: 'video',
     src: '/videos/proyectos/proyecto-2-clip.webm',
     videoSrc: '/videos/proyectos/proyecto-2.webm',
+    poster: '/videos/proyectos/proyecto-2-poster.webp',
     alt: 'Proyecto 2 — instalación de cortinas',
     className: 'row-span-2'
   },
@@ -80,6 +85,7 @@ const galleryItems: GalleryItem[] = [
     type: 'video',
     src: '/videos/proyectos/proyecto-3-clip.webm',
     videoSrc: '/videos/proyectos/proyecto-3.webm',
+    poster: '/videos/proyectos/proyecto-3-poster.webp',
     alt: 'Proyecto 3 — instalación de cortinas',
     className: 'row-span-2'
   },
@@ -87,6 +93,7 @@ const galleryItems: GalleryItem[] = [
     type: 'video',
     src: '/videos/proyectos/proyecto-4-clip.webm',
     videoSrc: '/videos/proyectos/proyecto-4.webm',
+    poster: '/videos/proyectos/proyecto-4-poster.webp',
     alt: 'Proyecto 4 — instalación de cortinas',
     className: 'row-span-2'
   },
@@ -94,6 +101,7 @@ const galleryItems: GalleryItem[] = [
     type: 'video',
     src: '/videos/proyectos/proyecto-5-clip.webm',
     videoSrc: '/videos/proyectos/proyecto-5.webm',
+    poster: '/videos/proyectos/proyecto-5-poster.webp',
     alt: 'Proyecto 5 — instalación de cortinas',
     className: 'row-span-2'
   }
@@ -138,6 +146,7 @@ function GalleryVideo({ item }: { item: GalleryItem }) {
       loop
       playsInline
       preload="none"
+      poster={item.poster}
       aria-label={item.alt}
       className="absolute inset-0 w-full h-full object-cover"
     >

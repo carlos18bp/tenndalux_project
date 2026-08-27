@@ -74,6 +74,13 @@ describe('Gallery', () => {
     expect(document.querySelector('video[controls]')).toBeNull();
   });
 
+  it('shows a poster frame so the card is never a black rectangle', () => {
+    render(<Gallery />);
+
+    const clip = screen.getAllByLabelText('Proyecto 2 — instalación de cortinas')[0];
+    expect(clip).toHaveAttribute('poster', '/videos/proyectos/proyecto-2-poster.webp');
+  });
+
   it('never preloads the clips, so opening the home does not fetch them', () => {
     render(<Gallery />);
 
