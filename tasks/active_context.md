@@ -8,8 +8,8 @@ between dependencies.
 
 ## Current step
 
-packaging 26.2 -> 26.3. charset-normalizer 3.5.1 passed an isolated
-requirements install, `pip check`, and UTF-8 decoding; all earlier commits are
+Pygments 2.20.0 -> 2.21.0. packaging 26.3 passed an isolated requirements
+install, `pip check`, and version-specifier evaluation; all earlier commits are
 green in PR CI.
 
 ## Guardrails
