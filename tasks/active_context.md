@@ -8,9 +8,9 @@ between dependencies.
 
 ## Current step
 
-sqlparse 0.5.5 -> 0.6.0. idna 3.19 passed an isolated requirements install,
-`pip check`, and Unicode-domain encoding; all earlier commits are green in PR
-CI.
+asgiref 3.11.1 -> 3.12.1. sqlparse 0.6.0 passed an isolated requirements
+install, `pip check`, Django's system check, and SQL formatting; all earlier
+commits are green in PR CI.
 
 ## Guardrails
 
