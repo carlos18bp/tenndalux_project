@@ -45,7 +45,7 @@ django-dbbackup>=5.3.0,<6.0
 # django-dbbackup 5 no longer pulls this into existing fleet environments.
 pytz>=2026.3.post1
 django-silk>=5.5.2,<6.0
-huey>=2.6.0,<3.0
+huey>=3.3.4,<4.0
 
 # ASGI/WSGI
 gunicorn>=26.2.0

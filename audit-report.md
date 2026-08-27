@@ -39,7 +39,7 @@ django-dbbackup 5 no longer pulls it into an existing fleet environment.
 | wheel | 0.47.0 | 0.48.0 | applied | isolated install; `pip check`; CLI/import version checks |
 | django-dbbackup | 4.3.0 | 5.3.0 | applied | isolated install; `pip check`; Django/storage/command checks |
 | django-redis | 6.0.0 | 7.0.0 | applied | isolated install; `pip check`; Django/client checks; new transitive dependency pinned |
-| huey | 2.6.0 | 3.3.4 | pending | pending |
+| huey | 2.6.0 | 3.3.4 | applied | isolated install; `pip check`; Django/config/schedule/task checks |
 | redis | 7.4.0 | 8.1.0 | pending | pending |
 | Django | 6.0.8 | 6.0.8 | constrained | MySQL 8.0 compatibility |
 

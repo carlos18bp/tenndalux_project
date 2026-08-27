@@ -8,10 +8,9 @@ between dependencies.
 
 ## Current step
 
-huey 2.6.0 -> 3.3.4. django-redis 7.0.0 passed an isolated requirements
-install, `pip check`, Django's system check, and Redis client construction;
-its new `typing_extensions` dependency is pinned, and all earlier commits are
-green in PR CI.
+redis 7.4.0 -> 8.1.0. Huey 3.3.4 passed an isolated requirements install,
+`pip check`, Django's system check, schedule predicates, and all five project
+task wrappers; all earlier commits are green in PR CI.
 
 ## Guardrails
 
