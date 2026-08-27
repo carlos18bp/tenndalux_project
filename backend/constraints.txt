@@ -34,5 +34,5 @@ pytz==2026.2
 redis==7.4.0
 requests==2.34.2
 sqlparse==0.5.5
-urllib3==2.6.3
+urllib3==2.7.0
 wheel==0.47.0

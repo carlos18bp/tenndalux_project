@@ -7,7 +7,7 @@ own commit and must have a green PR CI run before the next item starts.
 
 - [x] PyJWT 2.12.1 -> 2.13.0
 - [x] pip 26.1.1 -> 26.2.1
-- [ ] urllib3 2.6.3 -> 2.7.0
+- [x] urllib3 2.6.3 -> 2.7.0
 - [ ] idna 3.13 -> 3.19
 - [ ] sqlparse 0.5.5 -> 0.6.0
 - [ ] asgiref 3.11.1 -> 3.12.1

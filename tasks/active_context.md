@@ -8,8 +8,9 @@ between dependencies.
 
 ## Current step
 
-urllib3 2.6.3 -> 2.7.0. pip 26.2.1 passed an isolated requirements install
-and `pip check`; PyJWT 2.13.0 is already green in PR CI.
+idna 3.13 -> 3.19. urllib3 2.7.0 passed an isolated requirements install,
+`pip check`, and a Requests adapter smoke check; all earlier commits are green
+in PR CI.
 
 ## Guardrails
 
