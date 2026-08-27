@@ -27,7 +27,7 @@ the constraints file with `-c constraints.txt`.
 | PyJWT | 2.12.1 | 2.13.0 | applied | `pip check`; 3 auth tests passed |
 | pip | 26.1.1 | 26.2.1 | applied | isolated install; `pip check` |
 | urllib3 | 2.6.3 | 2.7.0 | applied | isolated install; `pip check`; Requests adapter smoke check |
-| idna | 3.13 | 3.19 | pending | pending |
+| idna | 3.13 | 3.19 | applied | isolated install; `pip check`; Unicode-domain encoding smoke check |
 | sqlparse | 0.5.5 | 0.6.0 | pending | pending |
 | asgiref | 3.11.1 | 3.12.1 | pending | pending |
 | certifi | 2026.4.22 | 2026.7.22 | pending | pending |

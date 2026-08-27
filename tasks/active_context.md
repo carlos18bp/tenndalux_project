@@ -8,9 +8,9 @@ between dependencies.
 
 ## Current step
 
-idna 3.13 -> 3.19. urllib3 2.7.0 passed an isolated requirements install,
-`pip check`, and a Requests adapter smoke check; all earlier commits are green
-in PR CI.
+sqlparse 0.5.5 -> 0.6.0. idna 3.19 passed an isolated requirements install,
+`pip check`, and Unicode-domain encoding; all earlier commits are green in PR
+CI.
 
 ## Guardrails
 
