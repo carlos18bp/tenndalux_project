@@ -35,7 +35,7 @@ the constraints file with `-c constraints.txt`.
 | packaging | 26.2 | 26.3 | applied | isolated install; `pip check`; version-specifier smoke check |
 | Pygments | 2.20.0 | 2.21.0 | applied | isolated install; `pip check`; syntax-highlighting smoke check |
 | pytz | 2026.2 | 2026.3.post1 | applied | isolated install; `pip check`; DST-offset smoke check |
-| wheel | 0.47.0 | 0.48.0 | pending | pending |
+| wheel | 0.47.0 | 0.48.0 | applied | isolated install; `pip check`; CLI/import version checks |
 | django-dbbackup | 4.3.0 | 5.3.0 | pending | pending |
 | django-redis | 6.0.0 | 7.0.0 | pending | pending |
 | huey | 2.6.0 | 3.3.4 | pending | pending |

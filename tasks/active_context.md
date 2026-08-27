@@ -8,8 +8,8 @@ between dependencies.
 
 ## Current step
 
-wheel 0.47.0 -> 0.48.0. pytz 2026.3.post1 passed an isolated requirements
-install, `pip check`, and winter/summer DST offsets; all earlier commits are
+django-dbbackup 4.3.0 -> 5.3.0. wheel 0.48.0 passed an isolated requirements
+install, `pip check`, and CLI/import version checks; all earlier commits are
 green in PR CI.
 
 ## Guardrails
