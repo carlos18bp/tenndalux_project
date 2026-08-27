@@ -33,7 +33,7 @@ the constraints file with `-c constraints.txt`.
 | certifi | 2026.4.22 | 2026.7.22 | applied | isolated install; `pip check`; SSL CA-bundle smoke check |
 | charset-normalizer | 3.4.7 | 3.5.1 | applied | isolated install; `pip check`; UTF-8 decoding smoke check |
 | packaging | 26.2 | 26.3 | applied | isolated install; `pip check`; version-specifier smoke check |
-| Pygments | 2.20.0 | 2.21.0 | pending | pending |
+| Pygments | 2.20.0 | 2.21.0 | applied | isolated install; `pip check`; syntax-highlighting smoke check |
 | pytz | 2026.2 | 2026.3.post1 | pending | pending |
 | wheel | 0.47.0 | 0.48.0 | pending | pending |
 | django-dbbackup | 4.3.0 | 5.3.0 | pending | pending |

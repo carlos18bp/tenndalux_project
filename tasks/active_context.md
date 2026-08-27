@@ -8,8 +8,8 @@ between dependencies.
 
 ## Current step
 
-Pygments 2.20.0 -> 2.21.0. packaging 26.3 passed an isolated requirements
-install, `pip check`, and version-specifier evaluation; all earlier commits are
+pytz 2026.2 -> 2026.3.post1. Pygments 2.21.0 passed an isolated requirements
+install, `pip check`, and Python syntax highlighting; all earlier commits are
 green in PR CI.
 
 ## Guardrails
