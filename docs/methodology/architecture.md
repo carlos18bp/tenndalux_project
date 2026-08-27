@@ -44,7 +44,9 @@ tenndalux_project/              repo root
 │   ├── django_attachments/     vendored image library
 │   ├── templates/frontend/     Next.js HTML output (served by frontend_views.py)
 │   ├── static/                 _next/ assets + other static
-│   └── staticfiles/            Django collectstatic output
+│   ├── staticfiles/            Django collectstatic output
+│   ├── requirements.txt        Direct Python dependencies and ranges
+│   └── constraints.txt         Exact tested Python 3.12 resolution
 ├── frontend/                   Next.js 16 + React 19
 │   ├── app/                    App Router pages
 │   ├── lib/services/http.ts    Axios wrapper (JWT interceptors)
@@ -199,3 +201,4 @@ Client Component renders
 8. **Slugs auto-generated**: All slug-bearing models override `save()` to call `generate_unique_slug()`.
 9. **JWT for API, session for admin**: These two auth surfaces are separate and must not be mixed.
 10. **Gallery integration partial**: `GalleryField` on models is declared; serializers may not expose all gallery URLs yet. Verify before assuming.
+11. **Python resolution is two-layered**: Keep direct ranges in `requirements.txt` and the full tested resolution in `constraints.txt`. Django stays below 6.1 until the production MySQL server is upgraded from 8.0 to 8.4+.

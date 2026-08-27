@@ -41,6 +41,18 @@ Slug-bearing models (`Category`, `Style`, `Space`, `Project`, `Tag`, `Post`, `Se
 ### No Service Layer
 `core_app/services/` directory exists but is intentionally empty. Business logic lives in serializers and view methods. The codebase is small enough that a service layer would be premature abstraction.
 
+### Direct Requirements and Full Constraints
+`backend/requirements.txt` is the source of direct dependency ranges and loads
+`backend/constraints.txt`, which pins the complete tested Python 3.12 graph.
+Dependency maintenance uses one dependency per commit with a full green PR CI
+gate between commits. Resolver-inseparable additions, such as
+`typing_extensions` introduced by django-redis 7, belong to the parent
+dependency's commit.
+
+Django 6.1 is not a safe bump on the current host: it requires MySQL 8.4+, while
+the fleet server is on MySQL 8.0.46. Keep `Django>=6.0.8,<6.1` until the database
+server is upgraded, then re-audit before removing the cap.
+
 ---
 
 ## Frontend Patterns
