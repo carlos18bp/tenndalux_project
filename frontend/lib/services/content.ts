@@ -7,6 +7,9 @@
 import { get } from '@/lib/services/http';
 import type { BlogPost, PortfolioProject } from '@/types/content';
 
+/** La API pagina por defecto (PAGE_SIZE 20). */
+type Paginated<T> = { count: number; next: string | null; results: T[] };
+
 /**
  * El backend devuelve las rutas de media relativas (`/media/…`). En producción
  * comparten dominio con la web y ya resuelven; en desarrollo el front corre en
@@ -31,4 +34,14 @@ export async function getBlogPost(slug: string): Promise<BlogPost> {
 export async function getPortfolioProject(slug: string): Promise<PortfolioProject> {
   const response = await get<PortfolioProject>(`/portfolio/projects/${slug}/`);
   return response.data;
+}
+
+export async function listBlogPosts(): Promise<BlogPost[]> {
+  const response = await get<Paginated<BlogPost>>('/blog/posts/');
+  return response.data.results;
+}
+
+export async function listPortfolioProjects(): Promise<PortfolioProject[]> {
+  const response = await get<Paginated<PortfolioProject>>('/portfolio/projects/');
+  return response.data.results;
 }

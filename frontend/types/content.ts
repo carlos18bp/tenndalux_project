@@ -28,6 +28,13 @@ export type ContentBlock =
   | { type: 'testimonio'; heading?: string; text: string; author: string; role?: string }
   | { type: 'cierre'; text: string; note?: string };
 
+/** Tag, categoría, estilo o espacio: todos se serializan igual. */
+export type Term = {
+  id: number;
+  name: string;
+  slug: string;
+};
+
 export type BlogPost = {
   id: number;
   title: string;
@@ -36,8 +43,12 @@ export type BlogPost = {
   content_blocks: ContentBlock[];
   cover_image_url: string | null;
   published_at: string | null;
+  created_at: string;
   meta_title: string;
   meta_description: string;
+  tags: Term[];
+  /** Calculado por el backend sobre el contenido real, no un campo editable. */
+  read_time_minutes: number;
 };
 
 export type PortfolioProject = {
@@ -46,6 +57,10 @@ export type PortfolioProject = {
   slug: string;
   description: string;
   content_blocks: ContentBlock[];
+  cover_image_url: string | null;
   location: string;
   year: number | null;
+  featured: boolean;
+  categories: Term[];
+  styles: Term[];
 };

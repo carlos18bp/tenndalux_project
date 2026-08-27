@@ -107,3 +107,30 @@ def test_the_admin_validates_through_the_model():
         post.full_clean()
 
     assert 'content_blocks' in raised.value.message_dict
+
+
+@pytest.mark.django_db
+def test_read_time_is_computed_from_the_content_and_not_stored():
+    """Un campo editable quedaría viejo en cuanto alguien agregue párrafos."""
+    corto = Post.objects.create(title='Corto', content_blocks=[
+        {'type': 'parrafo', 'text': 'Dos palabras'},
+    ])
+    largo = Post.objects.create(title='Largo', content_blocks=[
+        {'type': 'parrafo', 'text': 'palabra ' * 1200},
+    ])
+
+    assert PostSerializer(corto).data['read_time_minutes'] == 1
+    assert PostSerializer(largo).data['read_time_minutes'] == 6
+
+
+@pytest.mark.django_db
+def test_read_time_counts_the_text_nested_inside_blocks():
+    """Listas y subsecciones son la mayor parte de un artículo largo."""
+    post = Post.objects.create(title='Anidado', content_blocks=[
+        {'type': 'subsecciones', 'items': [
+            {'title': 'Uno', 'description': 'palabra ' * 400},
+            {'title': 'Dos', 'description': 'palabra ' * 400},
+        ]},
+    ])
+
+    assert PostSerializer(post).data['read_time_minutes'] == 4

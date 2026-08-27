@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from core_app.serializers.fields import ContentBlocksField, library_image_url
+from core_app.utils.content_blocks import estimate_read_minutes
 
 from core_app.models import Tag, Post
 
@@ -15,6 +16,7 @@ class TagSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     content_blocks = ContentBlocksField(required=False)
     cover_image_url = serializers.SerializerMethodField()
+    read_time_minutes = serializers.SerializerMethodField()
 
     tags = TagSerializer(many=True, read_only=True)
     tag_ids = serializers.PrimaryKeyRelatedField(
@@ -36,6 +38,7 @@ class PostSerializer(serializers.ModelSerializer):
             'content_blocks',
             'cover_image',
             'cover_image_url',
+            'read_time_minutes',
             'author',
             'tags',
             'tag_ids',
@@ -50,3 +53,6 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_cover_image_url(self, obj):
         return library_image_url(obj.cover_image)
+
+    def get_read_time_minutes(self, obj):
+        return estimate_read_minutes(obj.content_blocks)
