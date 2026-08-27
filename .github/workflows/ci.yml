@@ -29,7 +29,9 @@ jobs:
         with:
           python-version: '3.12'
           cache: 'pip'
-          cache-dependency-path: backend/requirements.txt
+          cache-dependency-path: |
+            backend/requirements.txt
+            backend/constraints.txt
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -153,7 +155,9 @@ jobs:
         with:
           python-version: '3.12'
           cache: 'pip'
-          cache-dependency-path: backend/requirements.txt
+          cache-dependency-path: |
+            backend/requirements.txt
+            backend/constraints.txt
 
       - name: Install system dependencies
         run: |
@@ -259,4 +263,3 @@ jobs:
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           path: coverage-report.md
-
