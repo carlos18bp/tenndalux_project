@@ -8,9 +8,10 @@ between dependencies.
 
 ## Current step
 
-django-redis 6.0.0 -> 7.0.0. django-dbbackup 5.3.0 passed an isolated
-requirements install, `pip check`, Django's system check, storage resolution,
-and management-command discovery; all earlier commits are green in PR CI.
+huey 2.6.0 -> 3.3.4. django-redis 7.0.0 passed an isolated requirements
+install, `pip check`, Django's system check, and Redis client construction;
+its new `typing_extensions` dependency is pinned, and all earlier commits are
+green in PR CI.
 
 ## Guardrails
 

@@ -19,7 +19,7 @@ django-cors-headers>=4.3.0
 mysqlclient>=2.2.0
 
 # Cache
-django-redis>=6.0,<7.0
+django-redis>=7.0,<8.0
 redis>=7.4,<8.0
 
 # Image handling
