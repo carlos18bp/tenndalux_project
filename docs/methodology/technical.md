@@ -4,21 +4,21 @@
 
 | Layer | Technology | Version |
 |-------|-----------|---------|
-| Backend framework | Django + DRF | Django 6.0+, DRF 3.14+ |
+| Backend framework | Django + DRF | Django 6.0.8, DRF 3.18.0 |
 | Language | Python | 3.12+ |
 | Frontend framework | Next.js + React | 16.1.6 + 19.2.3 |
 | Frontend language | TypeScript | 5 |
-| Database (prod) | MySQL | 8 |
+| Database (prod) | MySQL | 8.0.46 |
 | Database (dev) | SQLite | (default) |
-| Cache / queue | Redis + Huey | Redis 5+, Huey 2.5 |
-| Auth | SimpleJWT | 5.3+ |
+| Cache / queue | Redis + Huey | Redis 8.1.0, Huey 3.3.4 |
+| Auth | SimpleJWT | 5.5.1 |
 | State management | Zustand | 5.0.11 |
 | HTTP client | Axios | 1.13.4 |
 | i18n | next-intl | 4.8.2 |
 | CSS | Tailwind CSS | 4 |
 | Animations | framer-motion + gsap + swiper | 12.34 + 3.14 + 12.1.1 |
 | Icons | lucide-react + @heroicons/react | 0.574 + 2.2 |
-| Backend testing | pytest + pytest-django | 8+ + 4.8+ |
+| Backend testing | pytest + pytest-django | 9.1.1 + 4.14.0 |
 | Frontend unit testing | Jest + Testing Library | 29.7 + latest |
 | E2E testing | Playwright | 1.42 |
 
@@ -130,6 +130,7 @@ backend/
 ├── conftest.py             Shared pytest fixtures
 ├── pytest.ini
 ├── requirements.txt
+├── constraints.txt        Exact tested Python 3.12 resolution
 └── manage.py
 ```
 
@@ -225,6 +226,15 @@ Zustand store with `persist` middleware.
 
 ## Testing Setup
 
+### Python Dependency Resolution
+- `backend/requirements.txt` declares direct dependencies and their supported
+  ranges; it loads `backend/constraints.txt` with `-c constraints.txt`.
+- `backend/constraints.txt` pins the complete tested Python 3.12 resolution.
+- Django remains at 6.0.8 (`<6.1`) while the fleet host runs MySQL 8.0.46;
+  [Django 6.1 requires MySQL 8.4 or newer](https://docs.djangoproject.com/en/6.1/ref/databases/#mysql-notes).
+- Upgrade one dependency per commit and require a green PR CI run before the
+  next bump, especially across major versions.
+
 ### Backend
 - `pytest.ini` sets `DJANGO_SETTINGS_MODULE = core_project.settings` (dev/SQLite for tests)
 - `backend/conftest.py` has shared fixtures and a custom coverage reporter
@@ -247,6 +257,8 @@ Zustand store with `persist` middleware.
 
 ## CI/CD
 
+- `.github/workflows/ci.yml` — backend, frontend unit, E2E, and coverage jobs;
+  the Python cache key includes both requirements and constraints
 - `.github/workflows/test-quality-gate.yml` — test quality gate runs on push
 - No automated deployment pipeline — deployments are operator-run (via the `/deploy-and-check` flow)
 - Pre-commit hooks: `.pre-commit-config.yaml`

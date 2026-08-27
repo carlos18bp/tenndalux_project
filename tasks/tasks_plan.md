@@ -21,7 +21,7 @@ own commit and must have a green PR CI run before the next item starts.
 - [x] django-redis 6.0.0 -> 7.0.0
 - [x] huey 2.6.0 -> 3.3.4
 - [x] redis 7.4.0 -> 8.1.0
-- [ ] Django 6.0.8 -> highest MySQL 8.0-compatible release
+- [x] Django 6.0.8 -> highest MySQL 8.0-compatible release (constrained)
 
 Final gate: clean isolated install, `pip check`, `pip-audit`, focused backend
 tests, PR CI green, and no merge from this session.

@@ -41,8 +41,21 @@ django-dbbackup 5 no longer pulls it into an existing fleet environment.
 | django-redis | 6.0.0 | 7.0.0 | applied | isolated install; `pip check`; Django/client checks; new transitive dependency pinned |
 | huey | 2.6.0 | 3.3.4 | applied | isolated install; `pip check`; Django/config/schedule/task checks |
 | redis | 7.4.0 | 8.1.0 | applied | isolated install; `pip check`; django-redis/Huey/client packing checks |
-| Django | 6.0.8 | 6.0.8 | constrained | MySQL 8.0 compatibility |
+| Django | 6.0.8 | 6.0.8 | constrained | 6.1 requires MySQL 8.4+; host client is 8.0.46 |
 
 ## Final verification
 
-Pending completion of all dependency commits.
+- Clean Python 3.12 install: passed; normalized `pip freeze --all` matches
+  `backend/constraints.txt` exactly.
+- `pip check`: no broken requirements.
+- `pip-audit`: no known vulnerabilities (the initial 13 advisories are clear).
+- `pip list --outdated`: only Django 6.1 remains, intentionally constrained by
+  MySQL 8.0.46 compatibility.
+- Django system check: passed; only the expected worktree warning for the
+  unbuilt `backend/static/` directory was reported.
+- `makemigrations --check --dry-run`: no changes detected.
+- Focused backend verification: 7 authentication and lead-notification tests
+  passed.
+- Every preceding dependency commit completed the full PR CI gate before the
+  next dependency was changed; this final Django commit must pass the same gate
+  before delivery.

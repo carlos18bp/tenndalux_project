@@ -8,10 +8,12 @@ between dependencies.
 
 ## Current step
 
-Django 6.0.8 compatibility constraint and final verification. redis-py 8.1.0
-passed an isolated requirements install, `pip check`, Django's system check,
-django-redis/Huey client construction, and RESP command packing; all earlier
-commits are green in PR CI.
+Implementation complete. Sixteen packages were upgraded and Django 6.0.8 was
+retained as the highest MySQL 8.0-compatible release. A clean Python 3.12
+install matched `constraints.txt`, `pip check` and `pip-audit` passed, no model
+changes were detected, and 7 focused backend tests passed. The final action is
+to push this Django constraint commit and require green PR CI; do not merge or
+deploy from this session.
 
 ## Guardrails
 
