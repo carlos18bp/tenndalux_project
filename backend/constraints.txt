@@ -1,6 +1,6 @@
 # Reproducible Python 3.12 resolution for backend/requirements.txt.
 # Update one package per commit and verify each commit in CI.
-asgiref==3.11.1
+asgiref==3.12.1
 certifi==2026.4.22
 charset-normalizer==3.4.7
 coverage==7.15.4

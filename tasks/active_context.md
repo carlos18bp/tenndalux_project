@@ -8,9 +8,9 @@ between dependencies.
 
 ## Current step
 
-asgiref 3.11.1 -> 3.12.1. sqlparse 0.6.0 passed an isolated requirements
-install, `pip check`, Django's system check, and SQL formatting; all earlier
-commits are green in PR CI.
+certifi 2026.4.22 -> 2026.7.22. asgiref 3.12.1 passed an isolated requirements
+install, `pip check`, Django's system check, and a sync/async bridge smoke test;
+all earlier commits are green in PR CI.
 
 ## Guardrails
 
