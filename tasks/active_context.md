@@ -8,9 +8,10 @@ between dependencies.
 
 ## Current step
 
-redis 7.4.0 -> 8.1.0. Huey 3.3.4 passed an isolated requirements install,
-`pip check`, Django's system check, schedule predicates, and all five project
-task wrappers; all earlier commits are green in PR CI.
+Django 6.0.8 compatibility constraint and final verification. redis-py 8.1.0
+passed an isolated requirements install, `pip check`, Django's system check,
+django-redis/Huey client construction, and RESP command packing; all earlier
+commits are green in PR CI.
 
 ## Guardrails
 

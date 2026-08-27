@@ -20,7 +20,7 @@ own commit and must have a green PR CI run before the next item starts.
 - [x] django-dbbackup 4.3.0 -> 5.3.0
 - [x] django-redis 6.0.0 -> 7.0.0
 - [x] huey 2.6.0 -> 3.3.4
-- [ ] redis 7.4.0 -> 8.1.0
+- [x] redis 7.4.0 -> 8.1.0
 - [ ] Django 6.0.8 -> highest MySQL 8.0-compatible release
 
 Final gate: clean isolated install, `pip check`, `pip-audit`, focused backend
