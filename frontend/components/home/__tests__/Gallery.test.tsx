@@ -14,22 +14,15 @@ jest.mock('swiper/react', () => ({
 }));
 jest.mock('swiper/modules', () => ({ Autoplay: {}, Pagination: {} }));
 
+// Se cuentan los elementos que el observador global (jest.setup.ts) vigila.
 const observed: Element[] = [];
+const realObserve = window.IntersectionObserver.prototype.observe;
 
 beforeAll(() => {
-  // jsdom no trae ninguna de las dos.
-  class FakeObserver {
-    constructor(private readonly callback: IntersectionObserverCallback) {}
-    observe(element: Element) {
-      observed.push(element);
-      this.callback([{ isIntersecting: true, target: element } as IntersectionObserverEntry], this as never);
-    }
-    disconnect() {}
-    unobserve() {}
-  }
-  window.IntersectionObserver = FakeObserver as never;
-  window.HTMLMediaElement.prototype.play = jest.fn().mockResolvedValue(undefined);
-  window.HTMLMediaElement.prototype.pause = jest.fn();
+  window.IntersectionObserver.prototype.observe = function (target: Element) {
+    observed.push(target);
+    return realObserve.call(this, target);
+  };
 });
 
 beforeEach(() => {

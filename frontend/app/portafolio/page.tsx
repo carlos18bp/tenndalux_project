@@ -1,104 +1,50 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Calendar, MapPin, X, Play, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowRight, Calendar, MapPin, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { whatsappUrl } from '@/lib/whatsapp';
+import { listPortfolioProjects, mediaUrl } from '@/lib/services/content';
+import type { PortfolioProject } from '@/types/content';
 
-const projects = [
-  {
-    id: '1',
-    slug: 'residencia-premium-envigado',
-    title: 'Residencia Premium Envigado',
-    category: 'Residencial',
-    location: 'Envigado, Antioquia',
-    year: '2026',
-    type: 'Cortinas Roller + Automatización',
-    image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBhcGFydG1lbnQlMjBpbnRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    featured: true,
-  },
-  {
-    id: '2',
-    slug: 'oficinas-corporativas-medellin',
-    title: 'Oficinas Corporativas Medellín',
-    category: 'Corporativo',
-    location: 'El Poblado, Medellín',
-    year: '2026',
-    type: 'Persianas Verticales + Control Solar',
-    image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBzdW5saWdodCUyMHdpbmRvd3N8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    featured: false,
-  },
-  {
-    id: '3',
-    slug: 'penthouse-llanogrande',
-    title: 'Penthouse Llanogrande',
-    category: 'Residencial',
-    location: 'Llanogrande, Rionegro',
-    year: '2025',
-    type: 'Automatización Completa',
-    image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBwZW50aG91c2UlMjBpbnRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    featured: false,
-  },
-  {
-    id: '4',
-    slug: 'restaurante-provenza',
-    title: 'Restaurante Provenza',
-    category: 'Comercial',
-    location: 'Provenza, Medellín',
-    year: '2025',
-    type: 'Toldos Exteriores',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxyZXN0YXVyYW50JTIwdGVycmFjZSUyMG91dGRvb3J8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    featured: false,
-  },
-  {
-    id: '5',
-    slug: 'spa-wellness-santa-fe',
-    title: 'Spa & Wellness Santa Fe',
-    category: 'Comercial',
-    location: 'Santa Fe, Medellín',
-    year: '2025',
-    type: 'Paneles Japoneses',
-    image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzcGElMjB3ZWxsbmVzcyUyMGludGVyaW9yfGVufDF8fHx8MTczOTkyNDAwMHww&ixlib=rb-4.1.0&q=80&w=1080',
-    featured: false,
-  },
-  {
-    id: '6',
-    slug: 'showroom-laureles',
-    title: 'Showroom Laureles',
-    category: 'Corporativo',
-    location: 'Laureles, Medellín',
-    year: '2025',
-    type: 'Sistema Mixto',
-    image: 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBzaG93cm9vbSUyMGludGVyaW9yfGVufDF8fHx8MTczOTkyNDAwMHww&ixlib=rb-4.1.0&q=80&w=1080',
-    featured: false,
-  },
-  {
-    id: '7',
-    slug: 'casa-campestre-retiro',
-    title: 'Casa Campestre El Retiro',
-    category: 'Residencial',
-    location: 'El Retiro, Antioquia',
-    year: '2024',
-    type: 'Pérgolas + Automatización',
-    image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3VudHJ5JTIwaG91c2UlMjBleHRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    featured: false,
-  },
-  {
-    id: '8',
-    slug: 'hotel-boutique-centro',
-    title: 'Hotel Boutique Centro',
-    category: 'Hotelería',
-    location: 'Centro, Medellín',
-    year: '2024',
-    type: 'Proyecto Integral',
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxib3V0aXF1ZSUyMGhvdGVsJTIwcm9vbXxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    featured: false,
-  },
-];
+/**
+ * Tarjeta del listado, con los nombres que ya usaba el diseño cuando los
+ * proyectos estaban escritos a mano.
+ */
+type ProjectCard = {
+  id: string;
+  slug: string;
+  title: string;
+  category: string;
+  location: string;
+  year: string;
+  type: string;
+  image: string;
+  featured: boolean;
+};
+
+// Un proyecto sin galería cargada cae aquí en vez de dejar el hueco.
+const FALLBACK_IMAGE = '/home/gallery/ejemplo-uso-general.png';
+
+function toCard(project: PortfolioProject): ProjectCard {
+  return {
+    id: String(project.id),
+    slug: project.slug,
+    title: project.title,
+    category: project.categories[0]?.name ?? 'Proyecto',
+    location: project.location,
+    year: project.year ? String(project.year) : '',
+    // El modelo no tiene un campo "tipo": los estilos cumplen ese papel.
+    type: project.styles.map((style) => style.name).join(' + '),
+    image: project.cover_image_url ? mediaUrl(project.cover_image_url) : FALLBACK_IMAGE,
+    // `featured` sí existe en el modelo; si nadie marcó ninguno, encabeza el primero.
+    featured: project.featured,
+  };
+}
 
 const videoReels = [
   {
@@ -163,12 +109,39 @@ const videoReels = [
   },
 ];
 
-const categories = ['Todos', 'Residencial', 'Corporativo', 'Comercial', 'Hotelería'];
 
 export default function Portafolio() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [showVideoModal, setShowVideoModal] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<number>(0);
+  const [projects, setProjects] = useState<ProjectCard[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    listPortfolioProjects()
+      .then((data) => {
+        if (cancelled) return;
+        const cards = data.map(toCard);
+        // Si nadie marcó un destacado en el admin, el primero hace de portada
+        // para que la sección grande de arriba no quede vacía.
+        if (cards.length && !cards.some((card) => card.featured)) {
+          cards[0] = { ...cards[0], featured: true };
+        }
+        setProjects(cards);
+      })
+      .catch(() => {
+        // Sin API el listado queda vacío y se avisa abajo.
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, []);
+
+  const categories = ['Todos', ...Array.from(new Set(projects.map((p) => p.category)))];
 
   const featuredProject = projects.find(p => p.featured);
   const regularProjects = projects.filter(p => !p.featured);
@@ -326,6 +299,19 @@ export default function Portafolio() {
           </motion.div>
         </div>
       </section>
+
+      {loading && (
+        <section className="px-4 sm:px-6 pb-16">
+          <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8 animate-pulse" aria-label="Cargando proyectos">
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="space-y-4">
+                <div className="aspect-[4/3] bg-stone-200 rounded-2xl" />
+                <div className="h-4 w-2/3 bg-stone-200 rounded" />
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Featured Project */}
       {featuredProject && selectedCategory === 'Todos' && (
@@ -490,7 +476,7 @@ export default function Portafolio() {
             ))}
           </div>
 
-          {filteredProjects.length === 0 && (
+          {!loading && filteredProjects.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

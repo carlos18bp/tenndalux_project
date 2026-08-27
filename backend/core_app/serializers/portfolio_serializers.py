@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from core_app.serializers.fields import ContentBlocksField
+from core_app.serializers.fields import ContentBlocksField, library_image_url
 
 from core_app.models import Category, Style, Space, Project
 
@@ -28,6 +28,7 @@ class SpaceSerializer(serializers.ModelSerializer):
 
 class ProjectSerializer(serializers.ModelSerializer):
     content_blocks = ContentBlocksField(required=False)
+    cover_image_url = serializers.SerializerMethodField()
 
     categories = CategorySerializer(many=True, read_only=True)
     category_ids = serializers.PrimaryKeyRelatedField(
@@ -70,6 +71,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'featured',
             'is_published',
             'gallery',
+            'cover_image_url',
             'categories',
             'category_ids',
             'styles',
@@ -80,3 +82,7 @@ class ProjectSerializer(serializers.ModelSerializer):
             'updated_at',
         ]
         read_only_fields = ['id', 'slug', 'created_at', 'updated_at']
+
+    def get_cover_image_url(self, obj):
+        """La primera foto de la galería hace de portada en el listado."""
+        return library_image_url(obj.gallery)

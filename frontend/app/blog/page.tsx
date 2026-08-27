@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
@@ -8,81 +8,70 @@ import { ArrowRight, Calendar, Clock, Search, MessageCircle } from 'lucide-react
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { whatsappUrl } from '@/lib/whatsapp';
+import { listBlogPosts, mediaUrl } from '@/lib/services/content';
+import type { BlogPost } from '@/types/content';
 
-const blogPosts = [
-  {
-    id: '1',
-    slug: 'cortinas-inteligentes-guia-completa',
-    title: 'Cortinas Inteligentes: La Guía Completa para Automatizar Tu Hogar',
-    excerpt: 'Descubre cómo la automatización de cortinas puede transformar tu espacio y mejorar tu calidad de vida con tecnología de vanguardia.',
-    image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxzbWFydCUyMGhvbWUlMjBhdXRvbWF0aW9uJTIwY3VydGFpbnN8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Tecnología',
-    date: '2026-02-15',
-    readTime: '8 min',
-    featured: true,
-  },
-  {
-    id: '2',
-    slug: 'tendencias-diseno-interiores-2026',
-    title: '7 Tendencias en Diseño de Interiores que Debes Conocer en 2026',
-    excerpt: 'Colores, texturas y estilos que están revolucionando los espacios modernos este año.',
-    image: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBpbnRlcmlvciUyMGRlc2lnbiUyMDIwMjZ8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Diseño',
-    date: '2026-02-12',
-    readTime: '6 min',
-    featured: false,
-  },
-  {
-    id: '3',
-    slug: 'tipos-telas-cortinas-como-elegir',
-    title: 'Tipos de Telas para Cortinas: Cómo Elegir la Perfecta',
-    excerpt: 'Guía práctica sobre materiales, opacidad, mantenimiento y durabilidad para tomar la mejor decisión.',
-    image: 'https://images.unsplash.com/photo-1615876234886-fd9a39fda97f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmYWJyaWMlMjB0ZXh0dXJlJTIwY3VydGFpbnN8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Guías',
-    date: '2026-02-10',
-    readTime: '10 min',
-    featured: false,
-  },
-  {
-    id: '4',
-    slug: 'control-solar-eficiencia-energetica',
-    title: 'Control Solar y Eficiencia Energética: Ahorra hasta 30% en Climatización',
-    excerpt: 'Cómo las soluciones de control solar reducen costos y mejoran el confort térmico.',
-    image: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBvZmZpY2UlMjBzdW5saWdodCUyMHdpbmRvd3N8ZW58MXx8fHwxNzM5OTI0MDAwfDA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Sostenibilidad',
-    date: '2026-02-08',
-    readTime: '7 min',
-    featured: false,
-  },
-  {
-    id: '5',
-    slug: 'mantenimiento-cortinas-roller',
-    title: 'Mantenimiento de Cortinas Roller: Tips para Prolongar su Vida Útil',
-    excerpt: 'Consejos prácticos de limpieza y cuidado para mantener tus cortinas como nuevas.',
-    image: 'https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGVhbmluZyUyMHdpbmRvdyUyMGJsaW5kc3xlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Mantenimiento',
-    date: '2026-02-05',
-    readTime: '5 min',
-    featured: false,
-  },
-  {
-    id: '6',
-    slug: 'caso-estudio-proyecto-residencial-premium',
-    title: 'Caso de Estudio: Transformación Completa de Residencia Premium',
-    excerpt: 'Descubre cómo transformamos un apartamento de 350m² con automatización total.',
-    image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsdXh1cnklMjBhcGFydG1lbnQlMjBpbnRlcmlvcnxlbnwxfHx8fDE3Mzk5MjQwMDB8MA&ixlib=rb-4.1.0&q=80&w=1080',
-    category: 'Casos de Éxito',
-    date: '2026-02-01',
-    readTime: '12 min',
-    featured: false,
-  },
-];
+/**
+ * Tarjeta del listado. Los nombres son los que ya usaba el diseño cuando los
+ * posts estaban escritos a mano; el mapeo desde la API los conserva para no
+ * reescribir el JSX.
+ */
+type BlogCard = {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  image: string;
+  category: string;
+  date: string;
+  readTime: string;
+  featured: boolean;
+};
 
-const categories = ['Todos', 'Tecnología', 'Diseño', 'Guías', 'Sostenibilidad', 'Mantenimiento', 'Casos de Éxito'];
+// Un post sin portada cargada en el admin cae aquí en vez de dejar el hueco.
+const FALLBACK_IMAGE = '/home/gallery/cortina-ondessence.png';
+
+function toCard(post: BlogPost, index: number): BlogCard {
+  return {
+    id: String(post.id),
+    slug: post.slug,
+    title: post.title,
+    excerpt: post.excerpt,
+    image: post.cover_image_url ? mediaUrl(post.cover_image_url) : FALLBACK_IMAGE,
+    // La primera etiqueta hace de categoría: el modelo no tiene ese campo.
+    category: post.tags[0]?.name ?? 'General',
+    date: post.published_at || post.created_at,
+    readTime: `${post.read_time_minutes} min`,
+    // El más reciente encabeza el listado. Tampoco hay campo "destacado".
+    featured: index === 0,
+  };
+}
 
 export default function Blog() {
   const [selectedCategory, setSelectedCategory] = useState('Todos');
   const [searchQuery, setSearchQuery] = useState('');
+  const [blogPosts, setBlogPosts] = useState<BlogCard[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    listBlogPosts()
+      .then((posts) => {
+        if (!cancelled) setBlogPosts(posts.map(toCard));
+      })
+      .catch(() => {
+        // Sin conexión con la API el listado queda vacío y se avisa abajo.
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => { cancelled = true; };
+  }, []);
+
+  // Las categorías salen de las etiquetas que realmente tienen los posts.
+  const categories = ['Todos', ...Array.from(new Set(blogPosts.map((post) => post.category)))];
 
   const featuredPost = blogPosts.find(post => post.featured);
   const regularPosts = blogPosts.filter(post => !post.featured);
@@ -151,6 +140,18 @@ export default function Blog() {
               ))}
             </div>
           </motion.div>
+
+          {loading && (
+            <div className="grid md:grid-cols-3 gap-8 animate-pulse" aria-label="Cargando artículos">
+              {[0, 1, 2].map((i) => (
+                <div key={i} className="space-y-4">
+                  <div className="aspect-[4/3] bg-stone-200 rounded-2xl" />
+                  <div className="h-4 w-2/3 bg-stone-200 rounded" />
+                  <div className="h-4 w-1/2 bg-stone-200 rounded" />
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Featured Post */}
           {featuredPost && selectedCategory === 'Todos' && !searchQuery && (
@@ -317,7 +318,7 @@ export default function Blog() {
           </div>
 
           {/* No Results */}
-          {filteredPosts.length === 0 && (
+          {!loading && filteredPosts.length === 0 && (
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

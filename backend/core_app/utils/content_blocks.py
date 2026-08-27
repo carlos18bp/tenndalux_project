@@ -429,3 +429,37 @@ def build_ai_instructions(kind, subject=None):
     ]
 
     return '\n'.join(lines)
+
+
+# Ritmo de lectura habitual en español para texto divulgativo.
+_WORDS_PER_MINUTE = 200
+
+
+def estimate_read_minutes(blocks):
+    """
+    Minutos de lectura, contados sobre el contenido real.
+
+    Se calcula en vez de guardarse como campo para que no pueda quedar
+    desactualizado: quien edita un post no va a acordarse de subir el número
+    cuando le agregue tres párrafos.
+    """
+    if not isinstance(blocks, list):
+        return 1
+
+    words = 0
+    for block in blocks:
+        if not isinstance(block, dict):
+            continue
+        for value in block.values():
+            if isinstance(value, str):
+                words += len(value.split())
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, str):
+                        words += len(item.split())
+                    elif isinstance(item, dict):
+                        words += sum(
+                            len(v.split()) for v in item.values() if isinstance(v, str)
+                        )
+
+    return max(1, round(words / _WORDS_PER_MINUTE))
