@@ -8,8 +8,8 @@ between dependencies.
 
 ## Current step
 
-pytz 2026.2 -> 2026.3.post1. Pygments 2.21.0 passed an isolated requirements
-install, `pip check`, and Python syntax highlighting; all earlier commits are
+wheel 0.47.0 -> 0.48.0. pytz 2026.3.post1 passed an isolated requirements
+install, `pip check`, and winter/summer DST offsets; all earlier commits are
 green in PR CI.
 
 ## Guardrails

@@ -15,7 +15,7 @@ own commit and must have a green PR CI run before the next item starts.
 - [x] charset-normalizer 3.4.7 -> 3.5.1
 - [x] packaging 26.2 -> 26.3
 - [x] Pygments 2.20.0 -> 2.21.0
-- [ ] pytz 2026.2 -> 2026.3.post1
+- [x] pytz 2026.2 -> 2026.3.post1
 - [ ] wheel 0.47.0 -> 0.48.0
 - [ ] django-dbbackup 4.3.0 -> 5.3.0
 - [ ] django-redis 6.0.0 -> 7.0.0
