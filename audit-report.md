@@ -18,7 +18,8 @@
 
 `backend/constraints.txt` records the complete tested Python resolution.
 `backend/requirements.txt` remains the source of direct dependencies and loads
-the constraints file with `-c constraints.txt`.
+the constraints file with `-c constraints.txt`. `pytz` stays explicit because
+django-dbbackup 5 no longer pulls it into an existing fleet environment.
 
 ## Progress
 
@@ -36,7 +37,7 @@ the constraints file with `-c constraints.txt`.
 | Pygments | 2.20.0 | 2.21.0 | applied | isolated install; `pip check`; syntax-highlighting smoke check |
 | pytz | 2026.2 | 2026.3.post1 | applied | isolated install; `pip check`; DST-offset smoke check |
 | wheel | 0.47.0 | 0.48.0 | applied | isolated install; `pip check`; CLI/import version checks |
-| django-dbbackup | 4.3.0 | 5.3.0 | pending | pending |
+| django-dbbackup | 4.3.0 | 5.3.0 | applied | isolated install; `pip check`; Django/storage/command checks |
 | django-redis | 6.0.0 | 7.0.0 | pending | pending |
 | huey | 2.6.0 | 3.3.4 | pending | pending |
 | redis | 7.4.0 | 8.1.0 | pending | pending |
