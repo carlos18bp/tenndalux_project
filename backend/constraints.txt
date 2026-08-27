@@ -2,7 +2,7 @@
 # Update one package per commit and verify each commit in CI.
 asgiref==3.12.1
 certifi==2026.7.22
-charset-normalizer==3.4.7
+charset-normalizer==3.5.1
 coverage==7.15.4
 Django==6.0.8
 django-cleanup==9.0.0

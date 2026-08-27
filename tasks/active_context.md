@@ -8,9 +8,9 @@ between dependencies.
 
 ## Current step
 
-charset-normalizer 3.4.7 -> 3.5.1. certifi 2026.7.22 passed an isolated
-requirements install, `pip check`, and SSL CA-bundle loading; all earlier
-commits are green in PR CI.
+packaging 26.2 -> 26.3. charset-normalizer 3.5.1 passed an isolated
+requirements install, `pip check`, and UTF-8 decoding; all earlier commits are
+green in PR CI.
 
 ## Guardrails
 
