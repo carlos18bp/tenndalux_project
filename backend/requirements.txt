@@ -5,9 +5,8 @@ pip>=26.2.1
 wheel>=0.48.0
 
 # Core Django
-# Django 6.1 requires MySQL 8.4+; this host runs MySQL 8.0.46.
-# Revisit this cap after the database server upgrade.
-Django>=6.0.8,<6.1
+# Django 6.1 requires MySQL 8.4+; the fleet host runs MySQL 8.4.11.
+Django>=6.1,<6.2
 djangorestframework>=3.18.0
 
 # Authentication

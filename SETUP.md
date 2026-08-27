@@ -56,7 +56,7 @@ pip install -r requirements.txt
 
 **Expected output:**
 ```
-Successfully installed Django-6.0.1 djangorestframework-3.16.1 ...
+Successfully installed Django-6.1 djangorestframework-3.18.0 ...
 ```
 
 ### Step 4: Configure Environment Variables
@@ -123,7 +123,7 @@ python manage.py runserver
 
 **Expected output:**
 ```
-Django version 6.0.1, using settings 'core_project.settings'
+Django version 6.1, using settings 'core_project.settings'
 Starting development server at http://127.0.0.1:8000/
 Quit the server with CONTROL-C.
 ```

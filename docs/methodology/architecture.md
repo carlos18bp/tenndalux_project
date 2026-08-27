@@ -201,4 +201,4 @@ Client Component renders
 8. **Slugs auto-generated**: All slug-bearing models override `save()` to call `generate_unique_slug()`.
 9. **JWT for API, session for admin**: These two auth surfaces are separate and must not be mixed.
 10. **Gallery integration partial**: `GalleryField` on models is declared; serializers may not expose all gallery URLs yet. Verify before assuming.
-11. **Python resolution is two-layered**: Keep direct ranges in `requirements.txt` and the full tested resolution in `constraints.txt`. Django stays below 6.1 until the production MySQL server is upgraded from 8.0 to 8.4+.
+11. **Python resolution is two-layered**: Keep direct ranges in `requirements.txt` and the full tested resolution in `constraints.txt`. Django 6.1 requires MySQL 8.4+; production satisfies this with MySQL 8.4.11.

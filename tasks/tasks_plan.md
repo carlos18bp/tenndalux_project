@@ -1,6 +1,6 @@
 # Backend dependency upgrade plan
 
-Branch: `chore/27082026-upgrade-backend-dependencies`
+Branch: `chore/27082026-django-6-1`
 
 The 2026-08-27 audit found 17 outdated packages. Each item is delivered in its
 own commit and must have a green PR CI run before the next item starts.
@@ -21,7 +21,11 @@ own commit and must have a green PR CI run before the next item starts.
 - [x] django-redis 6.0.0 -> 7.0.0
 - [x] huey 2.6.0 -> 3.3.4
 - [x] redis 7.4.0 -> 8.1.0
-- [x] Django 6.0.8 -> highest MySQL 8.0-compatible release (constrained)
+- [x] Verify MySQL 8.0 -> 8.4 upgrade compatibility and rollback
+- [x] Restore-test all 12 application databases
+- [x] Upgrade shared MySQL 8.0.46 -> 8.4.11 and validate all consumers
+- [x] Django 6.0.8 -> 6.1
 
-Final gate: clean isolated install, `pip check`, `pip-audit`, focused backend
-tests, PR CI green, and no merge from this session.
+Final gate: clean isolated install, `pip check`, `pip-audit`, no outstanding
+package updates, focused backend tests, PR CI green, and no merge from this
+session.

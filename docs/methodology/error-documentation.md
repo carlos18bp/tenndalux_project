@@ -34,5 +34,12 @@ _None currently._
 - **Date**: 2026-08-27
 - **Context**: The deployed Python 3.12 environment reported 17 outdated packages and 13 advisories across idna, pip, PyJWT, sqlparse, and urllib3.
 - **Root Cause**: Direct dependency ranges had no versioned full-resolution constraints, allowing the deployed transitive graph to drift.
-- **Resolution**: Added `backend/constraints.txt`, upgraded 16 packages (including four compatible majors), retained Django 6.0.8 because Django 6.1 requires MySQL 8.4+, and verified the final graph with a clean install, `pip check`, `pip-audit`, focused tests, and per-commit CI gates.
+- **Resolution**: Added `backend/constraints.txt`, upgraded all 17 packages (including Django 6.1 after the MySQL 8.4.11 prerequisite), and verified the final graph with a clean install, `pip check`, `pip-audit`, focused tests, and per-commit CI gates.
 - **Files Affected**: `backend/requirements.txt`, `backend/constraints.txt`, `.github/workflows/ci.yml`, `audit-report.md`
+
+### [ERR-003] Removed MySQL option blocked the first 8.4.11 start
+- **Date**: 2026-08-27
+- **Context**: Fleet MySQL upgrade from 8.0.46 to 8.4.11, required by Django 6.1.
+- **Root Cause**: MySQL Shell's 8.4.10 upgrade checker reported `binlog_transaction_dependency_tracking` as a changed-default variable, but MySQL 8.4.11 rejects it as unknown.
+- **Resolution**: Removed the option from the temporary compatibility profile, reran `mysqld --validate-config`, started MySQL successfully, and verified the automatic server upgrade plus all 580 database objects before reopening applications.
+- **Files Affected**: `/etc/mysql/mysql.conf.d/zz-mysql84-compat.cnf` (server configuration)

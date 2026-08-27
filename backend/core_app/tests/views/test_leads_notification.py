@@ -1,5 +1,6 @@
 import pytest
 from django.core import mail
+from django.core.mail.backends.base import BaseEmailBackend
 from django.test import override_settings
 from django.urls import reverse
 from rest_framework import status
@@ -8,6 +9,7 @@ from core_app.models import Lead
 
 
 LOCMEM = 'django.core.mail.backends.locmem.EmailBackend'
+LOCMEM_MAILERS = {'default': {'BACKEND': LOCMEM}}
 
 PAYLOAD = {
     'full_name': 'Jane Doe',
@@ -19,7 +21,10 @@ PAYLOAD = {
 
 
 @pytest.mark.django_db
-@override_settings(LEADS_NOTIFICATION_EMAILS=['ventas@tenndalux.com'], EMAIL_BACKEND=LOCMEM)
+@override_settings(
+    LEADS_NOTIFICATION_EMAILS=['ventas@tenndalux.com'],
+    MAILERS=LOCMEM_MAILERS,
+)
 def test_lead_create_notifies_the_configured_addresses(api_client):
     response = api_client.post(reverse('lead-list'), PAYLOAD, format='json')
 
@@ -37,7 +42,7 @@ def test_lead_create_notifies_the_configured_addresses(api_client):
 @pytest.mark.django_db
 @override_settings(
     LEADS_NOTIFICATION_EMAILS=['ventas@tenndalux.com', 'gerencia@tenndalux.com'],
-    EMAIL_BACKEND=LOCMEM,
+    MAILERS=LOCMEM_MAILERS,
 )
 def test_lead_notification_reaches_every_configured_address(api_client):
     api_client.post(reverse('lead-list'), PAYLOAD, format='json')
@@ -46,7 +51,7 @@ def test_lead_notification_reaches_every_configured_address(api_client):
 
 
 @pytest.mark.django_db
-@override_settings(LEADS_NOTIFICATION_EMAILS=[], EMAIL_BACKEND=LOCMEM)
+@override_settings(LEADS_NOTIFICATION_EMAILS=[], MAILERS=LOCMEM_MAILERS)
 def test_lead_is_stored_even_with_no_recipient_configured(api_client):
     """Estado por defecto hasta que el cliente entregue su correo."""
     response = api_client.post(reverse('lead-list'), PAYLOAD, format='json')
@@ -59,7 +64,11 @@ def test_lead_is_stored_even_with_no_recipient_configured(api_client):
 @pytest.mark.django_db
 @override_settings(
     LEADS_NOTIFICATION_EMAILS=['ventas@tenndalux.com'],
-    EMAIL_BACKEND='core_app.tests.views.test_leads_notification.BrokenEmailBackend',
+    MAILERS={
+        'default': {
+            'BACKEND': 'core_app.tests.views.test_leads_notification.BrokenEmailBackend',
+        },
+    },
 )
 def test_lead_survives_a_broken_mail_server(api_client):
     """El lead ya está capturado: un SMTP caído no puede convertirlo en un 500."""
@@ -69,9 +78,6 @@ def test_lead_survives_a_broken_mail_server(api_client):
     assert Lead.objects.count() == 1
 
 
-class BrokenEmailBackend:
-    def __init__(self, *args, **kwargs):
-        pass
-
+class BrokenEmailBackend(BaseEmailBackend):
     def send_messages(self, email_messages):
         raise OSError('smtp unreachable')

@@ -1,16 +1,16 @@
 # Vulnerability Audit & Dependency Update Report
 
-**Branch:** `chore/27082026-upgrade-backend-dependencies`
+**Branch:** `chore/27082026-django-6-1`
 **Date:** 2026-08-27
-**Base:** `master` @ `abfa4ac`
+**Base:** `master` @ `4241c81`
 **Scope:** 17 Python packages, one dependency per commit, CI green between bumps
 
 ## Initial findings
 
 - 17 outdated packages in the deployed Python 3.12 environment.
 - 13 unique advisories across `idna`, `pip`, `PyJWT`, `sqlparse`, and `urllib3`.
-- Django 6.1 is not deployable yet because it requires MySQL 8.4+; staging uses
-  MySQL 8.0.46.
+- Django 6.1 was initially blocked because it requires MySQL 8.4+ and staging
+  still used MySQL 8.0.46.
 - Snapshots: `/tmp/tenndalux_project_staging-pip-outdated.json` and
   `/tmp/tenndalux_project_staging-pip-audit.json`.
 
@@ -41,7 +41,7 @@ django-dbbackup 5 no longer pulls it into an existing fleet environment.
 | django-redis | 6.0.0 | 7.0.0 | applied | isolated install; `pip check`; Django/client checks; new transitive dependency pinned |
 | huey | 2.6.0 | 3.3.4 | applied | isolated install; `pip check`; Django/config/schedule/task checks |
 | redis | 7.4.0 | 8.1.0 | applied | isolated install; `pip check`; django-redis/Huey/client packing checks |
-| Django | 6.0.8 | 6.0.8 | constrained | 6.1 requires MySQL 8.4+; host client is 8.0.46 |
+| Django | 6.0.8 | 6.1 | applied | host upgraded to MySQL 8.4.11; mailer migration; isolated install; `pip check`; Django checks and focused tests |
 
 ## Final verification
 
@@ -49,13 +49,17 @@ django-dbbackup 5 no longer pulls it into an existing fleet environment.
   `backend/constraints.txt` exactly.
 - `pip check`: no broken requirements.
 - `pip-audit`: no known vulnerabilities (the initial 13 advisories are clear).
-- `pip list --outdated`: only Django 6.1 remains, intentionally constrained by
-  MySQL 8.0.46 compatibility.
+- `pip list --outdated`: no outdated packages remain.
 - Django system check: passed; only the expected worktree warning for the
   unbuilt `backend/static/` directory was reported.
 - `makemigrations --check --dry-run`: no changes detected.
 - Focused backend verification: 7 authentication and lead-notification tests
   passed.
+- Django 6.1 mail configuration migrated from deprecated `EMAIL_BACKEND` and
+  `fail_silently` APIs to `MAILERS`; targeted tests run with Django 7.0
+  deprecations treated as errors.
+- MySQL 8.0.46 -> 8.4.11: official preflight found no fatal schema issues;
+  12/12 database restore tests and 580/580 post-upgrade object checks passed.
 - Every preceding dependency commit completed the full PR CI gate before the
-  next dependency was changed; this final Django commit must pass the same gate
-  before delivery.
+  next dependency was changed; the Django 6.1 follow-up commit must pass the
+  same gate before delivery.
