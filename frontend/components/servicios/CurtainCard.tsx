@@ -73,7 +73,15 @@ export default function CurtainCard({ curtain }: { curtain: Curtain }) {
           </a>
         </div>
 
-        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+        {/* En móvil la foto va primero: es lo que identifica la cortina, y
+            debajo del título más la lista de beneficios quedaba fuera de la
+            primera pantalla. En escritorio vuelve a su columna de la derecha,
+            como en la card de Recubrimientos.
+
+            La proporción es 4:5 porque las nueve fotos son 800x1000. El 4:3 que
+            había recortaba casi la mitad del alto de una cortina, que es
+            justamente lo que hay que ver. */}
+        <div className="relative aspect-[4/5] rounded-2xl overflow-hidden shadow-xl order-first md:order-none">
           <Image
             src={curtain.image}
             alt={curtain.title}
