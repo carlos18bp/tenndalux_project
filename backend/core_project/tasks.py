@@ -41,7 +41,11 @@ def scheduled_backup():
         raise
 
 
-@periodic_task(crontab(hour='4', minute='0'))
+# 04:15 y no 04:00: al migrar este proyecto a vps-projectapp-prod (2026-08-27)
+# pasó a compartir host —y instancia de MySQL— con projectapp, que corre su
+# propio silk_garbage_collection a las 04:00. En esa hora los minutos 0, 20, 30
+# y 45 ya están tomados por tareas de los otros proyectos del host.
+@periodic_task(crontab(hour='4', minute='15'))
 def silk_garbage_collection():
     """Daily cleanup of Silk profiling data older than 7 days."""
     if not getattr(settings, 'ENABLE_SILK', False):
