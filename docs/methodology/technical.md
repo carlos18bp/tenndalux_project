@@ -1,5 +1,10 @@
 # Technical Reference — Tenndalux
 
+> **Static export 2026-08-29:** `build_to_django.sh` delegates recursive `.txt`
+> publication to `scripts/copy-static-export-payloads.sh`. Relative route paths
+> are preserved under `backend/static/`; stale generated payload groups are
+> removed before the new export is copied without deleting unrelated text assets.
+
 ## Stack Summary
 
 | Layer | Technology | Version |

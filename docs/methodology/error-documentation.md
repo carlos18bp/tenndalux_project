@@ -2,6 +2,15 @@
 
 This file tracks known errors, their context, and resolutions. When a non-trivial bug is fixed during development, document it here.
 
+### [ERR-001] Route-scoped Next payloads returned 404
+- **Date**: 2026-08-29
+- **Context**: `/servicios/__next._tree.txt` and equivalent route payloads.
+- **Root Cause**: the deploy script copied only root-level `.txt` files.
+- **Resolution**: recursively mirror every exported `.txt` while preserving its
+  relative path; nginx serves nested `__next*`/`index.txt` payloads as static.
+- **Files Affected**: frontend deployment helper, regression harness and nginx
+  configuration in `vps-ops-toolkit`.
+
 ---
 
 ## Format

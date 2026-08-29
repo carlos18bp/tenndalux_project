@@ -2,6 +2,14 @@
 
 ## Current task
 
+Publicar correctamente los payloads RSC del static export. El helper nuevo
+copia 44 `.txt` con su estructura de rutas, elimina generados obsoletos y está
+cubierto por una regresión hermética. El build real confirma
+`servicios/__next._tree.txt`, `portafolio/__next._tree.txt` e `index.txt` bajo
+`backend/static`; falta únicamente entregar el PR verde, sin deploy.
+
+## Previous task
+
 Finish the 17-package Python upgrade by removing the final Django 6.1 blocker.
 The follow-up is isolated in its own PR and contains one dependency commit.
 

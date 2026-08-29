@@ -2,6 +2,11 @@
 
 This file captures non-obvious patterns, preferences, and project intelligence discovered during development. Updated as insights are found.
 
+> **Lección 2026-08-29:** un static export de App Router no es sólo HTML más
+> `_next/`. Los `.txt` por ruta son parte del protocolo de navegación; cualquier
+> copier hacia Django debe preservar recursivamente el árbol completo y probar
+> una ruta anidada, no sólo la portada.
+
 ---
 
 ## Architecture Decisions
