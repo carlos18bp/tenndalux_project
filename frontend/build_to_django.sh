@@ -49,6 +49,12 @@ for file in "$OUT_DIR"/*.svg "$OUT_DIR"/*.ico "$OUT_DIR"/*.png "$OUT_DIR"/*.txt;
     [ -f "$file" ] && cp "$file" "$BACKEND_DIR/static/"
 done
 
+# App Router emits route-scoped RSC payloads such as
+# servicios/__next._tree.txt and portafolio/index.txt. Preserve their relative
+# paths so nginx can serve client navigations without falling through to Django.
+bash "$FRONTEND_DIR/scripts/copy-static-export-payloads.sh" \
+    "$OUT_DIR" "$BACKEND_DIR/static"
+
 echo "==> Copying HTML templates to backend/templates/frontend/..."
 mkdir -p "$BACKEND_DIR/templates/frontend"
 

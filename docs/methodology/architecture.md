@@ -1,5 +1,10 @@
 # Architecture — Tenndalux
 
+> **RSC payload path:** Next's export produces route-scoped files such as
+> `servicios/__next._tree.txt` and `portafolio/index.txt`. The deployment split
+> now copies them recursively to `backend/static/<route>/`, where nginx serves
+> them directly; HTML continues through Django.
+
 ## System Overview
 
 Tenndalux is a **Django + Next.js static export** stack. There is no Node.js server in production. The frontend builds to static HTML/JS/CSS files that Django serves directly.

@@ -1,4 +1,13 @@
-# Backend dependency upgrade plan
+# Task Plan — Tenndalux
+
+## Ready for merge — static-export payload publication
+
+- [x] Copiar recursivamente los `.txt` de Next conservando rutas.
+- [x] Retirar payloads generados obsoletos sin tocar otros assets públicos.
+- [x] Cubrir rutas anidadas y preservación de archivos con un harness hermético.
+- [x] Ejecutar el build real: 44 payloads publicados; Servicios y Portafolio presentes.
+
+## Backend dependency upgrade plan
 
 Branch: `chore/27082026-django-6-1`
 

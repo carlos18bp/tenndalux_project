@@ -99,6 +99,9 @@ jobs:
         env:
           PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
 
+      - name: Static-export payload copy regression
+        run: bash scripts/test-copy-static-export-payloads.sh
+
       - name: Run Jest tests with coverage
         run: |
           NODE_OPTIONS='--no-deprecation' npx jest --config jest.config.cjs --coverage --ci --forceExit --json --outputFile=jest-results.json || true
